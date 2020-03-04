@@ -1,11 +1,11 @@
 package stress_test;
 
-import com.nhn.tardis.taptap.common.GameConstants;
-import com.nhn.tardis.taptap.protocol.Authentication;
-import com.nhn.tardis.taptap.protocol.GameMulti;
-import com.nhn.tardis.taptap.protocol.GameSingle;
-import com.nhn.tardis.taptap.protocol.Result;
-import com.nhn.tardis.taptap.protocol.User;
+import com.nhn.tardis.sample.common.GameConstants;
+import com.nhn.tardis.sample.protocol.Authentication;
+import com.nhn.tardis.sample.protocol.GameMulti;
+import com.nhn.tardis.sample.protocol.GameSingle;
+import com.nhn.tardis.sample.protocol.Result;
+import com.nhn.tardis.sample.protocol.User;
 import com.nhnent.tardis.connector.common.Config;
 import com.nhnent.tardis.connector.tcp.ConnectorSession;
 import com.nhnent.tardis.connector.tcp.TardisConnector;

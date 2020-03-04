@@ -1,6 +1,6 @@
-package com.nhn.tardis.taptap.space.user.model;
+package com.nhn.tardis.sample.space.user.model;
 
-import com.nhn.tardis.taptap.mybatis.dto.UserDto;
+import com.nhn.tardis.sample.mybatis.dto.UserDto;
 import java.io.Serializable;
 
 /**

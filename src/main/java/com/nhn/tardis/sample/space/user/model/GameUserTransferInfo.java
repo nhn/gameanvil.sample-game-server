@@ -1,6 +1,6 @@
-package com.nhn.tardis.taptap.space.user.model;
+package com.nhn.tardis.sample.space.user.model;
 
-import com.nhn.tardis.taptap.space.game.multi.usermatch.model.SnakePositionInfo;
+import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakePositionInfo;
 import java.io.Serializable;
 import java.util.List;
 

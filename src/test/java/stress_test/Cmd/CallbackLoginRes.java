@@ -2,9 +2,9 @@ package stress_test.Cmd;
 
 import static org.junit.Assert.assertEquals;
 
-import com.nhn.tardis.taptap.common.GameConstants;
-import com.nhn.tardis.taptap.protocol.GameSingle;
-import com.nhn.tardis.taptap.protocol.GameSingle.DifficultyType;
+import com.nhn.tardis.sample.common.GameConstants;
+import com.nhn.tardis.sample.protocol.GameSingle;
+import com.nhn.tardis.sample.protocol.GameSingle.DifficultyType;
 import com.nhnent.tardis.connector.callback.parent.IDispatchPacket;
 import com.nhnent.tardis.connector.protocol.Packet;
 import com.nhnent.tardis.connector.protocol.result.LoginResult;

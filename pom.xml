@@ -18,7 +18,7 @@
     </repositories>
 
     <groupId>com.nhnent.tardis</groupId>
-    <artifactId>taptap</artifactId>
+    <artifactId>sample_game_server</artifactId>
     <version>0.1</version>
 
     <dependencies>
@@ -51,7 +51,7 @@
         </dependency>
     </dependencies>
 
-    <name>taptap</name>
+    <name>sample_game_server</name>
 
     <build>
         <plugins>

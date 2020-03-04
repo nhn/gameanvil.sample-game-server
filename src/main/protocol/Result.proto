@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.nhn.tardis.taptap.protocol;
+package com.nhn.tardis.sample.protocol;
 
 // 에러종류
 enum ErrorCode {

@@ -2,9 +2,9 @@ package stress_test.Cmd;
 
 import static org.junit.Assert.assertTrue;
 
-import com.nhn.tardis.taptap.protocol.GameSingle;
-import com.nhn.tardis.taptap.protocol.GameSingle.EndType;
-import com.nhn.tardis.taptap.protocol.GameSingle.TapMsg;
+import com.nhn.tardis.sample.protocol.GameSingle;
+import com.nhn.tardis.sample.protocol.GameSingle.EndType;
+import com.nhn.tardis.sample.protocol.GameSingle.TapMsg;
 import com.nhnent.tardis.connector.callback.parent.IDispatchPacket;
 import com.nhnent.tardis.connector.protocol.Packet;
 import com.nhnent.tardis.connector.protocol.result.CreateRoomResult;

@@ -1,14 +1,13 @@
-package com.nhn.tardis.taptap.session;
+package com.nhn.tardis.sample.session;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.tardis.taptap.protocol.Authentication;
-import com.nhn.tardis.taptap.protocol.Result;
-import com.nhn.tardis.taptap.protocol.Result.ErrorCode;
+import com.nhn.tardis.sample.protocol.Authentication;
+import com.nhn.tardis.sample.protocol.Result;
+import com.nhn.tardis.sample.protocol.Result.ErrorCode;
 import com.nhnent.tardis.common.Packet;
 import com.nhnent.tardis.common.Payload;
 import com.nhnent.tardis.common.internal.PauseType;
 import com.nhnent.tardis.console.PacketDispatcher;
-import com.nhnent.tardis.console.TardisIndexer;
 import com.nhnent.tardis.console.session.ISession;
 import com.nhnent.tardis.console.session.SessionAgent;
 import java.io.IOException;
@@ -18,7 +17,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 인증 처리
  */
-public class TapTapSession extends SessionAgent implements ISession<TapTapSessionUser> {
+public class GameSession extends SessionAgent implements ISession<GameSessionUser> {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private static PacketDispatcher packetDispatcher = new PacketDispatcher();
 
@@ -99,12 +98,12 @@ public class TapTapSession extends SessionAgent implements ISession<TapTapSessio
     }
 
     @Override
-    public void onPostLogin(TapTapSessionUser session) throws SuspendExecution {
+    public void onPostLogin(GameSessionUser session) throws SuspendExecution {
         logger.info("onPostLogin : {}", session.getUserId());
     }
 
     @Override
-    public void onPostLogout(TapTapSessionUser session) throws SuspendExecution {
+    public void onPostLogout(GameSessionUser session) throws SuspendExecution {
         logger.info("onPostLogout : {}", session.getUserId());
     }
 

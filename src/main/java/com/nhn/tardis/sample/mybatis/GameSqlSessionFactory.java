@@ -1,4 +1,4 @@
-package com.nhn.tardis.taptap.mybatis;
+package com.nhn.tardis.sample.mybatis;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -10,7 +10,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 /**
  * 게임에서 사용하는 DB 연결 객체
  */
-public class TaptapSqlSessionFactory {
+public class GameSqlSessionFactory {
     private static SqlSessionFactory sqlSessionFactory;
 
     /** XML에 명시된 접속 정보를 읽어들인다. */

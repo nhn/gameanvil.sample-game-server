@@ -1,24 +1,24 @@
-package com.nhn.tardis.taptap;
+package com.nhn.tardis.sample;
 
-import com.nhn.tardis.taptap.common.GameConstants;
-import com.nhn.tardis.taptap.protocol.Authentication;
-import com.nhn.tardis.taptap.protocol.GameMulti;
-import com.nhn.tardis.taptap.protocol.GameSingle;
-import com.nhn.tardis.taptap.protocol.Result;
-import com.nhn.tardis.taptap.protocol.User;
-import com.nhn.tardis.taptap.service.LaunchingService;
-import com.nhn.tardis.taptap.session.TapTapSession;
-import com.nhn.tardis.taptap.session.TapTapSessionNode;
-import com.nhn.tardis.taptap.session.TapTapSessionUser;
-import com.nhn.tardis.taptap.space.GameNode;
-import com.nhn.tardis.taptap.space.game.multi.roommatch.UnlimitedTapRoom;
-import com.nhn.tardis.taptap.space.game.multi.roommatch.UnlimitedTapRoomMatchMaker;
-import com.nhn.tardis.taptap.space.game.multi.roommatch.model.UnlimitedTapRoomInfo;
-import com.nhn.tardis.taptap.space.game.multi.usermatch.SnakeRoom;
-import com.nhn.tardis.taptap.space.game.multi.usermatch.SnakeRoomMatchMaker;
-import com.nhn.tardis.taptap.space.game.multi.usermatch.model.SnakeRoomInfo;
-import com.nhn.tardis.taptap.space.game.single.SingleGameRoom;
-import com.nhn.tardis.taptap.space.user.GameUser;
+import com.nhn.tardis.sample.common.GameConstants;
+import com.nhn.tardis.sample.protocol.Authentication;
+import com.nhn.tardis.sample.protocol.GameMulti;
+import com.nhn.tardis.sample.protocol.GameSingle;
+import com.nhn.tardis.sample.protocol.Result;
+import com.nhn.tardis.sample.protocol.User;
+import com.nhn.tardis.sample.service.LaunchingService;
+import com.nhn.tardis.sample.session.GameSession;
+import com.nhn.tardis.sample.session.GameSessionNode;
+import com.nhn.tardis.sample.session.GameSessionUser;
+import com.nhn.tardis.sample.space.GameNode;
+import com.nhn.tardis.sample.space.game.multi.roommatch.UnlimitedTapRoom;
+import com.nhn.tardis.sample.space.game.multi.roommatch.UnlimitedTapRoomMatchMaker;
+import com.nhn.tardis.sample.space.game.multi.roommatch.model.UnlimitedTapRoomInfo;
+import com.nhn.tardis.sample.space.game.multi.usermatch.SnakeRoom;
+import com.nhn.tardis.sample.space.game.multi.usermatch.SnakeRoomMatchMaker;
+import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakeRoomInfo;
+import com.nhn.tardis.sample.space.game.single.SingleGameRoom;
+import com.nhn.tardis.sample.space.user.GameUser;
 import com.nhnent.tardis.console.TardisBootstrap;
 
 public class Main {
@@ -40,9 +40,9 @@ public class Main {
 
         // 세션설정
         bootstrap.setSession()
-            .session(TapTapSession.class)
-            .user(TapTapSessionUser.class)
-            .node(TapTapSessionNode.class)
+            .session(GameSession.class)
+            .user(GameSessionUser.class)
+            .node(GameSessionNode.class)
             .enableWhiteModules();
 
         // 게임 스페이스 설정

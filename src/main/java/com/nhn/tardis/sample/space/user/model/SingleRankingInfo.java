@@ -1,4 +1,4 @@
-package com.nhn.tardis.taptap.space.user.model;
+package com.nhn.tardis.sample.space.user.model;
 
 import java.io.Serializable;
 

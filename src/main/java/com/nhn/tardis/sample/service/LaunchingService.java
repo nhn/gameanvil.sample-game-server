@@ -1,13 +1,12 @@
-package com.nhn.tardis.taptap.service;
+package com.nhn.tardis.sample.service;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.tardis.taptap.service.cmd.CmdLaunching;
+import com.nhn.tardis.sample.service.cmd.CmdLaunching;
 import com.nhnent.tardis.common.Packet;
 import com.nhnent.tardis.common.Payload;
 import com.nhnent.tardis.common.internal.PauseType;
 import com.nhnent.tardis.common.internal.RestObject;
 import com.nhnent.tardis.console.RestPacketDispatcher;
-import com.nhnent.tardis.console.TardisIndexer;
 import com.nhnent.tardis.console.service.IServiceNode;
 import com.nhnent.tardis.console.service.ServiceNodeAgent;
 import org.slf4j.Logger;

@@ -1,8 +1,8 @@
-package com.nhn.tardis.taptap.space;
+package com.nhn.tardis.sample.space;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.tardis.taptap.common.GameConstants;
-import com.nhn.tardis.taptap.redis.RedisHelperService;
+import com.nhn.tardis.sample.common.GameConstants;
+import com.nhn.tardis.sample.redis.RedisHelperService;
 import com.nhnent.tardis.common.Packet;
 import com.nhnent.tardis.common.Payload;
 import com.nhnent.tardis.common.internal.PauseType;

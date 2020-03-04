@@ -1,10 +1,10 @@
-package com.nhn.tardis.taptap.mybatis;
+package com.nhn.tardis.sample.mybatis;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.tardis.taptap.common.GameConstants;
-import com.nhn.tardis.taptap.mybatis.dto.UserDto;
-import com.nhn.tardis.taptap.mybatis.mappers.UserDataMapper;
-import com.nhn.tardis.taptap.space.user.model.GameUserInfo;
+import com.nhn.tardis.sample.common.GameConstants;
+import com.nhn.tardis.sample.mybatis.dto.UserDto;
+import com.nhn.tardis.sample.mybatis.mappers.UserDataMapper;
+import com.nhn.tardis.sample.space.user.model.GameUserInfo;
 import com.nhnent.tardis.console.sonic.Async;
 import com.nhnent.tardis.console.sonic.Callable;
 import java.util.concurrent.TimeoutException;
@@ -37,7 +37,7 @@ public enum UserDbHelperService {
         GameUserInfo gameUserInfo = Async.callBlocking(GameConstants.DB_THREAD_POOL, new Callable<GameUserInfo>() {
             @Override
             public GameUserInfo call() throws Exception {
-                SqlSession sqlSession = TaptapSqlSessionFactory.getSqlSession();
+                SqlSession sqlSession = GameSqlSessionFactory.getSqlSession();
                 try {
                     UserDataMapper userDataMapper = sqlSession.getMapper(UserDataMapper.class);
                     UserDto userDto = userDataMapper.selectUserByUuid(uuid);
@@ -67,7 +67,7 @@ public enum UserDbHelperService {
         Integer resultCount = Async.callBlocking(GameConstants.DB_THREAD_POOL, new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                SqlSession sqlSession = TaptapSqlSessionFactory.getSqlSession();
+                SqlSession sqlSession = GameSqlSessionFactory.getSqlSession();
                 try {
                     UserDataMapper userDataMapper = sqlSession.getMapper(UserDataMapper.class);
                     int resultCount = userDataMapper.insertUser(gameUserInfo.toDtoUser());
@@ -97,7 +97,7 @@ public enum UserDbHelperService {
         Integer resultCount = Async.callBlocking(GameConstants.DB_THREAD_POOL, new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                SqlSession sqlSession = TaptapSqlSessionFactory.getSqlSession();
+                SqlSession sqlSession = GameSqlSessionFactory.getSqlSession();
                 UserDataMapper userDataMapper = sqlSession.getMapper(UserDataMapper.class);
                 try {
                     int resultCount = userDataMapper.updateUserCurrentDeck(uuid, currentDeck);
@@ -127,7 +127,7 @@ public enum UserDbHelperService {
         Integer resultCount = Async.callBlocking(GameConstants.DB_THREAD_POOL, new Callable<Integer>() {
             @Override
             public Integer call() throws Exception {
-                SqlSession sqlSession = TaptapSqlSessionFactory.getSqlSession();
+                SqlSession sqlSession = GameSqlSessionFactory.getSqlSession();
                 UserDataMapper userDataMapper = sqlSession.getMapper(UserDataMapper.class);
                 try {
                     int resultCount = userDataMapper.updateUserNickname(uuid, nickname);
@@ -160,7 +160,7 @@ public enum UserDbHelperService {
             resultCount = Async.callBlocking(GameConstants.DB_THREAD_POOL, new Callable<Integer>() {
                 @Override
                 public Integer call() throws Exception {
-                    SqlSession sqlSession = TaptapSqlSessionFactory.getSqlSession();
+                    SqlSession sqlSession = GameSqlSessionFactory.getSqlSession();
                     UserDataMapper userDataMapper = sqlSession.getMapper(UserDataMapper.class);
                     try {
                         int resultCount = userDataMapper.updateUserHighScore(uuid, highScore);

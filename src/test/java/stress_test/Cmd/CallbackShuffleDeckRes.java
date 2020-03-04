@@ -3,11 +3,11 @@ package stress_test.Cmd;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import com.nhn.tardis.taptap.common.GameConstants;
-import com.nhn.tardis.taptap.protocol.GameSingle;
-import com.nhn.tardis.taptap.protocol.GameSingle.DifficultyType;
-import com.nhn.tardis.taptap.protocol.Result.ErrorCode;
-import com.nhn.tardis.taptap.protocol.User;
+import com.nhn.tardis.sample.common.GameConstants;
+import com.nhn.tardis.sample.protocol.GameSingle;
+import com.nhn.tardis.sample.protocol.GameSingle.DifficultyType;
+import com.nhn.tardis.sample.protocol.Result.ErrorCode;
+import com.nhn.tardis.sample.protocol.User;
 import com.nhnent.tardis.connector.callback.parent.IDispatchPacket;
 import com.nhnent.tardis.connector.protocol.Packet;
 import java.io.IOException;

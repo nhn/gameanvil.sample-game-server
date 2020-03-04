@@ -1,11 +1,11 @@
-package com.nhn.tardis.taptap.redis;
+package com.nhn.tardis.sample.redis;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.tardis.taptap.common.GameConstants;
-import com.nhn.tardis.taptap.space.user.model.GameUserInfo;
-import com.nhn.tardis.taptap.space.user.model.SingleRankingInfo;
+import com.nhn.tardis.sample.common.GameConstants;
+import com.nhn.tardis.sample.space.user.model.GameUserInfo;
+import com.nhn.tardis.sample.space.user.model.SingleRankingInfo;
 import com.nhnent.tardis.common.util.TardisUtil;
 import com.nhnent.tardis.console.sonic.Lettuce;
 import io.lettuce.core.KeyValue;

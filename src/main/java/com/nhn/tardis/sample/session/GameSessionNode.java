@@ -1,4 +1,4 @@
-package com.nhn.tardis.taptap.session;
+package com.nhn.tardis.sample.session;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhnent.tardis.common.Packet;
@@ -6,7 +6,6 @@ import com.nhnent.tardis.common.Payload;
 import com.nhnent.tardis.common.internal.ITimerHandler;
 import com.nhnent.tardis.common.internal.ITimerObject;
 import com.nhnent.tardis.common.internal.PauseType;
-import com.nhnent.tardis.console.TardisIndexer;
 import com.nhnent.tardis.console.session.ISessionNode;
 import com.nhnent.tardis.console.session.SessionNodeAgent;
 import org.slf4j.Logger;
@@ -15,7 +14,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 세션과 세션 유저 관리 처리
  */
-public class TapTapSessionNode extends SessionNodeAgent implements ISessionNode, ITimerHandler {
+public class GameSessionNode extends SessionNodeAgent implements ISessionNode, ITimerHandler {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
