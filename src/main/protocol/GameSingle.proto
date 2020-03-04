@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+package com.nhn.tardis.taptap.protocol;
+
+import "Result.proto";
+import "User.proto";
+
+// 게임 종료 타입
+enum EndType {
+  GAME_END_NONE = 0;
+  GAME_END_GIVE_UP = 1;
+  GAME_END_TIME_UP = 2;
+}
+
+// 게임 덱 난이도 타입
+enum DifficultyType {
+  DIFFICULTY_NORMAL = 0;
+  DIFFICULTY_MEDIUM = 1;
+  DIFFICULTY_HARD = 2;
+}
+
+// 싱글게임 시작
+message StartGameReq {
+  string deck = 1;
+  DifficultyType difficulty = 2;
+}
+
+message StartGameRes {
+  ErrorCode errorCode = 1;
+  int32 balanceHeart = 2;
+}
+
+message ScoreRankingData {
+  string uuid = 1;
+  string nickname = 2;
+  double score = 3;
+}
+
+message ScoreRankingReq {
+  int32 start = 1;
+  int32 end = 2;
+}
+
+message ScoreRankingRes {
+  ErrorCode resultCode = 1;
+  repeated ScoreRankingData rankings = 2;
+}
+
+message TapMsg {
+  string selectCardName = 1;
+  int32 combo = 2;
+  int64 tapScore = 3;
+}
+
+// 싱글게임 종료
+message EndGameReq {
+  EndType endType = 1;
+}
+
+message EndGameRes {
+  ErrorCode errorCode = 1;
+  UserData userData = 2;
+  int64 totalScore = 3;
+}
+

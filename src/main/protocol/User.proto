@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package com.nhn.tardis.taptap.protocol;
+
+import "Result.proto";
+
+enum CurrencyType {
+  CURRENCY_NONE = 0;
+  CURRENCY_COIN = 1;
+  CURRENCY_RUBY = 2;
+}
+
+// 유저 데이터
+message UserData {
+  string nickname = 1;
+  int32 heart = 2;
+  int64 coin = 3;
+  int64 ruby = 4;
+  int32 level = 5;
+  int64 exp = 6;
+  int64 highScore = 7;
+  string currentDeck = 8;
+}
+
+message ShuffleDeckReq {
+  CurrencyType currencyType = 1;
+  int64 usage = 2;
+}
+
+message ShuffleDeckRes {
+  ErrorCode resultCode = 1;
+  string deck = 2;
+  int64 balanceCoin = 3;
+  int64 balanceRuby = 4;
+}
+

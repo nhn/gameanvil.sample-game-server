@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package com.nhn.tardis.taptap.protocol;
+
+message RoomUserData {
+  string id = 1;
+  string nickName = 2;
+  int64 score = 3;
+}
+
+// Tap Bird
+message TapBirdUserData {
+  RoomUserData userData = 1;
+}
+
+message ScoreUpMsg {
+  int64 score = 1;
+}
+
+message BroadcastTapBirdMsg {
+  repeated TapBirdUserData tapBirdData = 1;
+}
+
+// Snake
+// 위치 데이터
+message SnakePositionData {
+  int32 idx = 1;
+  int32 x = 2;
+  int32 y = 3;
+}
+
+// 유저 테이터
+message SnakeUserData {
+  RoomUserData baseData = 1;
+  repeated SnakePositionData userPositionListData = 2;
+}
+
+// 최초 게임 입장시 게임 데이터 S to C
+message SnakeGameInfoMsg {
+  int32 boarderLeft = 1;
+  int32 boarderRight = 2;
+  int32 boarderBottom = 3;
+  int32 boarderTop = 4;
+  repeated SnakeUserData users = 5;
+}
+
+message SnakeFoodMsg {
+  bool isDelete = 1;
+  SnakePositionData foodData = 2;
+}
+
+// 유저가 움직일때
+message SnakeUserMsg {
+  SnakeUserData userData = 1;
+}
+
+

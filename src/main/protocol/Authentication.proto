@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package com.nhn.tardis.taptap.protocol;
+
+import "Result.proto";
+import "User.proto";
+
+// 클라이언트 로그인 종류
+enum LoginType {
+  LOGIN_NONE = 0;
+  LOGIN_GUEST = 1;
+}
+
+// 인증 요청
+message AuthenticationReq {
+  string accessToken = 1;
+}
+
+message AuthenticationRes {
+  ErrorCode errorCode = 1;
+}
+
+// 로그인 요청
+message LoginReq {
+  string uuid = 1;
+  LoginType loginType = 2;
+  string appVersion = 3;
+  string appStore = 4;
+  string deviceModel = 5;
+  string deviceCountry = 6;
+  string deviceLanguage = 7;
+}
+
+// 로그인 응답
+message LoginRes {
+  ErrorCode errorCode = 1;
+  UserData userdata = 2;
+}
+

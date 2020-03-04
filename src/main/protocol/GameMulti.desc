@@ -1,0 +1,34 @@
+
+¸
+GameMulti.protocom.nhn.tardis.taptap.protocol"P
+RoomUserData
+id (	Rid
+nickName (	RnickName
+score (Rscore"[
+TapBirdUserDataH
+userData (2,.com.nhn.tardis.taptap.protocol.RoomUserDataRuserData""
+
+ScoreUpMsg
+score (Rscore"h
+BroadcastTapBirdMsgQ
+tapBirdData (2/.com.nhn.tardis.taptap.protocol.TapBirdUserDataRtapBirdData"A
+SnakePositionData
+idx (Ridx
+x (Rx
+y (Ry"À
+SnakeUserDataH
+baseData (2,.com.nhn.tardis.taptap.protocol.RoomUserDataRbaseDatae
+userPositionListData (21.com.nhn.tardis.taptap.protocol.SnakePositionDataRuserPositionListData"ã
+SnakeGameInfoMsg 
+boarderLeft (RboarderLeft"
+boarderRight (RboarderRight$
+boarderBottom (RboarderBottom
+
+boarderTop (R
+boarderTopC
+users (2-.com.nhn.tardis.taptap.protocol.SnakeUserDataRusers"y
+SnakeFoodMsg
+isDelete (RisDeleteM
+foodData (21.com.nhn.tardis.taptap.protocol.SnakePositionDataRfoodData"Y
+SnakeUserMsgI
+userData (2-.com.nhn.tardis.taptap.protocol.SnakeUserDataRuserDatabproto3

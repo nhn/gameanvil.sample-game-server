@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package com.nhn.tardis.taptap.protocol;
+
+// 에러종류
+enum ErrorCode {
+  NONE = 0;
+
+  // 인증
+  PARAMETER_IS_EMPTY = 1001;
+  TOKEN_IS_EMPTY = 1002;
+  TOKEN_NOT_VALIDATED = 1003;
+  PASSWORD_NOT_MATCHED = 1004;
+
+  // 구매
+  NOT_ENOUGH_COIN = 2001;
+  NOT_ENOUGH_RUBY = 2002;
+
+  // 게임
+  NOT_ENOUGH_HEART = 3001;
+
+  DB_ERROR = 4001;
+
+  UNKNOWN = 9999;
+}
+
