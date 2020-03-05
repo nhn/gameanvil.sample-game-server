@@ -1,14 +1,14 @@
-package com.nhn.tardis.taptap.space.game.single;
+package com.nhn.tardis.sample.space.game.single;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.tardis.taptap.mybatis.UserDbHelperService;
-import com.nhn.tardis.taptap.protocol.GameSingle;
-import com.nhn.tardis.taptap.protocol.Result;
-import com.nhn.tardis.taptap.protocol.Result.ErrorCode;
-import com.nhn.tardis.taptap.redis.RedisHelperService;
-import com.nhn.tardis.taptap.space.game.single.cmd.CmdTapMsg;
-import com.nhn.tardis.taptap.space.game.single.model.SingleTapGameInfo;
-import com.nhn.tardis.taptap.space.user.GameUser;
+import com.nhn.tardis.sample.mybatis.UserDbHelperService;
+import com.nhn.tardis.sample.protocol.GameSingle;
+import com.nhn.tardis.sample.protocol.Result;
+import com.nhn.tardis.sample.protocol.Result.ErrorCode;
+import com.nhn.tardis.sample.redis.RedisHelperService;
+import com.nhn.tardis.sample.space.game.single.cmd.CmdTapMsg;
+import com.nhn.tardis.sample.space.game.single.model.SingleTapGameInfo;
+import com.nhn.tardis.sample.space.user.GameUser;
 import com.nhnent.tardis.common.Packet;
 import com.nhnent.tardis.common.Payload;
 import com.nhnent.tardis.common.internal.ITimerHandler;

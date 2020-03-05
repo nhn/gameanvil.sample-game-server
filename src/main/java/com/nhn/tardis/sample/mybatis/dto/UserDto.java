@@ -1,6 +1,6 @@
-package com.nhn.tardis.taptap.mybatis.dto;
+package com.nhn.tardis.sample.mybatis.dto;
 
-import com.nhn.tardis.taptap.space.user.model.GameUserInfo;
+import com.nhn.tardis.sample.space.user.model.GameUserInfo;
 import java.util.Date;
 
 /**

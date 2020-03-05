@@ -1,4 +1,4 @@
-package com.nhn.tardis.taptap.space.game.multi.usermatch.model;
+package com.nhn.tardis.sample.space.game.multi.usermatch.model;
 
 import com.nhnent.tardis.console.space.UserMatchInfo;
 import java.io.Serializable;

@@ -1,4 +1,4 @@
-package com.nhn.tardis.taptap.common;
+package com.nhn.tardis.sample.common;
 
 /**
  * 게임에서 사용하는 상수값들 정의

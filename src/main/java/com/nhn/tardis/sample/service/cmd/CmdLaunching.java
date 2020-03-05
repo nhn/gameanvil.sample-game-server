@@ -1,4 +1,4 @@
-package com.nhn.tardis.taptap.service.cmd;
+package com.nhn.tardis.sample.service.cmd;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.google.gson.JsonObject;

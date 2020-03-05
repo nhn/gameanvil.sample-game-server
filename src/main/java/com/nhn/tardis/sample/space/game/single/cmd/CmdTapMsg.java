@@ -1,9 +1,9 @@
-package com.nhn.tardis.taptap.space.game.single.cmd;
+package com.nhn.tardis.sample.space.game.single.cmd;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.tardis.taptap.protocol.GameSingle;
-import com.nhn.tardis.taptap.space.game.single.SingleGameRoom;
-import com.nhn.tardis.taptap.space.user.GameUser;
+import com.nhn.tardis.sample.protocol.GameSingle;
+import com.nhn.tardis.sample.space.game.single.SingleGameRoom;
+import com.nhn.tardis.sample.space.user.GameUser;
 import com.nhnent.tardis.common.Packet;
 import com.nhnent.tardis.console.space.IRoomPacketHandler;
 import org.slf4j.Logger;

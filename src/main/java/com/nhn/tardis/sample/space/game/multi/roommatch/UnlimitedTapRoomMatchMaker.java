@@ -1,6 +1,6 @@
-package com.nhn.tardis.taptap.space.game.multi.roommatch;
+package com.nhn.tardis.sample.space.game.multi.roommatch;
 
-import com.nhn.tardis.taptap.space.game.multi.roommatch.model.UnlimitedTapRoomInfo;
+import com.nhn.tardis.sample.space.game.multi.roommatch.model.UnlimitedTapRoomInfo;
 import com.nhnent.tardis.console.match.RoomMatchMaker;
 import java.util.Comparator;
 import java.util.List;
