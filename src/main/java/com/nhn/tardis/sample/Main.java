@@ -34,9 +34,10 @@ public class Main {
         bootstrap.addProtoBufClass(4, User.getDescriptor());
 
         // 게임에서 사용하는 DB 쓰레드풀 지정
-        bootstrap.createExcutorService(GameConstants.DB_THREAD_POOL, 20);
+        bootstrap.addThreadPool(GameConstants.DB_THREAD_POOL, 20); // Deprecated 예정 -> createExcutorService 추후 대치
         // 게임에서 사용하는 레디스 쓰레드풀 지정
-        bootstrap.createExcutorService(GameConstants.REDIS_THREAD_POOL, 20);
+        bootstrap.addThreadPool(GameConstants.REDIS_THREAD_POOL, 20); // Deprecated 예정 -> createExcutorService 추후 대치
+
 
         // 세션설정
         bootstrap.setSession()
