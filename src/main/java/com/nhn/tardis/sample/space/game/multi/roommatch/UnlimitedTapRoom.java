@@ -1,11 +1,11 @@
-package com.nhn.tardis.taptap.space.game.multi.roommatch;
+package com.nhn.tardis.sample.space.game.multi.roommatch;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.tardis.taptap.protocol.GameMulti;
-import com.nhn.tardis.taptap.protocol.GameMulti.TapBirdUserData;
-import com.nhn.tardis.taptap.space.game.multi.roommatch.cmd.CmdScoreUpMsg;
-import com.nhn.tardis.taptap.space.game.multi.roommatch.model.UnlimitedTapRoomInfo;
-import com.nhn.tardis.taptap.space.user.GameUser;
+import com.nhn.tardis.sample.protocol.GameMulti;
+import com.nhn.tardis.sample.protocol.GameMulti.TapBirdUserData;
+import com.nhn.tardis.sample.space.game.multi.roommatch.cmd.CmdScoreUpMsg;
+import com.nhn.tardis.sample.space.game.multi.roommatch.model.UnlimitedTapRoomInfo;
+import com.nhn.tardis.sample.space.user.GameUser;
 import com.nhnent.tardis.common.Packet;
 import com.nhnent.tardis.common.Payload;
 import com.nhnent.tardis.common.internal.ITimerHandler;

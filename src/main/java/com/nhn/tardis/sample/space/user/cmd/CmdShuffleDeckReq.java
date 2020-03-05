@@ -1,12 +1,12 @@
-package com.nhn.tardis.taptap.space.user.cmd;
+package com.nhn.tardis.sample.space.user.cmd;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.tardis.taptap.mybatis.UserDbHelperService;
-import com.nhn.tardis.taptap.protocol.Result;
-import com.nhn.tardis.taptap.protocol.Result.ErrorCode;
-import com.nhn.tardis.taptap.protocol.User;
-import com.nhn.tardis.taptap.protocol.User.CurrencyType;
-import com.nhn.tardis.taptap.space.user.GameUser;
+import com.nhn.tardis.sample.mybatis.UserDbHelperService;
+import com.nhn.tardis.sample.protocol.Result;
+import com.nhn.tardis.sample.protocol.Result.ErrorCode;
+import com.nhn.tardis.sample.protocol.User;
+import com.nhn.tardis.sample.protocol.User.CurrencyType;
+import com.nhn.tardis.sample.space.user.GameUser;
 import com.nhnent.tardis.common.Packet;
 import com.nhnent.tardis.console.IPacketHandler;
 import java.util.ArrayList;

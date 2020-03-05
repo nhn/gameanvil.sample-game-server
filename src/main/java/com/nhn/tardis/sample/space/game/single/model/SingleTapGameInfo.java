@@ -1,4 +1,4 @@
-package com.nhn.tardis.taptap.space.game.single.model;
+package com.nhn.tardis.sample.space.game.single.model;
 
 import java.io.Serializable;
 

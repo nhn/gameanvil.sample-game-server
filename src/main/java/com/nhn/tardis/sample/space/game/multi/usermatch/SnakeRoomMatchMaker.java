@@ -1,6 +1,6 @@
-package com.nhn.tardis.taptap.space.game.multi.usermatch;
+package com.nhn.tardis.sample.space.game.multi.usermatch;
 
-import com.nhn.tardis.taptap.space.game.multi.usermatch.model.SnakeRoomInfo;
+import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakeRoomInfo;
 import com.nhnent.tardis.console.match.UserMatchMaker;
 import java.util.ArrayList;
 import java.util.List;

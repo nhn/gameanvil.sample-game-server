@@ -1,11 +1,11 @@
-package com.nhn.tardis.taptap.space.game.multi.usermatch.cmd;
+package com.nhn.tardis.sample.space.game.multi.usermatch.cmd;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.tardis.taptap.protocol.GameMulti;
-import com.nhn.tardis.taptap.protocol.GameMulti.SnakePositionData;
-import com.nhn.tardis.taptap.space.game.multi.usermatch.SnakeRoom;
-import com.nhn.tardis.taptap.space.game.multi.usermatch.model.SnakePositionInfo;
-import com.nhn.tardis.taptap.space.user.GameUser;
+import com.nhn.tardis.sample.protocol.GameMulti;
+import com.nhn.tardis.sample.protocol.GameMulti.SnakePositionData;
+import com.nhn.tardis.sample.space.game.multi.usermatch.SnakeRoom;
+import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakePositionInfo;
+import com.nhn.tardis.sample.space.user.GameUser;
 import com.nhnent.tardis.common.Packet;
 import com.nhnent.tardis.console.space.IRoomPacketHandler;
 import org.slf4j.Logger;

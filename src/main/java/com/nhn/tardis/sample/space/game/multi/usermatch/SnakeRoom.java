@@ -1,15 +1,15 @@
-package com.nhn.tardis.taptap.space.game.multi.usermatch;
+package com.nhn.tardis.sample.space.game.multi.usermatch;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.tardis.taptap.protocol.GameMulti;
-import com.nhn.tardis.taptap.protocol.GameMulti.SnakeFoodMsg;
-import com.nhn.tardis.taptap.protocol.GameMulti.SnakePositionData;
-import com.nhn.tardis.taptap.protocol.GameMulti.SnakeUserData;
-import com.nhn.tardis.taptap.space.game.multi.usermatch.cmd.CmdSnakeRemoveFoodMsg;
-import com.nhn.tardis.taptap.space.game.multi.usermatch.cmd.CmdSnakeUserMsg;
-import com.nhn.tardis.taptap.space.game.multi.usermatch.model.SnakePositionInfo;
-import com.nhn.tardis.taptap.space.game.multi.usermatch.model.SnakeRoomTransferInfo;
-import com.nhn.tardis.taptap.space.user.GameUser;
+import com.nhn.tardis.sample.protocol.GameMulti;
+import com.nhn.tardis.sample.protocol.GameMulti.SnakeFoodMsg;
+import com.nhn.tardis.sample.protocol.GameMulti.SnakePositionData;
+import com.nhn.tardis.sample.protocol.GameMulti.SnakeUserData;
+import com.nhn.tardis.sample.space.game.multi.usermatch.cmd.CmdSnakeRemoveFoodMsg;
+import com.nhn.tardis.sample.space.game.multi.usermatch.cmd.CmdSnakeUserMsg;
+import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakePositionInfo;
+import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakeRoomTransferInfo;
+import com.nhn.tardis.sample.space.user.GameUser;
 import com.nhnent.tardis.common.Packet;
 import com.nhnent.tardis.common.Payload;
 import com.nhnent.tardis.common.internal.ITimerHandler;

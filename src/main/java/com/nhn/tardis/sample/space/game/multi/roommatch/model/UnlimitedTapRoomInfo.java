@@ -1,4 +1,4 @@
-package com.nhn.tardis.taptap.space.game.multi.roommatch.model;
+package com.nhn.tardis.sample.space.game.multi.roommatch.model;
 
 import com.nhnent.tardis.console.space.IRoomMatchInfo;
 import java.io.Serializable;

@@ -1,6 +1,6 @@
-package com.nhn.tardis.taptap.mybatis.mappers;
+package com.nhn.tardis.sample.mybatis.mappers;
 
-import com.nhn.tardis.taptap.mybatis.dto.UserDto;
+import com.nhn.tardis.sample.mybatis.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

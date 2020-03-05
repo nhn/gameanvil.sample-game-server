@@ -1,9 +1,9 @@
-package com.nhn.tardis.taptap.space.game.multi.roommatch.cmd;
+package com.nhn.tardis.sample.space.game.multi.roommatch.cmd;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.tardis.taptap.protocol.GameMulti;
-import com.nhn.tardis.taptap.space.game.multi.roommatch.UnlimitedTapRoom;
-import com.nhn.tardis.taptap.space.user.GameUser;
+import com.nhn.tardis.sample.protocol.GameMulti;
+import com.nhn.tardis.sample.space.game.multi.roommatch.UnlimitedTapRoom;
+import com.nhn.tardis.sample.space.user.GameUser;
 import com.nhnent.tardis.common.Packet;
 import com.nhnent.tardis.console.space.IRoomPacketHandler;
 import org.slf4j.Logger;
