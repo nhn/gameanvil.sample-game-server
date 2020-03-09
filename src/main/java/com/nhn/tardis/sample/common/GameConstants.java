@@ -31,4 +31,10 @@ public class GameConstants {
 
     // 디비 쓰레드 풀
     public static final String DB_THREAD_POOL = "DB_THREAD_POOL";
+
+    // 게임베이스 기본 url
+    public static final String GAMEBASE_DEFAULT_URL = "https://api-gamebase.cloud.toast.com";
+
+    // 게임베이스 시크릿키
+    public static final String GAMEBASE_SECRET_KEY = "oNQMhNXW";
 }

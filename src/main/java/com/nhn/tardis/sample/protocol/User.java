@@ -2541,6 +2541,1257 @@ public final class User {
 
   }
 
+  public interface ChangeNicknameReqOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.nhn.tardis.sample.protocol.ChangeNicknameReq)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string nickname = 1;</code>
+     */
+    java.lang.String getNickname();
+    /**
+     * <code>string nickname = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getNicknameBytes();
+  }
+  /**
+   * Protobuf type {@code com.nhn.tardis.sample.protocol.ChangeNicknameReq}
+   */
+  public  static final class ChangeNicknameReq extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:com.nhn.tardis.sample.protocol.ChangeNicknameReq)
+      ChangeNicknameReqOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ChangeNicknameReq.newBuilder() to construct.
+    private ChangeNicknameReq(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ChangeNicknameReq() {
+      nickname_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ChangeNicknameReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              nickname_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameReq_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.nhn.tardis.sample.protocol.User.ChangeNicknameReq.class, com.nhn.tardis.sample.protocol.User.ChangeNicknameReq.Builder.class);
+    }
+
+    public static final int NICKNAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object nickname_;
+    /**
+     * <code>string nickname = 1;</code>
+     */
+    public java.lang.String getNickname() {
+      java.lang.Object ref = nickname_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        nickname_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string nickname = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNicknameBytes() {
+      java.lang.Object ref = nickname_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        nickname_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getNicknameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, nickname_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getNicknameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, nickname_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.nhn.tardis.sample.protocol.User.ChangeNicknameReq)) {
+        return super.equals(obj);
+      }
+      com.nhn.tardis.sample.protocol.User.ChangeNicknameReq other = (com.nhn.tardis.sample.protocol.User.ChangeNicknameReq) obj;
+
+      boolean result = true;
+      result = result && getNickname()
+          .equals(other.getNickname());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + NICKNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getNickname().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameReq parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameReq parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.nhn.tardis.sample.protocol.User.ChangeNicknameReq prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.nhn.tardis.sample.protocol.ChangeNicknameReq}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.nhn.tardis.sample.protocol.ChangeNicknameReq)
+        com.nhn.tardis.sample.protocol.User.ChangeNicknameReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameReq_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.nhn.tardis.sample.protocol.User.ChangeNicknameReq.class, com.nhn.tardis.sample.protocol.User.ChangeNicknameReq.Builder.class);
+      }
+
+      // Construct using com.nhn.tardis.sample.protocol.User.ChangeNicknameReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        nickname_ = "";
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameReq_descriptor;
+      }
+
+      @java.lang.Override
+      public com.nhn.tardis.sample.protocol.User.ChangeNicknameReq getDefaultInstanceForType() {
+        return com.nhn.tardis.sample.protocol.User.ChangeNicknameReq.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.nhn.tardis.sample.protocol.User.ChangeNicknameReq build() {
+        com.nhn.tardis.sample.protocol.User.ChangeNicknameReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.nhn.tardis.sample.protocol.User.ChangeNicknameReq buildPartial() {
+        com.nhn.tardis.sample.protocol.User.ChangeNicknameReq result = new com.nhn.tardis.sample.protocol.User.ChangeNicknameReq(this);
+        result.nickname_ = nickname_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.nhn.tardis.sample.protocol.User.ChangeNicknameReq) {
+          return mergeFrom((com.nhn.tardis.sample.protocol.User.ChangeNicknameReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.nhn.tardis.sample.protocol.User.ChangeNicknameReq other) {
+        if (other == com.nhn.tardis.sample.protocol.User.ChangeNicknameReq.getDefaultInstance()) return this;
+        if (!other.getNickname().isEmpty()) {
+          nickname_ = other.nickname_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.nhn.tardis.sample.protocol.User.ChangeNicknameReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.nhn.tardis.sample.protocol.User.ChangeNicknameReq) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object nickname_ = "";
+      /**
+       * <code>string nickname = 1;</code>
+       */
+      public java.lang.String getNickname() {
+        java.lang.Object ref = nickname_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          nickname_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string nickname = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNicknameBytes() {
+        java.lang.Object ref = nickname_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          nickname_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string nickname = 1;</code>
+       */
+      public Builder setNickname(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        nickname_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string nickname = 1;</code>
+       */
+      public Builder clearNickname() {
+        
+        nickname_ = getDefaultInstance().getNickname();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string nickname = 1;</code>
+       */
+      public Builder setNicknameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        nickname_ = value;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:com.nhn.tardis.sample.protocol.ChangeNicknameReq)
+    }
+
+    // @@protoc_insertion_point(class_scope:com.nhn.tardis.sample.protocol.ChangeNicknameReq)
+    private static final com.nhn.tardis.sample.protocol.User.ChangeNicknameReq DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.nhn.tardis.sample.protocol.User.ChangeNicknameReq();
+    }
+
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameReq getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ChangeNicknameReq>
+        PARSER = new com.google.protobuf.AbstractParser<ChangeNicknameReq>() {
+      @java.lang.Override
+      public ChangeNicknameReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ChangeNicknameReq(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ChangeNicknameReq> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ChangeNicknameReq> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.nhn.tardis.sample.protocol.User.ChangeNicknameReq getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ChangeNicknameResOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.nhn.tardis.sample.protocol.ChangeNicknameRes)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.ErrorCode resultCode = 1;</code>
+     */
+    int getResultCodeValue();
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.ErrorCode resultCode = 1;</code>
+     */
+    com.nhn.tardis.sample.protocol.Result.ErrorCode getResultCode();
+
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+     */
+    boolean hasUserData();
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+     */
+    com.nhn.tardis.sample.protocol.User.UserData getUserData();
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+     */
+    com.nhn.tardis.sample.protocol.User.UserDataOrBuilder getUserDataOrBuilder();
+  }
+  /**
+   * Protobuf type {@code com.nhn.tardis.sample.protocol.ChangeNicknameRes}
+   */
+  public  static final class ChangeNicknameRes extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:com.nhn.tardis.sample.protocol.ChangeNicknameRes)
+      ChangeNicknameResOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use ChangeNicknameRes.newBuilder() to construct.
+    private ChangeNicknameRes(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private ChangeNicknameRes() {
+      resultCode_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ChangeNicknameRes(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+              int rawValue = input.readEnum();
+
+              resultCode_ = rawValue;
+              break;
+            }
+            case 18: {
+              com.nhn.tardis.sample.protocol.User.UserData.Builder subBuilder = null;
+              if (userData_ != null) {
+                subBuilder = userData_.toBuilder();
+              }
+              userData_ = input.readMessage(com.nhn.tardis.sample.protocol.User.UserData.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(userData_);
+                userData_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameRes_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameRes_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.nhn.tardis.sample.protocol.User.ChangeNicknameRes.class, com.nhn.tardis.sample.protocol.User.ChangeNicknameRes.Builder.class);
+    }
+
+    public static final int RESULTCODE_FIELD_NUMBER = 1;
+    private int resultCode_;
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.ErrorCode resultCode = 1;</code>
+     */
+    public int getResultCodeValue() {
+      return resultCode_;
+    }
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.ErrorCode resultCode = 1;</code>
+     */
+    public com.nhn.tardis.sample.protocol.Result.ErrorCode getResultCode() {
+      @SuppressWarnings("deprecation")
+      com.nhn.tardis.sample.protocol.Result.ErrorCode result = com.nhn.tardis.sample.protocol.Result.ErrorCode.valueOf(resultCode_);
+      return result == null ? com.nhn.tardis.sample.protocol.Result.ErrorCode.UNRECOGNIZED : result;
+    }
+
+    public static final int USERDATA_FIELD_NUMBER = 2;
+    private com.nhn.tardis.sample.protocol.User.UserData userData_;
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+     */
+    public boolean hasUserData() {
+      return userData_ != null;
+    }
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+     */
+    public com.nhn.tardis.sample.protocol.User.UserData getUserData() {
+      return userData_ == null ? com.nhn.tardis.sample.protocol.User.UserData.getDefaultInstance() : userData_;
+    }
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+     */
+    public com.nhn.tardis.sample.protocol.User.UserDataOrBuilder getUserDataOrBuilder() {
+      return getUserData();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (resultCode_ != com.nhn.tardis.sample.protocol.Result.ErrorCode.NONE.getNumber()) {
+        output.writeEnum(1, resultCode_);
+      }
+      if (userData_ != null) {
+        output.writeMessage(2, getUserData());
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (resultCode_ != com.nhn.tardis.sample.protocol.Result.ErrorCode.NONE.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, resultCode_);
+      }
+      if (userData_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getUserData());
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.nhn.tardis.sample.protocol.User.ChangeNicknameRes)) {
+        return super.equals(obj);
+      }
+      com.nhn.tardis.sample.protocol.User.ChangeNicknameRes other = (com.nhn.tardis.sample.protocol.User.ChangeNicknameRes) obj;
+
+      boolean result = true;
+      result = result && resultCode_ == other.resultCode_;
+      result = result && (hasUserData() == other.hasUserData());
+      if (hasUserData()) {
+        result = result && getUserData()
+            .equals(other.getUserData());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + RESULTCODE_FIELD_NUMBER;
+      hash = (53 * hash) + resultCode_;
+      if (hasUserData()) {
+        hash = (37 * hash) + USERDATA_FIELD_NUMBER;
+        hash = (53 * hash) + getUserData().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameRes parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameRes parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameRes parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameRes parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameRes parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameRes parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameRes parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameRes parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameRes parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameRes parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameRes parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameRes parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.nhn.tardis.sample.protocol.User.ChangeNicknameRes prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.nhn.tardis.sample.protocol.ChangeNicknameRes}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.nhn.tardis.sample.protocol.ChangeNicknameRes)
+        com.nhn.tardis.sample.protocol.User.ChangeNicknameResOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameRes_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameRes_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.nhn.tardis.sample.protocol.User.ChangeNicknameRes.class, com.nhn.tardis.sample.protocol.User.ChangeNicknameRes.Builder.class);
+      }
+
+      // Construct using com.nhn.tardis.sample.protocol.User.ChangeNicknameRes.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        resultCode_ = 0;
+
+        if (userDataBuilder_ == null) {
+          userData_ = null;
+        } else {
+          userData_ = null;
+          userDataBuilder_ = null;
+        }
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameRes_descriptor;
+      }
+
+      @java.lang.Override
+      public com.nhn.tardis.sample.protocol.User.ChangeNicknameRes getDefaultInstanceForType() {
+        return com.nhn.tardis.sample.protocol.User.ChangeNicknameRes.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.nhn.tardis.sample.protocol.User.ChangeNicknameRes build() {
+        com.nhn.tardis.sample.protocol.User.ChangeNicknameRes result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.nhn.tardis.sample.protocol.User.ChangeNicknameRes buildPartial() {
+        com.nhn.tardis.sample.protocol.User.ChangeNicknameRes result = new com.nhn.tardis.sample.protocol.User.ChangeNicknameRes(this);
+        result.resultCode_ = resultCode_;
+        if (userDataBuilder_ == null) {
+          result.userData_ = userData_;
+        } else {
+          result.userData_ = userDataBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.nhn.tardis.sample.protocol.User.ChangeNicknameRes) {
+          return mergeFrom((com.nhn.tardis.sample.protocol.User.ChangeNicknameRes)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.nhn.tardis.sample.protocol.User.ChangeNicknameRes other) {
+        if (other == com.nhn.tardis.sample.protocol.User.ChangeNicknameRes.getDefaultInstance()) return this;
+        if (other.resultCode_ != 0) {
+          setResultCodeValue(other.getResultCodeValue());
+        }
+        if (other.hasUserData()) {
+          mergeUserData(other.getUserData());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.nhn.tardis.sample.protocol.User.ChangeNicknameRes parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.nhn.tardis.sample.protocol.User.ChangeNicknameRes) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int resultCode_ = 0;
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.ErrorCode resultCode = 1;</code>
+       */
+      public int getResultCodeValue() {
+        return resultCode_;
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.ErrorCode resultCode = 1;</code>
+       */
+      public Builder setResultCodeValue(int value) {
+        resultCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.ErrorCode resultCode = 1;</code>
+       */
+      public com.nhn.tardis.sample.protocol.Result.ErrorCode getResultCode() {
+        @SuppressWarnings("deprecation")
+        com.nhn.tardis.sample.protocol.Result.ErrorCode result = com.nhn.tardis.sample.protocol.Result.ErrorCode.valueOf(resultCode_);
+        return result == null ? com.nhn.tardis.sample.protocol.Result.ErrorCode.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.ErrorCode resultCode = 1;</code>
+       */
+      public Builder setResultCode(com.nhn.tardis.sample.protocol.Result.ErrorCode value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        resultCode_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.ErrorCode resultCode = 1;</code>
+       */
+      public Builder clearResultCode() {
+        
+        resultCode_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private com.nhn.tardis.sample.protocol.User.UserData userData_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.nhn.tardis.sample.protocol.User.UserData, com.nhn.tardis.sample.protocol.User.UserData.Builder, com.nhn.tardis.sample.protocol.User.UserDataOrBuilder> userDataBuilder_;
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+       */
+      public boolean hasUserData() {
+        return userDataBuilder_ != null || userData_ != null;
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+       */
+      public com.nhn.tardis.sample.protocol.User.UserData getUserData() {
+        if (userDataBuilder_ == null) {
+          return userData_ == null ? com.nhn.tardis.sample.protocol.User.UserData.getDefaultInstance() : userData_;
+        } else {
+          return userDataBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+       */
+      public Builder setUserData(com.nhn.tardis.sample.protocol.User.UserData value) {
+        if (userDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          userData_ = value;
+          onChanged();
+        } else {
+          userDataBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+       */
+      public Builder setUserData(
+          com.nhn.tardis.sample.protocol.User.UserData.Builder builderForValue) {
+        if (userDataBuilder_ == null) {
+          userData_ = builderForValue.build();
+          onChanged();
+        } else {
+          userDataBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+       */
+      public Builder mergeUserData(com.nhn.tardis.sample.protocol.User.UserData value) {
+        if (userDataBuilder_ == null) {
+          if (userData_ != null) {
+            userData_ =
+              com.nhn.tardis.sample.protocol.User.UserData.newBuilder(userData_).mergeFrom(value).buildPartial();
+          } else {
+            userData_ = value;
+          }
+          onChanged();
+        } else {
+          userDataBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+       */
+      public Builder clearUserData() {
+        if (userDataBuilder_ == null) {
+          userData_ = null;
+          onChanged();
+        } else {
+          userData_ = null;
+          userDataBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+       */
+      public com.nhn.tardis.sample.protocol.User.UserData.Builder getUserDataBuilder() {
+        
+        onChanged();
+        return getUserDataFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+       */
+      public com.nhn.tardis.sample.protocol.User.UserDataOrBuilder getUserDataOrBuilder() {
+        if (userDataBuilder_ != null) {
+          return userDataBuilder_.getMessageOrBuilder();
+        } else {
+          return userData_ == null ?
+              com.nhn.tardis.sample.protocol.User.UserData.getDefaultInstance() : userData_;
+        }
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.UserData userData = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.nhn.tardis.sample.protocol.User.UserData, com.nhn.tardis.sample.protocol.User.UserData.Builder, com.nhn.tardis.sample.protocol.User.UserDataOrBuilder> 
+          getUserDataFieldBuilder() {
+        if (userDataBuilder_ == null) {
+          userDataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.nhn.tardis.sample.protocol.User.UserData, com.nhn.tardis.sample.protocol.User.UserData.Builder, com.nhn.tardis.sample.protocol.User.UserDataOrBuilder>(
+                  getUserData(),
+                  getParentForChildren(),
+                  isClean());
+          userData_ = null;
+        }
+        return userDataBuilder_;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:com.nhn.tardis.sample.protocol.ChangeNicknameRes)
+    }
+
+    // @@protoc_insertion_point(class_scope:com.nhn.tardis.sample.protocol.ChangeNicknameRes)
+    private static final com.nhn.tardis.sample.protocol.User.ChangeNicknameRes DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.nhn.tardis.sample.protocol.User.ChangeNicknameRes();
+    }
+
+    public static com.nhn.tardis.sample.protocol.User.ChangeNicknameRes getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ChangeNicknameRes>
+        PARSER = new com.google.protobuf.AbstractParser<ChangeNicknameRes>() {
+      @java.lang.Override
+      public ChangeNicknameRes parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ChangeNicknameRes(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<ChangeNicknameRes> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ChangeNicknameRes> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.nhn.tardis.sample.protocol.User.ChangeNicknameRes getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_nhn_tardis_sample_protocol_UserData_descriptor;
   private static final 
@@ -2556,6 +3807,16 @@ public final class User {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_com_nhn_tardis_sample_protocol_ShuffleDeckRes_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameReq_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameReq_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameRes_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameRes_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2575,9 +3836,14 @@ public final class User {
       "cyType\022\r\n\005usage\030\002 \001(\003\"\207\001\n\016ShuffleDeckRes" +
       "\022=\n\nresultCode\030\001 \001(\0162).com.nhn.tardis.sa" +
       "mple.protocol.ErrorCode\022\014\n\004deck\030\002 \001(\t\022\023\n" +
-      "\013balanceCoin\030\003 \001(\003\022\023\n\013balanceRuby\030\004 \001(\003*" +
-      "G\n\014CurrencyType\022\021\n\rCURRENCY_NONE\020\000\022\021\n\rCU" +
-      "RRENCY_COIN\020\001\022\021\n\rCURRENCY_RUBY\020\002b\006proto3"
+      "\013balanceCoin\030\003 \001(\003\022\023\n\013balanceRuby\030\004 \001(\003\"" +
+      "%\n\021ChangeNicknameReq\022\020\n\010nickname\030\001 \001(\t\"\216" +
+      "\001\n\021ChangeNicknameRes\022=\n\nresultCode\030\001 \001(\016" +
+      "2).com.nhn.tardis.sample.protocol.ErrorC" +
+      "ode\022:\n\010userData\030\002 \001(\0132(.com.nhn.tardis.s" +
+      "ample.protocol.UserData*G\n\014CurrencyType\022" +
+      "\021\n\rCURRENCY_NONE\020\000\022\021\n\rCURRENCY_COIN\020\001\022\021\n" +
+      "\rCURRENCY_RUBY\020\002b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2610,6 +3876,18 @@ public final class User {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_nhn_tardis_sample_protocol_ShuffleDeckRes_descriptor,
         new java.lang.String[] { "ResultCode", "Deck", "BalanceCoin", "BalanceRuby", });
+    internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameReq_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameReq_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameReq_descriptor,
+        new java.lang.String[] { "Nickname", });
+    internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameRes_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameRes_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameRes_descriptor,
+        new java.lang.String[] { "ResultCode", "UserData", });
     com.nhn.tardis.sample.protocol.Result.getDescriptor();
   }
 

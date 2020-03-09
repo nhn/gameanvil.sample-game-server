@@ -1,6 +1,8 @@
 package com.nhn.tardis.sample.session;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.nhn.tardis.sample.common.GameConstants;
+import com.nhn.tardis.sample.gamebase.rest.AuthenticationResponse;
 import com.nhn.tardis.sample.protocol.Authentication;
 import com.nhn.tardis.sample.protocol.Result;
 import com.nhn.tardis.sample.protocol.Result.ErrorCode;
@@ -10,7 +12,8 @@ import com.nhnent.tardis.common.internal.PauseType;
 import com.nhnent.tardis.console.PacketDispatcher;
 import com.nhnent.tardis.console.session.ISession;
 import com.nhnent.tardis.console.session.SessionAgent;
-import java.io.IOException;
+import com.nhnent.tardis.console.sonic.HttpRequest;
+import com.nhnent.tardis.console.sonic.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,8 +41,6 @@ public class GameSession extends SessionAgent implements ISession<GameSessionUse
 
         // 인증 로직 구현부. 여기서는 accountId와 password가 일치 할 경우 인증 성공.
         if (accountId.equals(password)) {
-            logger.info("onAuthenticate. id:{}, pw:{}, device:{}", accountId, password,
-                deviceId);
 
             // payload 로부터 인증요청 Packet 가져오기.
             Packet authenticatePacket = payload.getPacket(Authentication.AuthenticationReq.getDescriptor());
@@ -59,11 +60,31 @@ public class GameSession extends SessionAgent implements ISession<GameSessionUse
                     } else {
                         logger.info("onAuthenticate Success. token:{}", authenticationReq.getAccessToken());
 
-                        //----------------------------------- 토큰 유효한지에 대한 처리가 필요
+                        if(authenticationReq.getAccessToken().equals("TapTap_AccessToken")){
+                            // 플랫폼 테스트용 토큰 - 검증없이 정상 처리
+                            resultCode = ErrorCode.NONE;
+                        } else {
+                            // Gamebse 인증
+                            //----------------------------------- 토큰 유효한지에 대한 검증 Gamebase
+                            String gamebaseUrl = String.format(GameConstants.GAMEBASE_DEFAULT_URL + "/tcgb-gateway/v1.2/apps/X2bqX5du/members/%s/tokens/%s", deviceId, authenticationReq.getAccessToken());
+                            HttpRequest httpRequest = new HttpRequest(gamebaseUrl);
+                            httpRequest.getBuilder().addHeader("Content-Type", "application/json");
+                            httpRequest.getBuilder().addHeader("X-Secret-Key", GameConstants.GAMEBASE_SECRET_KEY);
+                            logger.info("httpRequest url [{}]", gamebaseUrl);
+                            HttpResponse response = httpRequest.GET();
+                            logger.info("httpRequest response:[{}]", response.toString());
 
-                        resultCode = ErrorCode.NONE;
+                            // Gamebase 응답 json 데이터 객체 파싱
+                            AuthenticationResponse gamebaseResponse = response.getContents(AuthenticationResponse.class);
+                            if (gamebaseResponse.getHeader().isSuccessful()) {
+                                resultCode = ErrorCode.NONE;
+                            } else {
+                                resultCode = ErrorCode.TOKEN_NOT_VALIDATED;
+                            }
+                            //------------------------------------
+                        }
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     logger.error("onAuthenticate fail!! AuthenticationReq.parseFrom ERROR {}", e);
                     e.printStackTrace();
                 }

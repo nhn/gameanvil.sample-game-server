@@ -34,3 +34,12 @@ message ShuffleDeckRes {
   int64 balanceRuby = 4;
 }
 
+message ChangeNicknameReq {
+  string nickname = 1;
+}
+
+message ChangeNicknameRes {
+  ErrorCode resultCode = 1;
+  UserData userData = 2;
+}
+

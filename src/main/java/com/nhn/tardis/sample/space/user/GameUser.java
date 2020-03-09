@@ -13,6 +13,7 @@ import com.nhn.tardis.sample.redis.RedisHelperService;
 import com.nhn.tardis.sample.space.game.multi.roommatch.model.UnlimitedTapRoomInfo;
 import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakePositionInfo;
 import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakeRoomInfo;
+import com.nhn.tardis.sample.space.user.cmd.CmdChangeNicknameReq;
 import com.nhn.tardis.sample.space.user.cmd.CmdShuffleDeckReq;
 import com.nhn.tardis.sample.space.user.cmd.CmdSingleScoreRankingReq;
 import com.nhn.tardis.sample.space.user.model.GameUserInfo;
@@ -50,6 +51,7 @@ public class GameUser extends UserAgent implements IUser, ITimerHandler {
     private List<SnakePositionInfo> snakePositionInfoList = new ArrayList<>();
 
     static {
+        packetDispatcher.registerMsg(User.ChangeNicknameReq.getDescriptor(), CmdChangeNicknameReq.class);           // 닉네임 변경 프로토콜
         packetDispatcher.registerMsg(User.ShuffleDeckReq.getDescriptor(), CmdShuffleDeckReq.class);                 // 덱 셔플 프로토콜
         packetDispatcher.registerMsg(GameSingle.ScoreRankingReq.getDescriptor(), CmdSingleScoreRankingReq.class);   // 싱글 점수 랭킹
     }
