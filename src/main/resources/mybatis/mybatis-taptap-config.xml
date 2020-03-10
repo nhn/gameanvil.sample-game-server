@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE configuration PUBLIC '-//mybatis.org//DTD Config 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-config.dtd'>
+<configuration>
+  <!-- MySQL 접속 정보를 지정한다. -->
+  <properties>
+    <property name="hostname" value="10.77.14.22" />
+    <property name="portnumber" value="3306" />
+    <property name="database" value="taptap" />
+    <property name="username" value="taptap" />
+    <property name="password" value="nhn!@#123" />
+  </properties>
+  <settings>
+    <setting name="cacheEnabled" value="false"/>
+    <setting name="mapUnderscoreToCamelCase" value="true"/>
+  </settings>
+  <!-- MySQL 접속 객체 구성 -->
+  <environments default="development">
+    <environment id="development">
+      <transactionManager type="JDBC"/>
+      <dataSource type="POOLED">
+        <property name="driver" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://${hostname}:${portnumber}/${database}?characterEncoding=UTF8&amp;serverTimezone=UTC&amp;useSSL=false" />
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+      </dataSource>
+    </environment>
+  </environments>
+  <mappers>
+    <!-- 정의된 SQL구문을 맵핑해준다. -->
+    <mapper resource="mybatis/UserDataMapper.xml"/>
+  </mappers>
+</configuration>
