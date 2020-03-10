@@ -43,7 +43,7 @@ public class CmdLaunching implements IRestPacketHandler {
         JsonObject jsonObject = new JsonObject();
         if (platform != null && appStore != null && appVersion != null && deviceId != null) {
             //파라미터가 이상없을때 세션 서버 정보 응답
-            jsonObject.addProperty("serverUrl", "10.77.35.47");
+            jsonObject.addProperty("serverUrl", "127.0.0.1");
             jsonObject.addProperty("port", 11200);
         } else {
             stateCode = 400;

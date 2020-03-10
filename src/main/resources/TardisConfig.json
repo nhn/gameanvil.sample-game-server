@@ -3,8 +3,8 @@
   // 공통 정보.
 
   "common": {
-    "ip": "10.77.35.47", // 노드마다 공통으로 사용하는 IP. (머신의 IP를 지정)
-    "meetEndPoints": ["10.77.35.47:16000"], // 대상 노드의 common IP와 communicatePort 등록. (해당 서버 endpoint 포함가능 , 리스트로 여러개 가능)
+    "ip": "127.0.0.1", // 노드마다 공통으로 사용하는 IP. (머신의 IP를 지정)
+    "meetEndPoints": ["127.0.0.1:16000"], // 대상 노드의 common IP와 communicatePort 등록. (해당 서버 endpoint 포함가능 , 리스트로 여러개 가능)
     "communicatePort": 16000, // 다른 communication node 와 통신할때 사용되는 port
     "publisherPort" : 13300, // publish socket 을 위한 port
     "debugMode": true //디버깅시 각종 timeout 이 발생안하도록 하는 옵션 , 리얼에서는 반드시 false 이어야 한다.
@@ -38,7 +38,7 @@
   // 클라이언트와의 커넥션을 관리하는 노드.
   "session": {
     "nodeCnt": 4, // 노드 개수. (노드 번호는 0 부터 부여 됨)
-    "ip": "10.77.35.47", // 클라이언트와 연결되는 IP.
+    "ip": "127.0.0.1", // 클라이언트와 연결되는 IP.
     "dns": "", // 클라이언트와 연결되는 도메인 주소.
     "maintenance": false,
     "tcpNoDelay": false, // Netty Bootstrap 설정시 사용 됨. (디폴트로 필드 미사용 및 기본 값 false)
@@ -81,7 +81,7 @@
       "nodeCnt": 2,
       "serviceId": 1,
       "serviceName": "Launching",
-      "restIp": "10.77.35.47",
+      "restIp": "127.0.0.1",
       "restPort": 10080
     }
   ],
@@ -90,7 +90,7 @@
   // JMX 또는 REST API 사용하여 다른 노드에 대한 관리를 할 수 있는 노드. (서비스 포즈, 전체 유저 카운트 등)
   "management": {
     "nodeCnt": 2,
-    "restIp": "10.77.35.47",
+    "restIp": "127.0.0.1",
     "restPort": 25150,
     "consoleProxyPort" : 18081, // admin web console port
     "logProxyPort" : 18082,     // admin log download port
