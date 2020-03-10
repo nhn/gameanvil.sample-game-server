@@ -1,0 +1,39 @@
+<configuration debug="true">
+<!--
+<configuration debug="true" scan="true" scanPeriod="30 seconds">
+-->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- We output the timezone for disambiguation across the different environments. -->
+            <!--<pattern>[%d{ISO8601} %d{Z}] [%highlight(%level)] [%logger{10}] [%X{tardisTag}] %msg%n</pattern>-->
+            <!--<pattern>[%d{ISO8601} %d{Z}] [%highlight(%level)] [%logger{10}] %msg%n</pattern>-->
+            <pattern>[%d{ISO8601}] [%highlight(%-5level)] [%thread] [%cyan(%F:%L)] %yellow(%msg%n)</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--<fileNamePattern>log/ngt.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+            <fileNamePattern>./log/ngt.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <!-- We output the timezone for disambiguation across the different environments. -->
+            <pattern>[%d{ISO8601} %d{Z}] [%highlight(%level)] [%logger{10}] [%X{tardisTag}] %msg%n</pattern>
+            <!--<pattern>[%d{ISO8601} %d{Z}] [%highlight(%level)] [%logger{10}] %msg%n</pattern>-->
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE" />
+    </appender>
+
+    <logger name="com.nhnent.tardis" level="DEBUG" />
+
+    <root>
+        <level value="DEBUG"/>
+        <appender-ref ref="ASYNC"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>
