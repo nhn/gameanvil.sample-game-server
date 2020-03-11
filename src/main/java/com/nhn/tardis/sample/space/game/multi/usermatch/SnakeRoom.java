@@ -103,6 +103,7 @@ public class SnakeRoom extends RoomAgent implements IRoom<GameUser>, ITimerHandl
 
         try {
             // 첫번째 유저 위치 지정
+            gameUser.getSnakePositionInfoList().clear();
             gameUser.getSnakePositionInfoList().add(new SnakePositionInfo(0, boarderLeft + 5, boarderTop - 5));
 
             gameUserMap.put(gameUser.getUserId(), gameUser);
@@ -126,28 +127,34 @@ public class SnakeRoom extends RoomAgent implements IRoom<GameUser>, ITimerHandl
     @Override
     public boolean onJoinRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
         logger.info("onJoinRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        boolean isSuccess = false;
         try {
-            // 두번째 유저 설정
-            gameUser.getSnakePositionInfoList().add(new SnakePositionInfo(1, boarderLeft + 5, boarderBottom + 5));
+            if (gameUserMap.containsKey(gameUser.getUserId())) {
+                logger.info("Already Joined User " + gameUser.getUserId());
+            } else {
+                // 두번째 유저 설정
+                gameUser.getSnakePositionInfoList().clear();
+                gameUser.getSnakePositionInfoList().add(new SnakePositionInfo(1, boarderLeft + 5, boarderBottom + 5));
 
-            gameUserMap.put(gameUser.getUserId(), gameUser);
-            gameUserScoreMap.put(gameUser.getGameUserInfo().getUuid(), 0);
-            if (gameUserMap.size() == 2) {  // 두명이들어왔을때 게임 시작
-                for (GameUser user : gameUserMap.values()) {
-                    logger.info("onJoinRoom - UserId : {}, SnakeGamInfo : {}", getId(), getSnakeGameInfoMsgByProto());
-                    user.send(new Packet(getSnakeGameInfoMsgByProto()));    // 두병 모두 들어왔을때 두유저에게 게임 정보 전송
+                gameUserMap.put(gameUser.getUserId(), gameUser);
+                gameUserScoreMap.put(gameUser.getGameUserInfo().getUuid(), 0);
+                if (gameUserMap.size() == 2) {  // 두명이들어왔을때 게임 시작
+                    for (GameUser user : gameUserMap.values()) {
+                        logger.info("onJoinRoom - UserId : {}, SnakeGamInfo : {}", getId(), getSnakeGameInfoMsgByProto());
+                        user.send(new Packet(getSnakeGameInfoMsgByProto()));    // 두병 모두 들어왔을때 두유저에게 게임 정보 전송
+                    }
+
+                    // 1초에 한번씩 food 생성
+                    addTimer(1, TimeUnit.SECONDS, 0, this, this);
                 }
-
-                // 1초에 한번씩 food 생성
-                addTimer(1, TimeUnit.SECONDS, 0, this, this);
+                isSuccess = true;
             }
-            return true;
         } catch (Exception e) {
             gameUserMap.remove(gameUser.getUserId());
             gameUserScoreMap.remove(gameUser.getGameUserInfo().getUuid());
             logger.error("onJoinRoom()", e);
-            return false;
         }
+        return isSuccess;
     }
 
     @Override

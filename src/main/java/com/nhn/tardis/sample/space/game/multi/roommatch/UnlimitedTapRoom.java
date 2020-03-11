@@ -109,28 +109,35 @@ public class UnlimitedTapRoom extends RoomAgent implements IRoom<GameUser>, ITim
     @Override
     public boolean onJoinRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
         logger.info("onJoinRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        boolean isSuccess = false;
         try {
             logger.info("onJoinRoom - roomMatchMaking");
-            gameUserMap.put(gameUser.getUserId(), gameUser);
-            gameUserScoreMap.put(gameUser.getGameUserInfo().getUuid(), 0);
+            if (gameUserMap.containsKey(gameUser.getUserId())) {
+                logger.info("Already Joined User " + gameUser.getUserId());
+            } else {
 
-            // 유저 입장에 대한 방정보 업데이트 처리
-            unlimitedTapRoomInfo.setUserCurrentCount(gameUserMap.size());
-            updateRoomMatchInfo(unlimitedTapRoomInfo);
+                gameUserMap.put(gameUser.getUserId(), gameUser);
+                gameUserScoreMap.put(gameUser.getGameUserInfo().getUuid(), 0);
 
-            return true;
+                // 유저 입장에 대한 방정보 업데이트 처리
+                unlimitedTapRoomInfo.setUserCurrentCount(gameUserMap.size());
+                updateRoomMatchInfo(unlimitedTapRoomInfo);
+
+                isSuccess = true;
+            }
         } catch (Exception e) {
             gameUserMap.remove(gameUser.getUserId());
             gameUserScoreMap.remove(gameUser.getGameUserInfo().getUuid());
 
             unlimitedTapRoomInfo.setUserCurrentCount(gameUserMap.size());
             logger.error("onJoinRoom()", e);
-            return false;
         }
+        return isSuccess;
     }
 
     /**
      * 방 나갈때 처리
+     *
      * @param gameUser   : 방나가는 유저 객체
      * @param inPayload  : Room 나가기 요청시 client 에서 보낸 data
      * @param outPayload : Room 나가기 요청을 한 client 에게 보낼 data
@@ -208,6 +215,7 @@ public class UnlimitedTapRoom extends RoomAgent implements IRoom<GameUser>, ITim
 
     /**
      * 유저들에게 전송할 룸에 있는 모든 유저 정보 프로토 패킷 생성
+     *
      * @return 전체유저에게 전달할 프로토콜
      */
     public GameMulti.BroadcastTapBirdMsg getBroadcastMsgByProto() {
