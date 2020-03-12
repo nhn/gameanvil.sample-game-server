@@ -60,13 +60,13 @@ public class GameSession extends SessionAgent implements ISession<GameSessionUse
                     } else {
                         logger.info("onAuthenticate Success. token:{}", authenticationReq.getAccessToken());
 
-                        if(authenticationReq.getAccessToken().equals("TapTap_AccessToken")){
+                        if (authenticationReq.getAccessToken().equals("TapTap_AccessToken")) {
                             // 플랫폼 테스트용 토큰 - 검증없이 정상 처리
                             resultCode = ErrorCode.NONE;
                         } else {
                             // Gamebse 인증
                             //----------------------------------- 토큰 유효한지에 대한 검증 Gamebase
-                            String gamebaseUrl = String.format(GameConstants.GAMEBASE_DEFAULT_URL + "/tcgb-gateway/v1.2/apps/X2bqX5du/members/%s/tokens/%s", deviceId, authenticationReq.getAccessToken());
+                            String gamebaseUrl = String.format(GameConstants.GAMEBASE_DEFAULT_URL + "/tcgb-gateway/v1.2/apps/X2bqX5du/members/%s/tokens/%s", accountId, authenticationReq.getAccessToken());
                             HttpRequest httpRequest = new HttpRequest(gamebaseUrl);
                             httpRequest.getBuilder().addHeader("Content-Type", "application/json");
                             httpRequest.getBuilder().addHeader("X-Secret-Key", GameConstants.GAMEBASE_SECRET_KEY);

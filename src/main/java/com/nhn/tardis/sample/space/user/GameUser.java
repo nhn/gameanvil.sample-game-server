@@ -104,7 +104,7 @@ public class GameUser extends UserAgent implements IUser, ITimerHandler {
 
                     if (dbGameUserInfo == null) {   // DB에 데이터가 없으므로 신규
                         // 게임 데이터 설정
-                        gameUserInfo.setNickname(getUserId());
+                        gameUserInfo.setNickname("Tardis-" + getUserId().substring(getUserId().length() - 6));
                         gameUserInfo.setHeart(3);
                         gameUserInfo.setCoin(100);
                         gameUserInfo.setRuby(0);
