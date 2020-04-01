@@ -2,7 +2,7 @@ package com.nhn.tardis.sample.space;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhn.tardis.sample.common.GameConstants;
-import com.nhn.tardis.sample.redis.RedisHelperService;
+import com.nhn.tardis.sample.redis.RedisHelper;
 import com.nhnent.tardis.common.Packet;
 import com.nhnent.tardis.common.Payload;
 import com.nhnent.tardis.common.internal.PauseType;
@@ -16,13 +16,17 @@ import org.slf4j.LoggerFactory;
 
 public class GameNode extends SpaceNodeAgent implements ISpaceNode {
     private Logger logger = LoggerFactory.getLogger(getClass());
+    private RedisHelper redisHelper;
 
     @Override
     public void onInit() throws SuspendExecution {
         logger.info("onInit");
 
+        // FIXME RedisClient 노드마다 생성, singleton 으로 만들어서 접근 하면 안된다.
+        // 레디스 생성
+        redisHelper = new RedisHelper();
         // 레디스 연결 처리
-        RedisHelperService.getInstance().connect(GameConstants.REDIS_URL, GameConstants.REDIS_PORT);
+        redisHelper.connect(GameConstants.REDIS_URL, GameConstants.REDIS_PORT);
     }
 
     @Override
@@ -55,7 +59,7 @@ public class GameNode extends SpaceNodeAgent implements ISpaceNode {
     public void onShutdown() throws SuspendExecution {
         logger.info("onShutdown");
 
-        RedisHelperService.getInstance().shutdown();
+        redisHelper.shutdown();
     }
 
     @Override
@@ -66,5 +70,9 @@ public class GameNode extends SpaceNodeAgent implements ISpaceNode {
     @Override
     public void onChannelRoomUpdate(ChannelUpdateType type, IRoomInfo channelRoomInfo, String roomId) throws SuspendExecution {
         logger.info("onChannelRoomUpdate");
+    }
+
+    public RedisHelper getRedisHelper() {
+        return redisHelper;
     }
 }

@@ -5,7 +5,8 @@ import com.nhn.tardis.sample.mybatis.UserDbHelperService;
 import com.nhn.tardis.sample.protocol.GameSingle;
 import com.nhn.tardis.sample.protocol.Result;
 import com.nhn.tardis.sample.protocol.Result.ErrorCode;
-import com.nhn.tardis.sample.redis.RedisHelperService;
+import com.nhn.tardis.sample.redis.RedisHelper;
+import com.nhn.tardis.sample.space.GameNode;
 import com.nhn.tardis.sample.space.game.single.cmd.CmdTapMsg;
 import com.nhn.tardis.sample.space.game.single.model.SingleTapGameInfo;
 import com.nhn.tardis.sample.space.user.GameUser;
@@ -17,6 +18,7 @@ import com.nhnent.tardis.common.serializer.KryoSerializer;
 import com.nhnent.tardis.console.space.IRoom;
 import com.nhnent.tardis.console.space.RoomAgent;
 import com.nhnent.tardis.console.space.RoomPacketDispatcher;
+import com.nhnent.tardis.console.space.SpaceNodeAgent;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -163,7 +165,7 @@ public class SingleGameRoom extends RoomAgent implements IRoom<GameUser>, ITimer
             }
 
             if (isSuccess) {
-                isSuccess = RedisHelperService.getInstance().setSingleScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
+                isSuccess = ((GameNode)SpaceNodeAgent.getInstance()).getRedisHelper().setSingleScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
                 logger.info("Redis set Result : {}", isSuccess);
             }
 

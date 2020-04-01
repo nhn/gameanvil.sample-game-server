@@ -9,7 +9,8 @@ import com.nhn.tardis.sample.protocol.GameSingle;
 import com.nhn.tardis.sample.protocol.Result;
 import com.nhn.tardis.sample.protocol.Result.ErrorCode;
 import com.nhn.tardis.sample.protocol.User;
-import com.nhn.tardis.sample.redis.RedisHelperService;
+import com.nhn.tardis.sample.redis.RedisHelper;
+import com.nhn.tardis.sample.space.GameNode;
 import com.nhn.tardis.sample.space.game.multi.roommatch.model.UnlimitedTapRoomInfo;
 import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakePositionInfo;
 import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakeRoomInfo;
@@ -27,6 +28,7 @@ import com.nhnent.tardis.common.serializer.KryoSerializer;
 import com.nhnent.tardis.console.PacketDispatcher;
 import com.nhnent.tardis.console.space.IUser;
 import com.nhnent.tardis.console.space.MatchRoomResult;
+import com.nhnent.tardis.console.space.SpaceNodeAgent;
 import com.nhnent.tardis.console.space.UserAgent;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -133,7 +135,7 @@ public class GameUser extends UserAgent implements IUser, ITimerHandler {
                     isSuccess = true;
 
                     // 로그인한 유저 데이터 레디스에 세팅
-                    boolean isRedisSuccess = RedisHelperService.getInstance().setUserData(gameUserInfo);
+                    boolean isRedisSuccess = ((GameNode)SpaceNodeAgent.getInstance()).getRedisHelper().setUserData(gameUserInfo);
                     if (!isRedisSuccess) {
                         logger.warn("Redis setUserData fail!!! {} ", gameUserInfo);
                     }

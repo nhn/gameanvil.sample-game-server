@@ -4,12 +4,14 @@ import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhn.tardis.sample.protocol.GameSingle;
 import com.nhn.tardis.sample.protocol.Result;
 import com.nhn.tardis.sample.protocol.Result.ErrorCode;
-import com.nhn.tardis.sample.redis.RedisHelperService;
+import com.nhn.tardis.sample.redis.RedisHelper;
+import com.nhn.tardis.sample.space.GameNode;
 import com.nhn.tardis.sample.space.user.GameUser;
 import com.nhn.tardis.sample.space.user.model.GameUserInfo;
 import com.nhn.tardis.sample.space.user.model.SingleRankingInfo;
 import com.nhnent.tardis.common.Packet;
 import com.nhnent.tardis.console.IPacketHandler;
+import com.nhnent.tardis.console.space.SpaceNodeAgent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +30,8 @@ public class CmdSingleScoreRankingReq implements IPacketHandler<GameUser> {
         Result.ErrorCode resultCode = ErrorCode.UNKNOWN;
 
         GameSingle.ScoreRankingRes.Builder scoreRankingRes = GameSingle.ScoreRankingRes.newBuilder();
+
+        RedisHelper redisHelper = ((GameNode)SpaceNodeAgent.getInstance()).getRedisHelper();
         try {
             // 유저가 랭키이 리스트
             GameSingle.ScoreRankingReq scoreRankingReq = GameSingle.ScoreRankingReq.parseFrom(packet.getStream());
@@ -39,11 +43,11 @@ public class CmdSingleScoreRankingReq implements IPacketHandler<GameUser> {
                 }
 
                 // 랭킹 리스트
-                Map<String, SingleRankingInfo> rankingInfoMap = RedisHelperService.getInstance().getSingleRanking(start, scoreRankingReq.getEnd() - 1);
+                Map<String, SingleRankingInfo> rankingInfoMap = redisHelper.getSingleRanking(start, scoreRankingReq.getEnd() - 1);
 
-                if (rankingInfoMap != null) {
+                if (rankingInfoMap != null && !rankingInfoMap.isEmpty()) {
                     // 랭킹 유저 정보 리스트
-                    List<GameUserInfo> userDataList = RedisHelperService.getInstance().getUserData(new ArrayList<>(rankingInfoMap.keySet()));
+                    List<GameUserInfo> userDataList = redisHelper.getUserData(new ArrayList<>(rankingInfoMap.keySet()));
 
                     // 랭킹 리스트와 유저 정보를 가지고 응답용 랭킹 리스트 작성
                     for (Entry<String, SingleRankingInfo> singleRankingInfoEntry : rankingInfoMap.entrySet()) {

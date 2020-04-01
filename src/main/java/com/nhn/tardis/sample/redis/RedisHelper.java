@@ -27,14 +27,8 @@ import org.slf4j.Logger;
 /**
  * 레디스 처리 하는 서비스
  */
-public enum RedisHelperService {
-    INSTANCE;
-
-    public static RedisHelperService getInstance() {
-        return INSTANCE;
-    }
-
-    private static final Logger logger = getLogger(RedisHelperService.class);
+public class RedisHelper {
+    private static final Logger logger = getLogger(RedisHelper.class);
 
     public static final String REDIS_SINGLE_SCORE_KEY = "taptap_single_score";
     public static final String REDIS_USER_DATA_KEY = "taptap_user_data";
@@ -73,7 +67,6 @@ public enum RedisHelperService {
         if (logger.isTraceEnabled()) {
             logger.trace("onShutdown");
         }
-
     }
 
     /**
