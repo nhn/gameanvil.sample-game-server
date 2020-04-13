@@ -1,9 +1,11 @@
 # VM Options
 -Dco.paralleluniverse.fibers.detectRunawayFibers=false
 -Dco.paralleluniverse.fibers.verifyInstrumentation=false
--javaagent:.\src\main\resources\META-INF\quasar-core-0.7.10-jdk8.jar
--Xms4096m
--Xmx4096m
+-Xms6g
+-Xmx6g
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=100
+-XX:+UseStringDeduplication
 
 # Program Arguments
 src/main/resources/
