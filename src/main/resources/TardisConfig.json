@@ -7,7 +7,12 @@
     "meetEndPoints": ["127.0.0.1:16000"], // 대상 노드의 common IP와 communicatePort 등록. (해당 서버 endpoint 포함가능 , 리스트로 여러개 가능)
     "communicatePort": 16000, // 다른 communication node 와 통신할때 사용되는 port
     "publisherPort" : 13300, // publish socket 을 위한 port
-    "debugMode": true //디버깅시 각종 timeout 이 발생안하도록 하는 옵션 , 리얼에서는 반드시 false 이어야 한다.
+    "debugMode": false, //디버깅시 각종 timeout 이 발생안하도록 하는 옵션 , 리얼에서는 반드시 false 이어야 한다.
+    "allocatorType": 4
+    //    ("1") POOLED_DIRECT_BUFFER,
+    //    ("2") POOLED_HEAP_BUFFER,
+    //    ("3") UNPOOLED_DIRECT_BUFFER,
+    //    ("4") UNPOOLED_HEAP_BUFFER,
   },
 
   //-------------------------------------------------------------------------------------

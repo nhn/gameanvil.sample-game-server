@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.nhnent.tardis.common.internal.RestObject;
 import com.nhnent.tardis.common.util.TardisUtil;
 import com.nhnent.tardis.console.IRestPacketHandler;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
@@ -53,6 +54,8 @@ public class CmdLaunching implements IRestPacketHandler {
         // 응답 코드와 메세지 정의
         jsonObject.addProperty("status", stateCode);
         jsonObject.addProperty("message", responseMessage);
+
+//        restObject.setResponseStatus(HttpResponseStatus.BAD_REQUEST);
 
         // 결과 응답
         restObject.writeString(TardisUtil.Gson().toJson(jsonObject));   // tardis에서 제공하는 Gson사용
