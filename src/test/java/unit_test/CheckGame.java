@@ -48,7 +48,8 @@ public class CheckGame {
     public static void configuration() {
 
         // 테스트 하려는 서버의 IP 와 Port 를 지정합니다.
-        Config.addRemoteInfo("10.77.35.47", 11200);
+//        Config.addRemoteInfo("10.77.35.47", 11200);
+        Config.addRemoteInfo("127.0.0.1", 11200);
         Config.WAIT_RECV_TIMEOUT_MSEC = 3000;
 
         // 커넥터와, Base 프로토콜 사용 편의를 위해 Helper 를 생성합니다.
@@ -74,7 +75,7 @@ public class CheckGame {
             ConnectorSession session = connector.addSession(connector.getIncrementedValue("user_"), connector.makeUniqueId());
 
             // 인증 검증을 위한 토큰 정보 생성
-            Authentication.AuthenticationReq.Builder authenticationReq = Authentication.AuthenticationReq.newBuilder().setAccessToken("TapTap_accessToken!!!!");
+            Authentication.AuthenticationReq.Builder authenticationReq = Authentication.AuthenticationReq.newBuilder().setAccessToken("TapTap_AccessToken!!!!");
 
             // 인증을 진행.
             AuthenticationResult authResult = session.authentication(session.getAccountId(), authenticationReq);

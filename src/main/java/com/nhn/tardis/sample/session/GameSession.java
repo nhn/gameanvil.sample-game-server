@@ -60,7 +60,7 @@ public class GameSession extends SessionAgent implements ISession<GameSessionUse
                     } else {
                         logger.info("onAuthenticate Success. token:{}", authenticationReq.getAccessToken());
 
-                        if (authenticationReq.getAccessToken().equals("TapTap_AccessToken")) {
+                        if (authenticationReq.getAccessToken().startsWith("TapTap_AccessToken")) {
                             // 플랫폼 테스트용 토큰 - 검증없이 정상 처리
                             resultCode = ErrorCode.NONE;
                         } else {

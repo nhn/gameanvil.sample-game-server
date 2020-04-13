@@ -34,7 +34,8 @@ public class Stress {
     public static void configuration() {
 
         // 테스트 하려는 서버의 IP 와 Port 를 지정합니다.
-        Config.addRemoteInfo("10.77.35.47", 11200);
+//        Config.addRemoteInfo("10.77.35.47", 11200);
+        Config.addRemoteInfo("127.0.0.1", 11200);
 
         // 패킷 수신에 대한 타임아웃 시간을 지정합니다. (밀리초)
         Config.WAIT_RECV_TIMEOUT_MSEC = 5000; // [default 3000]

@@ -26,14 +26,14 @@
         <dependency>
             <groupId>com.nhnent.tardis</groupId>
             <artifactId>tardis</artifactId>
-            <version>0.10.0.2-pre</version>
+            <version>0.10.0.2-AOT</version>
         </dependency>
 
         <!-- java connector -->
         <dependency>
             <groupId>com.nhnent.tardis</groupId>
             <artifactId>tardis-test-agent</artifactId>
-            <version>0.10.0.0</version>
+            <version>0.10.0.2</version>
         </dependency>
 
         <!-- junit -->
@@ -55,6 +55,25 @@
 
     <build>
         <plugins>
+            <!--Quasar AOT Instrumentation-->
+            <plugin>
+                <groupId>com.vlkan</groupId>
+                <artifactId>quasar-maven-plugin</artifactId>
+                <version>0.7.9</version>
+                <configuration>
+                    <check>true</check>
+                    <debug>true</debug>
+                    <verbose>true</verbose>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>instrument</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.2</version>
@@ -128,7 +147,7 @@
                     <executable>java</executable>
                     <arguments>
                         <!-- quasar -->
-                        <argument>-javaagent:${project.basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}META-INF${file.separator}quasar-core-0.7.10-jdk8.jar=mb</argument>
+                        <!--<argument>-javaagent:${project.basedir}${file.separator}src${file.separator}main${file.separator}resources${file.separator}META-INF${file.separator}quasar-core-0.7.10-jdk8.jar=mb</argument>-->
                         <!-- Main class -->
                         <argument>com.nhnent.tardis.chat.Main</argument>
                     </arguments>
