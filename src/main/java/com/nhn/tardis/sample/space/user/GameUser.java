@@ -9,7 +9,6 @@ import com.nhn.tardis.sample.protocol.GameSingle;
 import com.nhn.tardis.sample.protocol.Result;
 import com.nhn.tardis.sample.protocol.Result.ErrorCode;
 import com.nhn.tardis.sample.protocol.User;
-import com.nhn.tardis.sample.redis.RedisHelper;
 import com.nhn.tardis.sample.space.GameNode;
 import com.nhn.tardis.sample.space.game.multi.roommatch.model.UnlimitedTapRoomInfo;
 import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakePositionInfo;
@@ -256,11 +255,13 @@ public class GameUser extends UserAgent implements IUser, ITimerHandler {
             // 원래 있던 room에 다시 join 하는것을 허용하거나, moveRoom 옵션이 false 일 경우에는 하지 않아도 된다.
             //terms.setRoomId(getRoomIdBeforeMove());
             String matchingGroup = getChannelId();
+
             return matchRoom(matchingGroup, roomType, terms);
         } catch (Exception e) {
             logger.error("GameUser::onMatchRoom()", e);
+            return MatchRoomResult.createFailure();
         }
-        return null;
+//        return null;
     }
 
     /**

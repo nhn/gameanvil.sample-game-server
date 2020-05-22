@@ -26,7 +26,7 @@
     </environment>
   </environments>
   <mappers>
-    <!-- 정의된 SQL구문을 맵핑해준다. -->
-    <mapper resource="mybatis/UserDataMapper.xml"/>
+    <!-- 정의된 SQL구문을 맵핑해준다. 해당 폴더에 있는 xml을 사용한다.-->
+    <package name="com/nhn/tardis/sample/mybatis/mappers"/>
   </mappers>
 </configuration>
