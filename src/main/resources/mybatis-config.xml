@@ -26,7 +26,9 @@
     </environment>
   </environments>
   <mappers>
-    <!-- 정의된 SQL구문을 맵핑해준다. 해당 폴더에 있는 xml을 사용한다.-->
-    <package name="com/nhn/tardis/sample/mybatis/mappers"/>
+    <!-- 정의된 SQL구문을 맵핑해준다. 기본적으로 리소스 안에 있는 mapper.xml을 사용 할때-->
+    <mapper resource="query/UserDataMapper.xml"/>
+    <!-- 외부 지정된 mapper.xml 파일을 지정할때는 전체 경로 지정을 사용한다. -->
+    <!--<mapper url="file:///C:/_KevinProjects/GameServerEngine/sample-game-server/target/query/UserDataMapper.xml"/>-->
   </mappers>
 </configuration>

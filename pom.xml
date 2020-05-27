@@ -43,7 +43,7 @@
       <version>4.12</version>
     </dependency>
 
-    <!-- mybatis -->
+    <!-- query -->
     <dependency>
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis</artifactId>
@@ -166,10 +166,13 @@
               <tasks>
                 <copy todir="target/config/" overwrite="false">
                   <fileset dir="target/classes/">
-                    <include name="TardisConfig.json" />
                     <include name="logback.xml" />
+                    <include name="mybatis-config.xml" />
+                    <include name="TardisConfig.json" />
                   </fileset>
-                  <fileset dir="target/classes/mybatis/">
+                </copy>
+                <copy todir="target/query/" overwrite="false">
+                  <fileset dir="target/classes/query/">
                     <include name="*.xml" />
                   </fileset>
                 </copy>
@@ -186,13 +189,6 @@
     <resources>
       <resource>
         <directory>src/main/resources</directory>
-      </resource>
-      <resource>
-        <directory>src/main/java</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-        <filtering>true</filtering>
       </resource>
     </resources>
   </build>

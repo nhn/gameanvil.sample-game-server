@@ -28,10 +28,11 @@
         <appender-ref ref="FILE" />
     </appender>
 
-    <logger name="com.nhnent.tardis" level="DEBUG" />
+    <logger name="com.nhnent.tardis" level="INFO"/>
+    <logger name="com.nhn.tardis.sample" level="DEBUG"/>
 
     <root>
-        <level value="DEBUG"/>
+        <level value="WARN"/>
         <appender-ref ref="ASYNC"/>
         <appender-ref ref="STDOUT"/>
     </root>

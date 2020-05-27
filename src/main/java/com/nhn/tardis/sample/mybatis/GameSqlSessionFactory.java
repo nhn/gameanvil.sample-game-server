@@ -35,8 +35,8 @@ public class GameSqlSessionFactory {
                     sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
                 }
             } else {    // 파라미터 전달이없는 경우 내부 파일에서 설정 얻는다
-                Reader reader = Resources.getResourceAsReader("mybatis/mybatis-taptap-config.xml");
-                logger.info("load to resource : mybatis/mybatis-taptap-config.xml");
+                Reader reader = Resources.getResourceAsReader("mybatis-config.xml");
+                logger.info("load to resource : mybatis-config.xml");
                 // sqlSessionFactory가 존재하지 않는다면 생성한다.
                 if (sqlSessionFactory == null) {
                     sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader);
