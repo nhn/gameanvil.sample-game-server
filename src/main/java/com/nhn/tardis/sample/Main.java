@@ -19,7 +19,7 @@ import com.nhn.tardis.sample.space.game.multi.usermatch.SnakeRoomMatchMaker;
 import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakeRoomInfo;
 import com.nhn.tardis.sample.space.game.single.SingleGameRoom;
 import com.nhn.tardis.sample.space.user.GameUser;
-import com.nhnent.tardis.console.TardisBootstrap;
+import com.nhnent.tardis.TardisBootstrap;
 
 public class Main {
 
@@ -34,20 +34,20 @@ public class Main {
         bootstrap.addProtoBufClass(4, User.getDescriptor());
 
         // 게임에서 사용하는 DB 쓰레드풀 지정
-        bootstrap.createExcutorService(GameConstants.DB_THREAD_POOL, 20);
+        bootstrap.createExecutorService(GameConstants.DB_THREAD_POOL, 20);
         // 게임에서 사용하는 레디스 쓰레드풀 지정
-        bootstrap.createExcutorService(GameConstants.REDIS_THREAD_POOL, 20);
+        bootstrap.createExecutorService(GameConstants.REDIS_THREAD_POOL, 20);
 
 
         // 세션설정
         bootstrap.setSession()
-            .session(GameSession.class)
-            .user(GameSessionUser.class)
+            .connection(GameSession.class)
+            .session(GameSessionUser.class)
             .node(GameSessionNode.class)
             .enableWhiteModules();
 
         // 게임 스페이스 설정
-        bootstrap.setSpace(GameConstants.GAME_SPACE_NAME)
+        bootstrap.setGame(GameConstants.GAME_SPACE_NAME)
             .node(GameNode.class)
 
             // 싱글 게임
@@ -63,7 +63,7 @@ public class Main {
             .userMatchMaker(GameConstants.SPACE_ROOM_TYPE_MULTI_USER_MATCH, SnakeRoomMatchMaker.class, SnakeRoomInfo.class);
 
         // 서비스 설정
-        bootstrap.setService(GameConstants.SERVICE_NAME_LAUNCHING)
+        bootstrap.setSupport(GameConstants.SERVICE_NAME_LAUNCHING)
             .node(LaunchingService.class);
 
         bootstrap.run();

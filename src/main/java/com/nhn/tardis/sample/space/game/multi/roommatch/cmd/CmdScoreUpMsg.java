@@ -4,15 +4,15 @@ import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhn.tardis.sample.protocol.GameMulti;
 import com.nhn.tardis.sample.space.game.multi.roommatch.UnlimitedTapRoom;
 import com.nhn.tardis.sample.space.user.GameUser;
-import com.nhnent.tardis.common.Packet;
-import com.nhnent.tardis.console.space.IRoomPacketHandler;
+import com.nhnent.tardis.node.game.RoomPacketHandler;
+import com.nhnent.tardis.packet.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 룸안에서 유저가 점수 획득했을때 전송, send 로 받아서 처리후 모든 유저에게 send 로 broadcast 처리
  */
-public class CmdScoreUpMsg implements IRoomPacketHandler<UnlimitedTapRoom, GameUser> {
+public class CmdScoreUpMsg implements RoomPacketHandler<UnlimitedTapRoom, GameUser> {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override

@@ -3,18 +3,17 @@ package com.nhn.tardis.sample.space;
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhn.tardis.sample.common.GameConstants;
 import com.nhn.tardis.sample.redis.RedisHelper;
-import com.nhnent.tardis.common.Packet;
-import com.nhnent.tardis.common.Payload;
-import com.nhnent.tardis.common.internal.PauseType;
-import com.nhnent.tardis.console.space.ChannelUpdateType;
-import com.nhnent.tardis.console.space.IChannelUserInfo;
-import com.nhnent.tardis.console.space.IRoomInfo;
-import com.nhnent.tardis.console.space.ISpaceNode;
-import com.nhnent.tardis.console.space.SpaceNodeAgent;
+import com.nhnent.tardis.define.PauseType;
+import com.nhnent.tardis.node.game.BaseGameNode;
+import com.nhnent.tardis.node.game.data.ChannelUpdateType;
+import com.nhnent.tardis.node.game.data.ChannelUserInfo;
+import com.nhnent.tardis.node.game.data.RoomInfo;
+import com.nhnent.tardis.packet.Packet;
+import com.nhnent.tardis.packet.Payload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GameNode extends SpaceNodeAgent implements ISpaceNode {
+public class GameNode extends BaseGameNode {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private RedisHelper redisHelper;
 
@@ -63,13 +62,18 @@ public class GameNode extends SpaceNodeAgent implements ISpaceNode {
     }
 
     @Override
-    public void onChannelUserUpdate(ChannelUpdateType type, IChannelUserInfo channelUserInfo, String userId) throws SuspendExecution {
+    public void onChannelUserUpdate(ChannelUpdateType type, ChannelUserInfo channelUserInfo, String userId) throws SuspendExecution {
         logger.info("onChannelUserUpdate");
     }
 
     @Override
-    public void onChannelRoomUpdate(ChannelUpdateType type, IRoomInfo channelRoomInfo, String roomId) throws SuspendExecution {
+    public void onChannelRoomUpdate(ChannelUpdateType type, RoomInfo channelRoomInfo, String roomId) throws SuspendExecution {
         logger.info("onChannelRoomUpdate");
+    }
+
+    @Override
+    public void onChannelInfo(Payload outPayload) throws SuspendExecution {
+        logger.info("onChannelInfo");
     }
 
     public RedisHelper getRedisHelper() {

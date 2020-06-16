@@ -6,21 +6,20 @@ import com.nhn.tardis.sample.gamebase.rest.AuthenticationResponse;
 import com.nhn.tardis.sample.protocol.Authentication;
 import com.nhn.tardis.sample.protocol.Result;
 import com.nhn.tardis.sample.protocol.Result.ErrorCode;
-import com.nhnent.tardis.common.Packet;
-import com.nhnent.tardis.common.Payload;
-import com.nhnent.tardis.common.internal.PauseType;
-import com.nhnent.tardis.console.PacketDispatcher;
-import com.nhnent.tardis.console.session.ISession;
-import com.nhnent.tardis.console.session.SessionAgent;
-import com.nhnent.tardis.console.sonic.HttpRequest;
-import com.nhnent.tardis.console.sonic.HttpResponse;
+import com.nhnent.tardis.assist.rest.HttpRequest;
+import com.nhnent.tardis.assist.rest.HttpResponse;
+import com.nhnent.tardis.define.PauseType;
+import com.nhnent.tardis.node.gateway.BaseConnection;
+import com.nhnent.tardis.packet.Packet;
+import com.nhnent.tardis.packet.PacketDispatcher;
+import com.nhnent.tardis.packet.Payload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 인증 처리
  */
-public class GameSession extends SessionAgent implements ISession<GameSessionUser> {
+public class GameSession extends BaseConnection<GameSessionUser> {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private static PacketDispatcher packetDispatcher = new PacketDispatcher();
 
@@ -81,6 +80,7 @@ public class GameSession extends SessionAgent implements ISession<GameSessionUse
                             } else {
                                 resultCode = ErrorCode.TOKEN_NOT_VALIDATED;
                             }
+                            logger.info("gamebaseResponse response:[{}]", gamebaseResponse);
                             //------------------------------------
                         }
                     }

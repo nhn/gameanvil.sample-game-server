@@ -6,15 +6,15 @@ import com.nhn.tardis.sample.protocol.GameMulti.SnakePositionData;
 import com.nhn.tardis.sample.space.game.multi.usermatch.SnakeRoom;
 import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakePositionInfo;
 import com.nhn.tardis.sample.space.user.GameUser;
-import com.nhnent.tardis.common.Packet;
-import com.nhnent.tardis.console.space.IRoomPacketHandler;
+import com.nhnent.tardis.node.game.RoomPacketHandler;
+import com.nhnent.tardis.packet.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * snake 게임에서 유저가 food 먹어서 삭제 했을때 상대방에게도 싱크 처리
  */
-public class CmdSnakeRemoveFoodMsg implements IRoomPacketHandler<SnakeRoom, GameUser> {
+public class CmdSnakeRemoveFoodMsg implements RoomPacketHandler<SnakeRoom, GameUser> {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
 

@@ -6,14 +6,13 @@ import com.nhn.tardis.sample.protocol.GameMulti.TapBirdUserData;
 import com.nhn.tardis.sample.space.game.multi.roommatch.cmd.CmdScoreUpMsg;
 import com.nhn.tardis.sample.space.game.multi.roommatch.model.UnlimitedTapRoomInfo;
 import com.nhn.tardis.sample.space.user.GameUser;
-import com.nhnent.tardis.common.Packet;
-import com.nhnent.tardis.common.Payload;
-import com.nhnent.tardis.common.internal.ITimerHandler;
-import com.nhnent.tardis.common.internal.ITimerObject;
-import com.nhnent.tardis.common.serializer.KryoSerializer;
-import com.nhnent.tardis.console.space.IRoom;
-import com.nhnent.tardis.console.space.RoomAgent;
-import com.nhnent.tardis.console.space.RoomPacketDispatcher;
+import com.nhnent.tardis.node.game.BaseRoom;
+import com.nhnent.tardis.node.game.RoomPacketDispatcher;
+import com.nhnent.tardis.packet.Packet;
+import com.nhnent.tardis.packet.Payload;
+import com.nhnent.tardis.serializer.KryoSerializer;
+import com.nhnent.tardis.timer.Timer;
+import com.nhnent.tardis.timer.TimerHandler;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 멀티 룸매치 룸 - 4인 게임 설정, 혼자서도 할수 있고 4명까지도 할수 있다, 계속 게임을 하는 방
  */
-public class UnlimitedTapRoom extends RoomAgent implements IRoom<GameUser>, ITimerHandler {
+public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private static RoomPacketDispatcher dispatcher = new RoomPacketDispatcher();
@@ -197,7 +196,7 @@ public class UnlimitedTapRoom extends RoomAgent implements IRoom<GameUser>, ITim
     }
 
     @Override
-    public void onTimer(ITimerObject iTimerObject, Object arg) throws SuspendExecution {
+    public void onTimer(Timer timer, Object arg) throws SuspendExecution {
         logger.info("onTimer - RoomId : {}", getId());
     }
 

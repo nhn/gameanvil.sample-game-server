@@ -10,14 +10,13 @@ import com.nhn.tardis.sample.space.game.multi.usermatch.cmd.CmdSnakeUserMsg;
 import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakePositionInfo;
 import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakeRoomTransferInfo;
 import com.nhn.tardis.sample.space.user.GameUser;
-import com.nhnent.tardis.common.Packet;
-import com.nhnent.tardis.common.Payload;
-import com.nhnent.tardis.common.internal.ITimerHandler;
-import com.nhnent.tardis.common.internal.ITimerObject;
-import com.nhnent.tardis.common.serializer.KryoSerializer;
-import com.nhnent.tardis.console.space.IRoom;
-import com.nhnent.tardis.console.space.RoomAgent;
-import com.nhnent.tardis.console.space.RoomPacketDispatcher;
+import com.nhnent.tardis.node.game.BaseRoom;
+import com.nhnent.tardis.node.game.RoomPacketDispatcher;
+import com.nhnent.tardis.packet.Packet;
+import com.nhnent.tardis.packet.Payload;
+import com.nhnent.tardis.serializer.KryoSerializer;
+import com.nhnent.tardis.timer.Timer;
+import com.nhnent.tardis.timer.TimerHandler;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 유저 매치 snake 게임, 2인 플레이
  */
-public class SnakeRoom extends RoomAgent implements IRoom<GameUser>, ITimerHandler {
+public class SnakeRoom extends BaseRoom<GameUser> implements TimerHandler {
     private static final int FOOD_MAX_COUNT = 200;
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -236,12 +235,12 @@ public class SnakeRoom extends RoomAgent implements IRoom<GameUser>, ITimerHandl
     /**
      * 서버에서 주기적으로 치리
      *
-     * @param iTimerObject
-     * @param arg          - onTimer 호출시 ,timer 를 등록할때 넘겨준 값을 timerObject 로 전달한다.
+     * @param timer
+     * @param arg   - onTimer 호출시 ,timer 를 등록할때 넘겨준 값을 timerObject 로 전달한다.
      * @throws SuspendExecution
      */
     @Override
-    public void onTimer(ITimerObject iTimerObject, Object arg) throws SuspendExecution {
+    public void onTimer(Timer timer, Object arg) throws SuspendExecution {
         if (foodList.size() < FOOD_MAX_COUNT) {
             SnakePositionInfo newFood = null;
             boolean isDuplicate = false;

@@ -1,21 +1,19 @@
 package com.nhn.tardis.sample.session;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhnent.tardis.common.Packet;
-import com.nhnent.tardis.common.Payload;
-import com.nhnent.tardis.common.internal.ITimerHandler;
-import com.nhnent.tardis.common.internal.ITimerObject;
-import com.nhnent.tardis.common.internal.PauseType;
-import com.nhnent.tardis.console.session.ISessionNode;
-import com.nhnent.tardis.console.session.SessionNodeAgent;
+import com.nhnent.tardis.define.PauseType;
+import com.nhnent.tardis.node.gateway.BaseGatewayNode;
+import com.nhnent.tardis.packet.Packet;
+import com.nhnent.tardis.packet.Payload;
+import com.nhnent.tardis.timer.Timer;
+import com.nhnent.tardis.timer.TimerHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 세션과 세션 유저 관리 처리
  */
-public class GameSessionNode extends SessionNodeAgent implements ISessionNode, ITimerHandler {
-
+public class GameSessionNode extends BaseGatewayNode implements TimerHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
@@ -55,7 +53,7 @@ public class GameSessionNode extends SessionNodeAgent implements ISessionNode, I
     }
 
     @Override
-    public void onTimer(ITimerObject timerObject, Object arg) throws SuspendExecution {
+    public void onTimer(Timer timerObject, Object arg) throws SuspendExecution {
         logger.info("onTimer - message : {}", arg);
     }
 }

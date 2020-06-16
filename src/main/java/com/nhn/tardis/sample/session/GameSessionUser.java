@@ -1,17 +1,16 @@
 package com.nhn.tardis.sample.session;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhnent.tardis.common.Packet;
-import com.nhnent.tardis.console.PacketDispatcher;
-import com.nhnent.tardis.console.session.ISessionUser;
-import com.nhnent.tardis.console.session.SessionUserAgent;
+import com.nhnent.tardis.node.gateway.BaseSession;
+import com.nhnent.tardis.packet.Packet;
+import com.nhnent.tardis.packet.PacketDispatcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 세션유저
  */
-public class GameSessionUser extends SessionUserAgent implements ISessionUser {
+public class GameSessionUser extends BaseSession {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     private static PacketDispatcher packetDispatcher = new PacketDispatcher();

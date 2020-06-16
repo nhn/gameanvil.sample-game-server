@@ -1,6 +1,6 @@
 package com.nhn.tardis.sample.space.game.multi.usermatch.model;
 
-import com.nhnent.tardis.console.space.UserMatchInfo;
+import com.nhnent.tardis.node.match.UserMatchInfo;
 import java.io.Serializable;
 
 /**

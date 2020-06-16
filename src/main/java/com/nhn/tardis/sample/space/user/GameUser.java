@@ -18,17 +18,15 @@ import com.nhn.tardis.sample.space.user.cmd.CmdShuffleDeckReq;
 import com.nhn.tardis.sample.space.user.cmd.CmdSingleScoreRankingReq;
 import com.nhn.tardis.sample.space.user.model.GameUserInfo;
 import com.nhn.tardis.sample.space.user.model.GameUserTransferInfo;
-import com.nhnent.tardis.common.Packet;
-import com.nhnent.tardis.common.Payload;
-import com.nhnent.tardis.common.internal.ITimerHandler;
-import com.nhnent.tardis.common.internal.ITimerObject;
-import com.nhnent.tardis.common.internal.PauseType;
-import com.nhnent.tardis.common.serializer.KryoSerializer;
-import com.nhnent.tardis.console.PacketDispatcher;
-import com.nhnent.tardis.console.space.IUser;
-import com.nhnent.tardis.console.space.MatchRoomResult;
-import com.nhnent.tardis.console.space.SpaceNodeAgent;
-import com.nhnent.tardis.console.space.UserAgent;
+import com.nhnent.tardis.define.PauseType;
+import com.nhnent.tardis.node.game.BaseUser;
+import com.nhnent.tardis.node.game.data.MatchRoomResult;
+import com.nhnent.tardis.packet.Packet;
+import com.nhnent.tardis.packet.PacketDispatcher;
+import com.nhnent.tardis.packet.Payload;
+import com.nhnent.tardis.serializer.KryoSerializer;
+import com.nhnent.tardis.timer.Timer;
+import com.nhnent.tardis.timer.TimerHandler;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -40,7 +38,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 게임에서 사용 하는 게임 유저 객체
  */
-public class GameUser extends UserAgent implements IUser, ITimerHandler {
+public class GameUser extends BaseUser implements TimerHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     static private PacketDispatcher packetDispatcher = new PacketDispatcher();
@@ -134,7 +132,9 @@ public class GameUser extends UserAgent implements IUser, ITimerHandler {
                     isSuccess = true;
 
                     // 로그인한 유저 데이터 레디스에 세팅
-                    boolean isRedisSuccess = ((GameNode)SpaceNodeAgent.getInstance()).getRedisHelper().setUserData(gameUserInfo);
+
+                    boolean isRedisSuccess = ((GameNode)GameNode.getInstance()).getRedisHelper().setUserData(gameUserInfo);
+
                     if (!isRedisSuccess) {
                         logger.warn("Redis setUserData fail!!! {} ", gameUserInfo);
                     }
@@ -163,6 +163,12 @@ public class GameUser extends UserAgent implements IUser, ITimerHandler {
     @Override
     public boolean onReLogin(Payload payload, Payload accountPayload, Payload outPayload) throws SuspendExecution {
         logger.debug("onReLogin - UserId : {}, payload {}, accountPayload {}, outPayload{}", getUserId(), payload, accountPayload, outPayload);
+
+        // 로그인 처리후 클라이언트에 응답 프로토콜 작성
+        Authentication.LoginRes.Builder loginRes = Authentication.LoginRes.newBuilder();
+        loginRes.setUserdata(getUserDataByProto()); // 유저 데이터
+
+        outPayload.add(new Packet(loginRes));
         return true;
     }
 
@@ -210,7 +216,7 @@ public class GameUser extends UserAgent implements IUser, ITimerHandler {
     }
 
     @Override
-    public void onTimer(ITimerObject iTimerObject, Object o) throws SuspendExecution {
+    public void onTimer(Timer timer, Object o) throws SuspendExecution {
         logger.debug("onTimer - UserId : {}", getUserId());
     }
 
@@ -261,7 +267,6 @@ public class GameUser extends UserAgent implements IUser, ITimerHandler {
             logger.error("GameUser::onMatchRoom()", e);
             return MatchRoomResult.createFailure();
         }
-//        return null;
     }
 
     /**

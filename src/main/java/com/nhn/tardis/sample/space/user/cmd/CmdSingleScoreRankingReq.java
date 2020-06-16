@@ -9,9 +9,8 @@ import com.nhn.tardis.sample.space.GameNode;
 import com.nhn.tardis.sample.space.user.GameUser;
 import com.nhn.tardis.sample.space.user.model.GameUserInfo;
 import com.nhn.tardis.sample.space.user.model.SingleRankingInfo;
-import com.nhnent.tardis.common.Packet;
-import com.nhnent.tardis.console.IPacketHandler;
-import com.nhnent.tardis.console.space.SpaceNodeAgent;
+import com.nhnent.tardis.packet.Packet;
+import com.nhnent.tardis.packet.PacketHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 싱글 점수 랭킹 목록 응답
  */
-public class CmdSingleScoreRankingReq implements IPacketHandler<GameUser> {
+public class CmdSingleScoreRankingReq implements PacketHandler<GameUser> {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
@@ -31,7 +30,7 @@ public class CmdSingleScoreRankingReq implements IPacketHandler<GameUser> {
 
         GameSingle.ScoreRankingRes.Builder scoreRankingRes = GameSingle.ScoreRankingRes.newBuilder();
 
-        RedisHelper redisHelper = ((GameNode)SpaceNodeAgent.getInstance()).getRedisHelper();
+        RedisHelper redisHelper = ((GameNode)GameNode.getInstance()).getRedisHelper();
         try {
             // 유저가 랭키이 리스트
             GameSingle.ScoreRankingReq scoreRankingReq = GameSingle.ScoreRankingReq.parseFrom(packet.getStream());

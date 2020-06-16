@@ -5,15 +5,15 @@ import com.nhn.tardis.sample.mybatis.UserDbHelperService;
 import com.nhn.tardis.sample.protocol.Result.ErrorCode;
 import com.nhn.tardis.sample.protocol.User;
 import com.nhn.tardis.sample.space.user.GameUser;
-import com.nhnent.tardis.common.Packet;
-import com.nhnent.tardis.console.IPacketHandler;
+import com.nhnent.tardis.packet.Packet;
+import com.nhnent.tardis.packet.PacketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 유저가 닉네임 변경 서버갱신, DB저장, request 형식으로 전달되어 서버에서 처리후 reply 처리가 되어야 한다.
  */
-public class CmdChangeNicknameReq implements IPacketHandler<GameUser> {
+public class CmdChangeNicknameReq implements PacketHandler<GameUser> {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

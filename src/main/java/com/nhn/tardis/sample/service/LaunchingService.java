@@ -2,20 +2,19 @@ package com.nhn.tardis.sample.service;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhn.tardis.sample.service.cmd.CmdLaunching;
-import com.nhnent.tardis.common.Packet;
-import com.nhnent.tardis.common.Payload;
-import com.nhnent.tardis.common.internal.PauseType;
-import com.nhnent.tardis.common.internal.RestObject;
-import com.nhnent.tardis.console.RestPacketDispatcher;
-import com.nhnent.tardis.console.service.IServiceNode;
-import com.nhnent.tardis.console.service.ServiceNodeAgent;
+import com.nhnent.tardis.define.PauseType;
+import com.nhnent.tardis.node.support.BaseSupportNode;
+import com.nhnent.tardis.packet.Packet;
+import com.nhnent.tardis.packet.Payload;
+import com.nhnent.tardis.packet.RestPacketDispatcher;
+import com.nhnent.tardis.rest.RestObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 타디스 서버 접속 전에 rest 로 접속 할수 있는 서비스
  */
-public class LaunchingService extends ServiceNodeAgent implements IServiceNode {
+public class LaunchingService extends BaseSupportNode {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private static RestPacketDispatcher restMsgHandler = new RestPacketDispatcher();
 

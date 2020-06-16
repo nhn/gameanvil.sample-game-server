@@ -1,7 +1,7 @@
 package com.nhn.tardis.sample.space.game.multi.roommatch;
 
 import com.nhn.tardis.sample.space.game.multi.roommatch.model.UnlimitedTapRoomInfo;
-import com.nhnent.tardis.console.match.RoomMatchMaker;
+import com.nhnent.tardis.node.match.RoomMatchMaker;
 import java.util.Comparator;
 import java.util.List;
 import org.slf4j.Logger;

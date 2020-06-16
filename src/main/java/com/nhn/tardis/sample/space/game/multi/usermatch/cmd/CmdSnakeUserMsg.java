@@ -6,8 +6,8 @@ import com.nhn.tardis.sample.protocol.GameMulti.SnakePositionData;
 import com.nhn.tardis.sample.space.game.multi.usermatch.SnakeRoom;
 import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakePositionInfo;
 import com.nhn.tardis.sample.space.user.GameUser;
-import com.nhnent.tardis.common.Packet;
-import com.nhnent.tardis.console.space.IRoomPacketHandler;
+import com.nhnent.tardis.node.game.RoomPacketHandler;
+import com.nhnent.tardis.packet.Packet;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 /**
  * snake 게임에서 유저의 위치 변화 데이터 전송, 상대방에게 전달
  */
-public class CmdSnakeUserMsg implements IRoomPacketHandler<SnakeRoom, GameUser> {
+public class CmdSnakeUserMsg implements RoomPacketHandler<SnakeRoom, GameUser> {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
 

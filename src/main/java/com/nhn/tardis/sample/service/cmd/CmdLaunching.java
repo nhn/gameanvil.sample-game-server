@@ -2,10 +2,9 @@ package com.nhn.tardis.sample.service.cmd;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.google.gson.JsonObject;
-import com.nhnent.tardis.common.internal.RestObject;
-import com.nhnent.tardis.common.util.TardisUtil;
-import com.nhnent.tardis.console.IRestPacketHandler;
-import io.netty.handler.codec.http.HttpResponseStatus;
+import com.nhnent.tardis.assist.TardisUtil;
+import com.nhnent.tardis.packet.RestPacketHandler;
+import com.nhnent.tardis.rest.RestObject;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
@@ -16,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * 클라이언트가 처음 접속하여, 버전 정보 점검 정보 등을 획득
  */
 
-public class CmdLaunching implements IRestPacketHandler {
+public class CmdLaunching implements RestPacketHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
