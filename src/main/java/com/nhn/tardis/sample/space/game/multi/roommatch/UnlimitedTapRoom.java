@@ -3,6 +3,7 @@ package com.nhn.tardis.sample.space.game.multi.roommatch;
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhn.tardis.sample.protocol.GameMulti;
 import com.nhn.tardis.sample.protocol.GameMulti.TapBirdUserData;
+import com.nhn.tardis.sample.protocol.User.RoomType;
 import com.nhn.tardis.sample.space.game.multi.roommatch.cmd.CmdScoreUpMsg;
 import com.nhn.tardis.sample.space.game.multi.roommatch.model.UnlimitedTapRoomInfo;
 import com.nhn.tardis.sample.space.user.GameUser;
@@ -88,6 +89,7 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
             unlimitedTapRoomInfo.setUserCurrentCount(gameUserMap.size());
             updateRoomMatchInfo(unlimitedTapRoomInfo);
 
+            outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_TAP)));
             return true;
         } catch (Exception e) {
             logger.error("onCreateRoom()", e);
@@ -123,6 +125,7 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
                 updateRoomMatchInfo(unlimitedTapRoomInfo);
 
                 isSuccess = true;
+                outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_TAP)));
             }
         } catch (Exception e) {
             gameUserMap.remove(gameUser.getUserId());
@@ -171,6 +174,7 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
     public void onRejoinRoom(GameUser gameUser, Payload outPayload) throws SuspendExecution {
         logger.info("onRejoinRoom - RoomId : {}, UserId : {}", getId(),
             gameUser.getUserId());
+        outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_TAP)));
     }
 
     @Override

@@ -80,7 +80,7 @@ public class GameSession extends BaseConnection<GameSessionUser> {
                             } else {
                                 resultCode = ErrorCode.TOKEN_NOT_VALIDATED;
                             }
-                            logger.info("gamebaseResponse response:[{}]", gamebaseResponse);
+                            logger.info("gamebaseResponse response:[{}]", gamebaseResponse.getHeader().getResultCode());
                             //------------------------------------
                         }
                     }

@@ -5,6 +5,8 @@ import com.nhn.tardis.sample.mybatis.UserDbHelperService;
 import com.nhn.tardis.sample.protocol.GameSingle;
 import com.nhn.tardis.sample.protocol.Result;
 import com.nhn.tardis.sample.protocol.Result.ErrorCode;
+import com.nhn.tardis.sample.protocol.User;
+import com.nhn.tardis.sample.protocol.User.RoomType;
 import com.nhn.tardis.sample.space.GameNode;
 import com.nhn.tardis.sample.space.game.single.cmd.CmdTapMsg;
 import com.nhn.tardis.sample.space.game.single.model.SingleTapGameInfo;
@@ -128,7 +130,7 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
     public boolean onJoinRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
         logger.info("onJoinRoom - RoomId : {}, UserId : {}", getId(),
             gameUser.getUserId());
-
+        outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_SINGLE)));
         return true;
     }
 
@@ -223,6 +225,7 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
     public void onRejoinRoom(GameUser gameUser, Payload outPayload) throws SuspendExecution {
         logger.info("onRejoinRoom - RoomId : {}, UserId : {}", getId(),
             gameUser.getUserId());
+        outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_SINGLE)));
     }
 
     @Override

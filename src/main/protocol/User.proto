@@ -10,6 +10,12 @@ enum CurrencyType {
   CURRENCY_RUBY = 2;
 }
 
+enum RoomType {
+  ROOM_SINGLE = 0;
+  ROOM_TAP = 1;
+  ROOM_SNAKE = 2;
+}
+
 // 유저 데이터
 message UserData {
   string nickname = 1;
@@ -43,3 +49,6 @@ message ChangeNicknameRes {
   UserData userData = 2;
 }
 
+message RoomInfoMsg {
+  RoomType roomType = 1;
+}

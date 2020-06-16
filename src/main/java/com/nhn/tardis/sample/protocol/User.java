@@ -121,6 +121,113 @@ public final class User {
     // @@protoc_insertion_point(enum_scope:com.nhn.tardis.sample.protocol.CurrencyType)
   }
 
+  /**
+   * Protobuf enum {@code com.nhn.tardis.sample.protocol.RoomType}
+   */
+  public enum RoomType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>ROOM_SINGLE = 0;</code>
+     */
+    ROOM_SINGLE(0),
+    /**
+     * <code>ROOM_TAP = 1;</code>
+     */
+    ROOM_TAP(1),
+    /**
+     * <code>ROOM_SNAKE = 2;</code>
+     */
+    ROOM_SNAKE(2),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>ROOM_SINGLE = 0;</code>
+     */
+    public static final int ROOM_SINGLE_VALUE = 0;
+    /**
+     * <code>ROOM_TAP = 1;</code>
+     */
+    public static final int ROOM_TAP_VALUE = 1;
+    /**
+     * <code>ROOM_SNAKE = 2;</code>
+     */
+    public static final int ROOM_SNAKE_VALUE = 2;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static RoomType valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static RoomType forNumber(int value) {
+      switch (value) {
+        case 0: return ROOM_SINGLE;
+        case 1: return ROOM_TAP;
+        case 2: return ROOM_SNAKE;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<RoomType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        RoomType> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<RoomType>() {
+            public RoomType findValueByNumber(int number) {
+              return RoomType.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.nhn.tardis.sample.protocol.User.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final RoomType[] VALUES = values();
+
+    public static RoomType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private RoomType(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:com.nhn.tardis.sample.protocol.RoomType)
+  }
+
   public interface UserDataOrBuilder extends
       // @@protoc_insertion_point(interface_extends:com.nhn.tardis.sample.protocol.UserData)
       com.google.protobuf.MessageOrBuilder {
@@ -3792,6 +3899,513 @@ public final class User {
 
   }
 
+  public interface RoomInfoMsgOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:com.nhn.tardis.sample.protocol.RoomInfoMsg)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.RoomType roomType = 1;</code>
+     */
+    int getRoomTypeValue();
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.RoomType roomType = 1;</code>
+     */
+    com.nhn.tardis.sample.protocol.User.RoomType getRoomType();
+  }
+  /**
+   * Protobuf type {@code com.nhn.tardis.sample.protocol.RoomInfoMsg}
+   */
+  public  static final class RoomInfoMsg extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:com.nhn.tardis.sample.protocol.RoomInfoMsg)
+      RoomInfoMsgOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use RoomInfoMsg.newBuilder() to construct.
+    private RoomInfoMsg(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private RoomInfoMsg() {
+      roomType_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RoomInfoMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+              int rawValue = input.readEnum();
+
+              roomType_ = rawValue;
+              break;
+            }
+            default: {
+              if (!parseUnknownFieldProto3(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_RoomInfoMsg_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_RoomInfoMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.nhn.tardis.sample.protocol.User.RoomInfoMsg.class, com.nhn.tardis.sample.protocol.User.RoomInfoMsg.Builder.class);
+    }
+
+    public static final int ROOMTYPE_FIELD_NUMBER = 1;
+    private int roomType_;
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.RoomType roomType = 1;</code>
+     */
+    public int getRoomTypeValue() {
+      return roomType_;
+    }
+    /**
+     * <code>.com.nhn.tardis.sample.protocol.RoomType roomType = 1;</code>
+     */
+    public com.nhn.tardis.sample.protocol.User.RoomType getRoomType() {
+      @SuppressWarnings("deprecation")
+      com.nhn.tardis.sample.protocol.User.RoomType result = com.nhn.tardis.sample.protocol.User.RoomType.valueOf(roomType_);
+      return result == null ? com.nhn.tardis.sample.protocol.User.RoomType.UNRECOGNIZED : result;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (roomType_ != com.nhn.tardis.sample.protocol.User.RoomType.ROOM_SINGLE.getNumber()) {
+        output.writeEnum(1, roomType_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (roomType_ != com.nhn.tardis.sample.protocol.User.RoomType.ROOM_SINGLE.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, roomType_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.nhn.tardis.sample.protocol.User.RoomInfoMsg)) {
+        return super.equals(obj);
+      }
+      com.nhn.tardis.sample.protocol.User.RoomInfoMsg other = (com.nhn.tardis.sample.protocol.User.RoomInfoMsg) obj;
+
+      boolean result = true;
+      result = result && roomType_ == other.roomType_;
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + ROOMTYPE_FIELD_NUMBER;
+      hash = (53 * hash) + roomType_;
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.nhn.tardis.sample.protocol.User.RoomInfoMsg parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.nhn.tardis.sample.protocol.User.RoomInfoMsg parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.RoomInfoMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.nhn.tardis.sample.protocol.User.RoomInfoMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.RoomInfoMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.nhn.tardis.sample.protocol.User.RoomInfoMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.RoomInfoMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.nhn.tardis.sample.protocol.User.RoomInfoMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.RoomInfoMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.nhn.tardis.sample.protocol.User.RoomInfoMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.nhn.tardis.sample.protocol.User.RoomInfoMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.nhn.tardis.sample.protocol.User.RoomInfoMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.nhn.tardis.sample.protocol.User.RoomInfoMsg prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code com.nhn.tardis.sample.protocol.RoomInfoMsg}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:com.nhn.tardis.sample.protocol.RoomInfoMsg)
+        com.nhn.tardis.sample.protocol.User.RoomInfoMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_RoomInfoMsg_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_RoomInfoMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.nhn.tardis.sample.protocol.User.RoomInfoMsg.class, com.nhn.tardis.sample.protocol.User.RoomInfoMsg.Builder.class);
+      }
+
+      // Construct using com.nhn.tardis.sample.protocol.User.RoomInfoMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        roomType_ = 0;
+
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.nhn.tardis.sample.protocol.User.internal_static_com_nhn_tardis_sample_protocol_RoomInfoMsg_descriptor;
+      }
+
+      @java.lang.Override
+      public com.nhn.tardis.sample.protocol.User.RoomInfoMsg getDefaultInstanceForType() {
+        return com.nhn.tardis.sample.protocol.User.RoomInfoMsg.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.nhn.tardis.sample.protocol.User.RoomInfoMsg build() {
+        com.nhn.tardis.sample.protocol.User.RoomInfoMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.nhn.tardis.sample.protocol.User.RoomInfoMsg buildPartial() {
+        com.nhn.tardis.sample.protocol.User.RoomInfoMsg result = new com.nhn.tardis.sample.protocol.User.RoomInfoMsg(this);
+        result.roomType_ = roomType_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.nhn.tardis.sample.protocol.User.RoomInfoMsg) {
+          return mergeFrom((com.nhn.tardis.sample.protocol.User.RoomInfoMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.nhn.tardis.sample.protocol.User.RoomInfoMsg other) {
+        if (other == com.nhn.tardis.sample.protocol.User.RoomInfoMsg.getDefaultInstance()) return this;
+        if (other.roomType_ != 0) {
+          setRoomTypeValue(other.getRoomTypeValue());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.nhn.tardis.sample.protocol.User.RoomInfoMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.nhn.tardis.sample.protocol.User.RoomInfoMsg) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int roomType_ = 0;
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.RoomType roomType = 1;</code>
+       */
+      public int getRoomTypeValue() {
+        return roomType_;
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.RoomType roomType = 1;</code>
+       */
+      public Builder setRoomTypeValue(int value) {
+        roomType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.RoomType roomType = 1;</code>
+       */
+      public com.nhn.tardis.sample.protocol.User.RoomType getRoomType() {
+        @SuppressWarnings("deprecation")
+        com.nhn.tardis.sample.protocol.User.RoomType result = com.nhn.tardis.sample.protocol.User.RoomType.valueOf(roomType_);
+        return result == null ? com.nhn.tardis.sample.protocol.User.RoomType.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.RoomType roomType = 1;</code>
+       */
+      public Builder setRoomType(com.nhn.tardis.sample.protocol.User.RoomType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        roomType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.nhn.tardis.sample.protocol.RoomType roomType = 1;</code>
+       */
+      public Builder clearRoomType() {
+        
+        roomType_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFieldsProto3(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:com.nhn.tardis.sample.protocol.RoomInfoMsg)
+    }
+
+    // @@protoc_insertion_point(class_scope:com.nhn.tardis.sample.protocol.RoomInfoMsg)
+    private static final com.nhn.tardis.sample.protocol.User.RoomInfoMsg DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.nhn.tardis.sample.protocol.User.RoomInfoMsg();
+    }
+
+    public static com.nhn.tardis.sample.protocol.User.RoomInfoMsg getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<RoomInfoMsg>
+        PARSER = new com.google.protobuf.AbstractParser<RoomInfoMsg>() {
+      @java.lang.Override
+      public RoomInfoMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RoomInfoMsg(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<RoomInfoMsg> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RoomInfoMsg> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.nhn.tardis.sample.protocol.User.RoomInfoMsg getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_com_nhn_tardis_sample_protocol_UserData_descriptor;
   private static final 
@@ -3817,6 +4431,11 @@ public final class User {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameRes_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_nhn_tardis_sample_protocol_RoomInfoMsg_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_nhn_tardis_sample_protocol_RoomInfoMsg_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3841,9 +4460,12 @@ public final class User {
       "\001\n\021ChangeNicknameRes\022=\n\nresultCode\030\001 \001(\016" +
       "2).com.nhn.tardis.sample.protocol.ErrorC" +
       "ode\022:\n\010userData\030\002 \001(\0132(.com.nhn.tardis.s" +
-      "ample.protocol.UserData*G\n\014CurrencyType\022" +
-      "\021\n\rCURRENCY_NONE\020\000\022\021\n\rCURRENCY_COIN\020\001\022\021\n" +
-      "\rCURRENCY_RUBY\020\002b\006proto3"
+      "ample.protocol.UserData\"I\n\013RoomInfoMsg\022:" +
+      "\n\010roomType\030\001 \001(\0162(.com.nhn.tardis.sample" +
+      ".protocol.RoomType*G\n\014CurrencyType\022\021\n\rCU" +
+      "RRENCY_NONE\020\000\022\021\n\rCURRENCY_COIN\020\001\022\021\n\rCURR" +
+      "ENCY_RUBY\020\002*9\n\010RoomType\022\017\n\013ROOM_SINGLE\020\000" +
+      "\022\014\n\010ROOM_TAP\020\001\022\016\n\nROOM_SNAKE\020\002b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3888,6 +4510,12 @@ public final class User {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_nhn_tardis_sample_protocol_ChangeNicknameRes_descriptor,
         new java.lang.String[] { "ResultCode", "UserData", });
+    internal_static_com_nhn_tardis_sample_protocol_RoomInfoMsg_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_com_nhn_tardis_sample_protocol_RoomInfoMsg_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_nhn_tardis_sample_protocol_RoomInfoMsg_descriptor,
+        new java.lang.String[] { "RoomType", });
     com.nhn.tardis.sample.protocol.Result.getDescriptor();
   }
 

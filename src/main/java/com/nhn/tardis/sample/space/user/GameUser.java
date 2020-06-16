@@ -9,6 +9,7 @@ import com.nhn.tardis.sample.protocol.GameSingle;
 import com.nhn.tardis.sample.protocol.Result;
 import com.nhn.tardis.sample.protocol.Result.ErrorCode;
 import com.nhn.tardis.sample.protocol.User;
+import com.nhn.tardis.sample.protocol.User.RoomType;
 import com.nhn.tardis.sample.space.GameNode;
 import com.nhn.tardis.sample.space.game.multi.roommatch.model.UnlimitedTapRoomInfo;
 import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakePositionInfo;
@@ -321,5 +322,11 @@ public class GameUser extends BaseUser implements TimerHandler {
 
     public List<SnakePositionInfo> getSnakePositionInfoList() {
         return snakePositionInfoList;
+    }
+
+    public User.RoomInfoMsg getRoomInfoMsgByProto(RoomType roomType) {
+        User.RoomInfoMsg.Builder roomInfoMsg = User.RoomInfoMsg.newBuilder();
+        roomInfoMsg.setRoomType(roomType);
+        return roomInfoMsg.build();
     }
 }

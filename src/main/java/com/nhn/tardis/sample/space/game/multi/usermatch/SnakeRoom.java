@@ -5,6 +5,8 @@ import com.nhn.tardis.sample.protocol.GameMulti;
 import com.nhn.tardis.sample.protocol.GameMulti.SnakeFoodMsg;
 import com.nhn.tardis.sample.protocol.GameMulti.SnakePositionData;
 import com.nhn.tardis.sample.protocol.GameMulti.SnakeUserData;
+import com.nhn.tardis.sample.protocol.User;
+import com.nhn.tardis.sample.protocol.User.RoomType;
 import com.nhn.tardis.sample.space.game.multi.usermatch.cmd.CmdSnakeRemoveFoodMsg;
 import com.nhn.tardis.sample.space.game.multi.usermatch.cmd.CmdSnakeUserMsg;
 import com.nhn.tardis.sample.space.game.multi.usermatch.model.SnakePositionInfo;
@@ -107,6 +109,7 @@ public class SnakeRoom extends BaseRoom<GameUser> implements TimerHandler {
 
             gameUserMap.put(gameUser.getUserId(), gameUser);
             gameUserScoreMap.put(gameUser.getGameUserInfo().getUuid(), 0);
+            outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_SNAKE)));
             return true;
         } catch (Exception e) {
             logger.error("onCreateRoom()", e);
@@ -147,6 +150,7 @@ public class SnakeRoom extends BaseRoom<GameUser> implements TimerHandler {
                     addTimer(1, TimeUnit.SECONDS, 0, this, this);
                 }
                 isSuccess = true;
+                outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_SNAKE)));
             }
         } catch (Exception e) {
             gameUserMap.remove(gameUser.getUserId());
@@ -190,6 +194,7 @@ public class SnakeRoom extends BaseRoom<GameUser> implements TimerHandler {
     public void onRejoinRoom(GameUser gameUser, Payload outPayload) throws SuspendExecution {
         logger.info("onRejoinRoom - RoomId : {}, UserId : {}", getId(),
             gameUser.getUserId());
+        outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_SNAKE)));
     }
 
     @Override
