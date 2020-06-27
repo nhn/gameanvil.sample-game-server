@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.nhn.tardis.sample.protocol;
+package com.nhn.gameflex.sample.protocol;
 
 message RoomUserData {
   string id = 1;

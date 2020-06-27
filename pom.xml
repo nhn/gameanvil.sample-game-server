@@ -17,23 +17,23 @@
     </repository>
   </repositories>
 
-  <groupId>com.nhnent.tardis</groupId>
+  <groupId>com.nhn.gameflex</groupId>
   <artifactId>sample_game_server</artifactId>
-  <version>0.3.0</version>
+  <version>1.0.0</version>
 
   <dependencies>
-    <!-- tardis -->
+    <!-- gameflex -->
     <dependency>
-      <groupId>com.nhnent.tardis</groupId>
-      <artifactId>tardis</artifactId>
-      <version>0.10.0.2-AOT</version>
+      <groupId>com.nhn.gameflex</groupId>
+      <artifactId>gameflex</artifactId>
+      <version>DEV-1.0.0-AOT</version>
     </dependency>
 
     <!-- java connector -->
     <dependency>
-      <groupId>com.nhnent.tardis</groupId>
-      <artifactId>tardis-test-agent</artifactId>
-      <version>0.10.0.2</version>
+      <groupId>com.nhn.gameflex</groupId>
+      <artifactId>gameflex-test-agent</artifactId>
+      <version>DEV-1.0.0</version>
     </dependency>
 
     <!-- junit -->
@@ -58,7 +58,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
+        <version>3.8.1</version>
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
@@ -69,12 +69,12 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
-        <version>3.1.1</version>
+        <version>3.2.0</version>
         <configuration>
           <archive>
             <manifest>
               <!-- executable jar 에서 main 으로 실행 될 클래스 -->
-              <mainClass>com.nhn.tardis.sample.Main</mainClass>
+              <mainClass>com.nhn.gameflex.sample.Main</mainClass>
               <!-- jar 파일 안의 META-INF/MANIFEST.MF 에 classpath 정보가 추가됨 -->
               <addClasspath>true</addClasspath>
             </manifest>
@@ -86,7 +86,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.2.4</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -96,7 +96,7 @@
             <configuration>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>com.nhn.tardis.sample.Main</mainClass>
+                  <mainClass>com.nhn.gameflex.sample.Main</mainClass>
                 </transformer>
               </transformers>
               <filters>
@@ -118,7 +118,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
-        <version>1.6.0</version>
+        <version>3.0.0</version>
         <executions>
           <execution>
             <goals>
@@ -133,7 +133,7 @@
             <!-- automatically creates the classpath using all project dependencies, also adding the project build directory -->
             <classpath/>
             <!-- Main class -->
-            <argument>com.nhn.tardis.sample.Main</argument>
+            <argument>com.nhn.gameflex.sample.Main</argument>
 
           </arguments>
         </configuration>
@@ -169,7 +169,7 @@
                   <fileset dir="target/classes/">
                     <include name="logback.xml" />
                     <include name="mybatis-config.xml" />
-                    <include name="TardisConfig.json" />
+                    <include name="GameflexConfig.json" />
                   </fileset>
                 </copy>
                 <copy todir="target/query/" overwrite="false">
