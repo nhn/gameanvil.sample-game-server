@@ -1,34 +1,0 @@
-
-È
-GameMulti.proto com.nhn.gameflex.sample.protocol"P
-RoomUserData
-id (	Rid
-nickName (	RnickName
-score (Rscore"]
-TapBirdUserDataJ
-userData (2..com.nhn.gameflex.sample.protocol.RoomUserDataRuserData""
-
-ScoreUpMsg
-score (Rscore"j
-BroadcastTapBirdMsgS
-tapBirdData (21.com.nhn.gameflex.sample.protocol.TapBirdUserDataRtapBirdData"A
-SnakePositionData
-idx (Ridx
-x (Rx
-y (Ry"Ä
-SnakeUserDataJ
-baseData (2..com.nhn.gameflex.sample.protocol.RoomUserDataRbaseDatag
-userPositionListData (23.com.nhn.gameflex.sample.protocol.SnakePositionDataRuserPositionListData"å
-SnakeGameInfoMsg 
-boarderLeft (RboarderLeft"
-boarderRight (RboarderRight$
-boarderBottom (RboarderBottom
-
-boarderTop (R
-boarderTopE
-users (2/.com.nhn.gameflex.sample.protocol.SnakeUserDataRusers"{
-SnakeFoodMsg
-isDelete (RisDeleteO
-foodData (23.com.nhn.gameflex.sample.protocol.SnakePositionDataRfoodData"[
-SnakeUserMsgK
-userData (2/.com.nhn.gameflex.sample.protocol.SnakeUserDataRuserDatabproto3
