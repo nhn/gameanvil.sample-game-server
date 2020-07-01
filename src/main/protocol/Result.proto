@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.nhn.gameflex.sample.protocol;
+package com.nhn.gameanvil.sample.protocol;
 
 // 에러종류
 enum ErrorCode {
