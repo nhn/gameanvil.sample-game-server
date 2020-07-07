@@ -25,16 +25,16 @@
     </repository>
   </repositories>
 
-  <groupId>com.nhn.gameflex</groupId>
+  <groupId>com.nhn.gameanvil</groupId>
   <artifactId>sample_game_server</artifactId>
   <version>1.0.0</version>
 
   <dependencies>
-    <!-- gameflex -->
+    <!-- gameanvil -->
     <dependency>
-      <groupId>com.nhn.gameflex</groupId>
-      <artifactId>gameflex</artifactId>
-      <version>1.0.0-EA</version>
+      <groupId>com.nhn.gameanvil</groupId>
+      <artifactId>gameanvil</artifactId>
+      <version>DEV-1.0.0</version>
     </dependency>
 
     <!-- junit -->
@@ -75,14 +75,13 @@
           <archive>
             <manifest>
               <!-- executable jar 에서 main 으로 실행 될 클래스 -->
-              <mainClass>com.nhn.gameflex.sample.Main</mainClass>
+              <mainClass>com.nhn.gameanvil.sample.Main</mainClass>
               <!-- jar 파일 안의 META-INF/MANIFEST.MF 에 classpath 정보가 추가됨 -->
               <addClasspath>true</addClasspath>
             </manifest>
           </archive>
         </configuration>
       </plugin>
-
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -97,9 +96,30 @@
             <configuration>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>com.nhn.gameflex.sample.Main</mainClass>
+                  <mainClass>com.nhn.gameanvil.sample.Main</mainClass>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  <resource>META-INF/io.netty.versions.properties</resource>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  <resource>META-INF/services/java.sql.Driver</resource>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  <resource>META-INF/LICENSE</resource>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  <resource>META-INF/NOTICE</resource>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                  <resource>META-INF/services/reactor.blockhound.integration.BlockHoundIntegration</resource>
                 </transformer>
               </transformers>
+              <artifactSet>
+                <excludes>
+                  <exclude>javax.activation:javax.activation-*</exclude>
+                  <exclude>org.javassist:javassist*</exclude>
+                </excludes>
+              </artifactSet>
               <filters>
                 <filter>
                   <artifact>*:*</artifact>
@@ -108,6 +128,9 @@
                     <exclude>META-INF/*.SF</exclude>
                     <exclude>META-INF/*.DSA</exclude>
                     <exclude>META-INF/*.RSA</exclude>
+                    <exclude>META-INF/*.MF</exclude>
+                    <exclude>META-INF/*.txt</exclude>
+                    <exclude>about.html</exclude>
                   </excludes>
                 </filter>
               </filters>
@@ -135,7 +158,7 @@
             <!-- automatically creates the classpath using all project dependencies, also adding the project build directory -->
             <classpath/>
             <!-- Main class -->
-            <argument>com.nhn.gameflex.sample.Main</argument>
+            <argument>com.nhn.gameanvil.sample.Main</argument>
 
           </arguments>
         </configuration>
@@ -171,7 +194,7 @@
                   <fileset dir="target/classes/">
                     <include name="logback.xml" />
                     <include name="mybatis-config.xml" />
-                    <include name="GameflexConfig.json" />
+                    <include name="GameAnvilConfig.json" />
                   </fileset>
                 </copy>
                 <copy todir="target/query/" overwrite="false">

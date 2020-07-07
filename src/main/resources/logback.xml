@@ -5,7 +5,7 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <!-- We output the timezone for disambiguation across the different environments. -->
-            <!--<pattern>[%d{ISO8601} %d{Z}] [%highlight(%level)] [%logger{10}] [%X{gameflexTag}] %msg%n</pattern>-->
+            <!--<pattern>[%d{ISO8601} %d{Z}] [%highlight(%level)] [%logger{10}] [%X{gameAnvilTag}] %msg%n</pattern>-->
             <!--<pattern>[%d{ISO8601} %d{Z}] [%highlight(%level)] [%logger{10}] %msg%n</pattern>-->
             <pattern>[%d{ISO8601}] [%highlight(%-5level)] [%thread] [%cyan(%F:%L)] %yellow(%msg%n)</pattern>
         </encoder>
@@ -19,7 +19,7 @@
         </rollingPolicy>
         <encoder>
             <!-- We output the timezone for disambiguation across the different environments. -->
-            <pattern>[%d{ISO8601} %d{Z}] [%highlight(%level)] [%logger{10}] [%X{gameflexTag}] %msg%n</pattern>
+            <pattern>[%d{ISO8601} %d{Z}] [%highlight(%level)] [%logger{10}] [%X{gameAnvilTag}] %msg%n</pattern>
             <!--<pattern>[%d{ISO8601} %d{Z}] [%highlight(%level)] [%logger{10}] %msg%n</pattern>-->
         </encoder>
     </appender>
