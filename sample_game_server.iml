@@ -13,6 +13,8 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Bundled Protobuf Distribution" level="application" />
     <orderEntry type="library" name="Maven: com.nhn.gameanvil:gameanvil:DEV-1.0.0-AOT" level="project" />
+    <orderEntry type="library" name="Maven: com.nhnent.tardis:quasar-core:jdk8:0.7.10" level="project" />
+    <orderEntry type="library" name="Maven: com.nhn.gameanvil:gameanvil:DEV-1.0.0" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec-socks:4.1.50.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.50.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.50.Final" level="project" />
@@ -49,7 +51,7 @@
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.7.30" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jul-to-slf4j:1.7.30" level="project" />
     <orderEntry type="library" name="Maven: com.eclipsesource.j2v8:j2v8_win32_x86_64:4.6.0" level="project" />
-    <orderEntry type="library" name="Maven: com.nhnent.tardis:quasar-core:jdk8:0.7.10" level="project" />
+    <orderEntry type="library" name="Maven: com.nhn.gameanvil:quasar-core:jdk8:0.7.10" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.2.3" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.2.3" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-server:9.4.29.v20200521" level="project" />
