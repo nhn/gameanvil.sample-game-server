@@ -13,8 +13,8 @@
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--<fileNamePattern>log/ngt.%d{yyyy-MM-dd}.log</fileNamePattern>-->
-            <fileNamePattern>./log/ngt.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!--<fileNamePattern>log/samplegame.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+            <fileNamePattern>./log/samplegame.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -28,8 +28,8 @@
         <appender-ref ref="FILE" />
     </appender>
 
-    <logger name="com.nhn.gameplex" level="INFO"/>
-    <logger name="com.nhn.gameplex.sample" level="DEBUG"/>
+    <logger name="com.nhn.gameanvil" level="INFO"/>
+    <logger name="com.nhn.gameanvil.sample" level="DEBUG"/>
 
     <root>
         <level value="INFO"/>
