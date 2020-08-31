@@ -34,9 +34,9 @@ public class Main {
         bootstrap.addProtoBufClass(4, User.getDescriptor());
 
         // 게임에서 사용하는 DB 쓰레드풀 지정
-        bootstrap.createExecutorService(GameConstants.DB_THREAD_POOL, 50);
+        bootstrap.createExecutorService(GameConstants.DB_THREAD_POOL, 200);
         // 게임에서 사용하는 레디스 쓰레드풀 지정
-        bootstrap.createExecutorService(GameConstants.REDIS_THREAD_POOL, 50);
+        bootstrap.createExecutorService(GameConstants.REDIS_THREAD_POOL, 200);
 
         // 세션설정
         bootstrap.setGateway()

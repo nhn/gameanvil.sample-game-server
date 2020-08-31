@@ -34,7 +34,7 @@
     <dependency>
       <groupId>com.nhn.gameanvil</groupId>
       <artifactId>gameanvil</artifactId>
-      <version>DEV-1.0.0</version>
+      <version>1.0.0</version>
     </dependency>
 
     <!-- junit -->
