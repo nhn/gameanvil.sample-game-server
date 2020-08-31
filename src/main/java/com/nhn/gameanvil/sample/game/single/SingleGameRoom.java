@@ -1,27 +1,24 @@
 package com.nhn.gameanvil.sample.game.single;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
-import com.nhn.gameanvil.sample.game.GameNode;
-import com.nhn.gameanvil.sample.game.single.model.SingleTapGameInfo;
-import com.nhn.gameanvil.sample.game.user.GameUser;
-import com.nhn.gameanvil.sample.protocol.GameSingle;
-import com.nhn.gameanvil.sample.protocol.Result;
-import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
-import com.nhn.gameanvil.sample.protocol.User.RoomType;
-import com.nhn.gameanvil.sample.game.single._handler._TapMsg;
 import com.nhn.gameanvil.node.game.BaseRoom;
 import com.nhn.gameanvil.node.game.RoomPacketDispatcher;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.Payload;
-import com.nhn.gameanvil.serializer.KryoSerializer;
+import com.nhn.gameanvil.sample.game.GameNode;
+import com.nhn.gameanvil.sample.game.single._handler._TapMsg;
+import com.nhn.gameanvil.sample.game.single.model.SingleTapGameInfo;
+import com.nhn.gameanvil.sample.game.user.GameUser;
+import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
+import com.nhn.gameanvil.sample.protocol.GameSingle;
+import com.nhn.gameanvil.sample.protocol.Result;
+import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
+import com.nhn.gameanvil.sample.protocol.User.RoomType;
+import com.nhn.gameanvil.serializer.TransferPack;
 import com.nhn.gameanvil.timer.Timer;
 import com.nhn.gameanvil.timer.TimerHandler;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.util.List;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -228,17 +225,13 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
     }
 
     @Override
-    public ByteBuffer onTransferOut() throws SuspendExecution {
-        return KryoSerializer.write(singleGameData);
+    public void onTransferOut(TransferPack transferPack) throws SuspendExecution {
+        transferPack.put("SingleGameData", singleGameData);
     }
 
     @Override
-    public void onTransferIn(List<GameUser> userList, InputStream inputStream) throws SuspendExecution {
-        try {
-            singleGameData = (SingleTapGameInfo)KryoSerializer.read(inputStream);
-        } catch (Exception e) {
-            logger.error(ExceptionUtils.getStackTrace(e));
-        }
+    public void onTransferIn(List<GameUser> userList, TransferPack transferPack) throws SuspendExecution {
+        singleGameData = (SingleTapGameInfo)transferPack.get("SingleGameData");
     }
 
     @Override

@@ -1,13 +1,12 @@
 package com.nhn.gameanvil.sample.support;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.gameanvil.sample.support._handler.rest._Launching;
-import com.nhn.gameanvil.define.PauseType;
 import com.nhn.gameanvil.node.support.BaseSupportNode;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.Payload;
 import com.nhn.gameanvil.packet.RestPacketDispatcher;
 import com.nhn.gameanvil.rest.RestObject;
+import com.nhn.gameanvil.sample.support._handler.rest._Launching;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,8 +54,8 @@ public class LaunchingSupport extends BaseSupportNode {
     }
 
     @Override
-    public void onPause(PauseType pauseType, Payload payload) throws SuspendExecution {
-        logger.info("onPause : {}", pauseType);
+    public void onPause(Payload payload) throws SuspendExecution {
+        logger.info("onPause");
     }
 
     @Override

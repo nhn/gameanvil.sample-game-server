@@ -5,23 +5,20 @@ import com.nhn.gameanvil.node.game.BaseRoom;
 import com.nhn.gameanvil.node.game.RoomPacketDispatcher;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.Payload;
-import com.nhn.gameanvil.sample.protocol.GameMulti;
-import com.nhn.gameanvil.sample.protocol.GameMulti.TapBirdUserData;
-import com.nhn.gameanvil.sample.protocol.User.RoomType;
 import com.nhn.gameanvil.sample.game.multi.roommatch._handler._ScoreUpMsg;
 import com.nhn.gameanvil.sample.game.multi.roommatch.model.UnlimitedTapRoomInfo;
 import com.nhn.gameanvil.sample.game.user.GameUser;
-import com.nhn.gameanvil.serializer.KryoSerializer;
+import com.nhn.gameanvil.sample.protocol.GameMulti;
+import com.nhn.gameanvil.sample.protocol.GameMulti.TapBirdUserData;
+import com.nhn.gameanvil.sample.protocol.User.RoomType;
+import com.nhn.gameanvil.serializer.TransferPack;
 import com.nhn.gameanvil.timer.Timer;
 import com.nhn.gameanvil.timer.TimerHandler;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -178,18 +175,16 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
     }
 
     @Override
-    public ByteBuffer onTransferOut() throws SuspendExecution {
+    public void onTransferOut(TransferPack transferPack) throws SuspendExecution {
         logger.info("onTransferOut - RoomId : {}", getId());
-        return KryoSerializer.write(gameUserMap);
     }
 
     @Override
-    public void onTransferIn(List<GameUser> userList, InputStream inputStream) throws SuspendExecution {
+    public void onTransferIn(List<GameUser> userList, TransferPack transferPack) throws SuspendExecution {
         logger.info("onTransferIn - RoomId : {}", getId());
-        try {
-            gameUserMap = (Map<Integer, GameUser>)KryoSerializer.read(inputStream);
-        } catch (Exception e) {
-            logger.error(ExceptionUtils.getStackTrace(e));
+        this.gameUserMap.clear();
+        for (GameUser user : userList) {
+            this.gameUserMap.put(user.getUserId(), user);
         }
     }
 

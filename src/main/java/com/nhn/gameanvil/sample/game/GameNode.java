@@ -1,15 +1,14 @@
 package com.nhn.gameanvil.sample.game;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.gameanvil.sample.redis.RedisHelper;
-import com.nhn.gameanvil.sample.common.GameConstants;
-import com.nhn.gameanvil.define.PauseType;
 import com.nhn.gameanvil.node.game.BaseGameNode;
 import com.nhn.gameanvil.node.game.data.ChannelUpdateType;
 import com.nhn.gameanvil.node.game.data.ChannelUserInfo;
 import com.nhn.gameanvil.node.game.data.RoomInfo;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.Payload;
+import com.nhn.gameanvil.sample.common.GameConstants;
+import com.nhn.gameanvil.sample.redis.RedisHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +44,7 @@ public class GameNode extends BaseGameNode {
     }
 
     @Override
-    public void onPause(PauseType type, Payload payload) throws SuspendExecution {
+    public void onPause(Payload payload) throws SuspendExecution {
         logger.info("onPause");
     }
 
@@ -59,6 +58,36 @@ public class GameNode extends BaseGameNode {
         logger.info("onShutdown");
 
         redisHelper.shutdown();
+    }
+
+    @Override
+    public boolean onNonStopPatchSrcStart() throws SuspendExecution {
+        return true;
+    }
+
+    @Override
+    public boolean onNonStopPatchSrcEnd() throws SuspendExecution {
+        return true;
+    }
+
+    @Override
+    public boolean canNonStopPatchSrcEnd() throws SuspendExecution {
+        return true;
+    }
+
+    @Override
+    public boolean onNonStopPatchDstStart() throws SuspendExecution {
+        return true;
+    }
+
+    @Override
+    public boolean onNonStopPatchDstEnd() throws SuspendExecution {
+        return true;
+    }
+
+    @Override
+    public boolean canNonStopPatchDstEnd() throws SuspendExecution {
+        return true;
     }
 
     @Override

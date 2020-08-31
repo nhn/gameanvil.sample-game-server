@@ -3,7 +3,6 @@ package com.nhn.gameanvil.sample.gateway;
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhn.gameanvil.async.http.HttpRequest;
 import com.nhn.gameanvil.async.http.HttpResponse;
-import com.nhn.gameanvil.define.PauseType;
 import com.nhn.gameanvil.node.gateway.BaseConnection;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.PacketDispatcher;
@@ -129,8 +128,8 @@ public class GameConnection extends BaseConnection<GameSession> {
     }
 
     @Override
-    public void onPause(PauseType type) throws SuspendExecution {
-        logger.info("onPause : {}", type);
+    public void onPause() throws SuspendExecution {
+        logger.info("onPause : {}", getAccountId());
     }
 
     @Override

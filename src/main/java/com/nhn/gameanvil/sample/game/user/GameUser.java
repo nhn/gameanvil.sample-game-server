@@ -1,13 +1,21 @@
 package com.nhn.gameanvil.sample.game.user;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.gameanvil.sample.game.user._handler._ShuffleDeckReq;
-import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
+import com.nhn.gameanvil.node.game.BaseUser;
+import com.nhn.gameanvil.node.game.data.MatchRoomResult;
+import com.nhn.gameanvil.packet.Packet;
+import com.nhn.gameanvil.packet.PacketDispatcher;
+import com.nhn.gameanvil.packet.Payload;
 import com.nhn.gameanvil.sample.game.GameNode;
+import com.nhn.gameanvil.sample.game.multi.roommatch.model.UnlimitedTapRoomInfo;
+import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakePositionInfo;
+import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakeRoomInfo;
 import com.nhn.gameanvil.sample.game.user._handler._ChangeNicknameReq;
+import com.nhn.gameanvil.sample.game.user._handler._ShuffleDeckReq;
 import com.nhn.gameanvil.sample.game.user._handler._SingleScoreRankingReq;
 import com.nhn.gameanvil.sample.game.user.model.GameUserInfo;
 import com.nhn.gameanvil.sample.game.user.model.GameUserTransferInfo;
+import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
 import com.nhn.gameanvil.sample.protocol.Authentication;
 import com.nhn.gameanvil.sample.protocol.GameMulti;
 import com.nhn.gameanvil.sample.protocol.GameMulti.RoomUserData;
@@ -16,23 +24,11 @@ import com.nhn.gameanvil.sample.protocol.Result;
 import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
 import com.nhn.gameanvil.sample.protocol.User;
 import com.nhn.gameanvil.sample.protocol.User.RoomType;
-import com.nhn.gameanvil.sample.game.multi.roommatch.model.UnlimitedTapRoomInfo;
-import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakePositionInfo;
-import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakeRoomInfo;
-import com.nhn.gameanvil.define.PauseType;
-import com.nhn.gameanvil.node.game.BaseUser;
-import com.nhn.gameanvil.node.game.data.MatchRoomResult;
-import com.nhn.gameanvil.packet.Packet;
-import com.nhn.gameanvil.packet.PacketDispatcher;
-import com.nhn.gameanvil.packet.Payload;
-import com.nhn.gameanvil.serializer.KryoSerializer;
+import com.nhn.gameanvil.serializer.TransferPack;
 import com.nhn.gameanvil.timer.Timer;
 import com.nhn.gameanvil.timer.TimerHandler;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -190,8 +186,14 @@ public class GameUser extends BaseUser implements TimerHandler {
     }
 
     @Override
-    public void onPause(PauseType pauseType) throws SuspendExecution {
-        logger.debug("onPause - UserId : {}, pauseType : {}", getUserId(), pauseType);
+    public void onPause() throws SuspendExecution {
+        if (logger.isTraceEnabled()) {
+            logger.trace("onPause");
+        }
+
+        if (!isJoinedRoom()) {
+            kickout();
+        }
     }
 
     @Override
@@ -222,24 +224,20 @@ public class GameUser extends BaseUser implements TimerHandler {
     }
 
     @Override
-    public ByteBuffer onTransferOut() throws SuspendExecution {
+    public void onTransferOut(TransferPack transferPack) throws SuspendExecution {
         logger.debug("onTransferOut - UserId : {}", getUserId());
-        GameUserTransferInfo gameUserTransferInfo = new GameUserTransferInfo(); // 트랜스터용 객체 생성
+        GameUserTransferInfo gameUserTransferInfo = new GameUserTransferInfo(); // 트랜스퍼용 객체 생성
         gameUserTransferInfo.setGameUserInfo(gameUserInfo);
         gameUserTransferInfo.setGetSnakePositionInfoList(snakePositionInfoList);
-        return KryoSerializer.write(gameUserTransferInfo);
+        transferPack.put("GameUserInfo", gameUserTransferInfo);
     }
 
     @Override
-    public void onTransferIn(final InputStream inputStream) throws SuspendExecution {
+    public void onTransferIn(TransferPack transferPack) throws SuspendExecution {
         logger.debug("onTransferIn - UserId : {}", getUserId());
-        try {
-            GameUserTransferInfo gameUserTransferInfo = (GameUserTransferInfo)KryoSerializer.read(inputStream);
-            gameUserInfo = gameUserTransferInfo.getGameUserInfo();
-            snakePositionInfoList = gameUserTransferInfo.getGetSnakePositionInfoList();
-        } catch (Exception e) {
-            logger.error(ExceptionUtils.getStackTrace(e));
-        }
+        GameUserTransferInfo gameUserTransferInfo = (GameUserTransferInfo)transferPack.get("GameUserInfo");
+        gameUserInfo = gameUserTransferInfo.getGameUserInfo();
+        snakePositionInfoList = gameUserTransferInfo.getGetSnakePositionInfoList();
     }
 
     /**
