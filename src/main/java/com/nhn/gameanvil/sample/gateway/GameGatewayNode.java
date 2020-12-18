@@ -1,7 +1,6 @@
 package com.nhn.gameanvil.sample.gateway;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.gameanvil.define.PauseType;
 import com.nhn.gameanvil.node.gateway.BaseGatewayNode;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.Payload;

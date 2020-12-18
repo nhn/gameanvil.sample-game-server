@@ -102,8 +102,8 @@ public class GameUser extends BaseUser implements TimerHandler {
                         // 게임 데이터 설정
                         gameUserInfo.setNickname("GameAnvil-" + getUserId());
                         gameUserInfo.setHeart(3);
-                        gameUserInfo.setCoin(100);
-                        gameUserInfo.setRuby(0);
+                        gameUserInfo.setCoin(10000);
+                        gameUserInfo.setRuby(100);
                         gameUserInfo.setLevel(1);
                         gameUserInfo.setExp(0);
                         gameUserInfo.setHighScore(0);

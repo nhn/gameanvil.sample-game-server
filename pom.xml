@@ -27,14 +27,14 @@
 
   <groupId>com.nhn.gameanvil</groupId>
   <artifactId>sample_game_server</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 
   <dependencies>
     <!-- gameanvil -->
     <dependency>
       <groupId>com.nhn.gameanvil</groupId>
       <artifactId>gameanvil</artifactId>
-      <version>1.0.1</version>
+      <version>1.1.0-jdk8</version>
     </dependency>
 
     <!-- junit -->
@@ -164,28 +164,27 @@
         </configuration>
       </plugin>
 
-      <!-- Quasar AOT Instrumentation  -->
       <plugin>
-        <groupId>com.vlkan</groupId>
-        <artifactId>quasar-maven-plugin</artifactId>
-        <version>0.7.9</version>
-        <configuration>
-          <check>true</check>
-          <debug>true</debug>
-          <verbose>true</verbose>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>instrument</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
+          <!-- Ant task for Quasar AOT instrumentation -->
+          <execution>
+            <id>Running AOT instrumentation</id>
+            <phase>compile</phase>
+            <configuration>
+              <tasks>
+                <taskdef name="instrumentationTask" classname="co.paralleluniverse.fibers.instrument.InstrumentationTask" classpathref="maven.dependency.classpath"/>
+                <instrumentationTask>
+                  <fileset dir="${project.build.directory}/classes/" includes="**/*.class"/>
+                </instrumentationTask>
+              </tasks>
+            </configuration>
+
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
           <execution>
             <phase>package</phase>
             <configuration>

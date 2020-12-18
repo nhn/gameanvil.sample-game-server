@@ -1,6 +1,9 @@
 package com.nhn.gameanvil.sample.gateway;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.nhn.gameanvil.GameAnvilUtil;
 import com.nhn.gameanvil.async.http.HttpRequest;
 import com.nhn.gameanvil.async.http.HttpResponse;
 import com.nhn.gameanvil.node.gateway.BaseConnection;
@@ -79,6 +82,19 @@ public class GameConnection extends BaseConnection<GameSession> {
                             } else {
                                 resultCode = ErrorCode.TOKEN_NOT_VALIDATED;
                             }
+
+                            String testurl = String.format(GameConstants.GAMEBASE_DEFAULT_URL + "/tcgb-member/v1.2/apps/X2bqX5du/members");
+                            HttpRequest httpRequestPost = new HttpRequest(testurl);
+                            httpRequestPost.getBuilder().addHeader("Content-Type", "application/json");
+                            httpRequestPost.getBuilder().addHeader("X-Secret-Key", GameConstants.GAMEBASE_SECRET_KEY);
+
+                            JsonArray userIds = new JsonArray();
+                            userIds.add(accountId);
+
+                            httpRequestPost.getBuilder().setBody(GameAnvilUtil.Gson().toJson(userIds));
+                            HttpResponse responsePost = httpRequestPost.POST();
+                            logger.info("httpRequestPost:[{}] , getResponseBody[{}]", responsePost.toString(), responsePost.getResponse().getResponseBody());
+
                             logger.info("gamebaseResponse response:[{}]", gamebaseResponse.getHeader().getResultCode());
                             //------------------------------------
                         }

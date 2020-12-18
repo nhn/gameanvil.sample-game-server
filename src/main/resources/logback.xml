@@ -29,7 +29,7 @@
     </appender>
 
     <logger name="com.nhn.gameanvil" level="INFO"/>
-    <logger name="com.nhn.gameanvil.sample" level="DEBUG"/>
+    <logger name="com.nhn.gameanvil.sample" level="INFO"/>
 
     <root>
         <level value="INFO"/>

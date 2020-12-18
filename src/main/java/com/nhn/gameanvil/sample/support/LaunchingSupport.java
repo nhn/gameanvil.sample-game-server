@@ -44,7 +44,7 @@ public class LaunchingSupport extends BaseSupportNode {
 
     @Override
     public boolean onDispatch(RestObject restObject) throws SuspendExecution {
-        logger.info("onDispatch : {}", restObject.getOrginUrl());
+        logger.info("onDispatch : {}", restObject.getOriginUrl());
         if (restMsgHandler.isRegisteredMessage(restObject)) {
             restMsgHandler.dispatch(this, restObject);
             return true;
