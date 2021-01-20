@@ -96,7 +96,9 @@ public class RedisHelper {
      * @return 검색된 유저 리스스     * @throws SuspendExecution
      */
     public List<GameUserInfo> getUserData(List<String> uuidList) throws SuspendExecution {
-        logger.info("getUserData - uuidList : {}", uuidList);
+        if (logger.isDebugEnabled()) {
+            logger.debug("getUserData - uuidList : {}", uuidList);
+        }
 
         String[] stringArray = new String[uuidList.size()];
         uuidList.toArray(stringArray);
@@ -108,7 +110,9 @@ public class RedisHelper {
                 if (data.hasValue()) {
                     GameUserInfo userData = GameAnvilUtil.Gson().fromJson(data.getValue(), GameUserInfo.class);
                     userDataList.add(userData);
-                    logger.info("userData {}", userData);
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("userData {}", userData);
+                    }
                 }
             }
             return userDataList;
@@ -127,7 +131,9 @@ public class RedisHelper {
      * @throws SuspendExecution
      */
     public boolean setSingleScore(String key, double value) throws SuspendExecution {
-        logger.info("setSingleScore - key : {}, value1 : {}, value2 : {}", REDIS_SINGLE_SCORE_KEY, value, key);
+        if (logger.isDebugEnabled()) {
+            logger.debug("setSingleScore - key : {}, value1 : {}, value2 : {}", REDIS_SINGLE_SCORE_KEY, value, key);
+        }
         boolean isSuccess = false;
         try {
             Lettuce.awaitFuture(clusterAsyncCommands.zadd(REDIS_SINGLE_SCORE_KEY, value, key));
@@ -155,7 +161,9 @@ public class RedisHelper {
                 singleRankingInfo.setUuid(data.getValue().toString());
                 singleRankingInfo.setScore(data.getScore());
                 rankingInfoMap.put(singleRankingInfo.getUuid(), singleRankingInfo);
-                logger.info("getSingleRanking  =====> singleRankingInfo: {}", singleRankingInfo.toString());
+                if (logger.isDebugEnabled()) {
+                    logger.debug("getSingleRanking  =====> singleRankingInfo: {}", singleRankingInfo.toString());
+                }
             }
 
             return rankingInfoMap;

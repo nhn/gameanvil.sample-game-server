@@ -43,7 +43,9 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
 
     @Override
     public void onInit() throws SuspendExecution {
-        logger.info("onInit - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onInit - RoomId : {}", getId());
+        }
 
         gameUserMap = new TreeMap<>();
         gameUserScoreMap = new HashMap<>();
@@ -51,15 +53,16 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
 
     @Override
     public void onDestroy() throws SuspendExecution {
-        logger.info("onDestroy - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDestroy - RoomId : {}", getId());
+        }
     }
 
     @Override
     public void onDispatch(GameUser gameUser, Packet packet) throws SuspendExecution {
-        logger.info("onDispatch : RoomId : {}, UserId : {}, {}",
-            getId(),
-            gameUser.getUserId(),
-            packet.getMsgName());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDispatch : RoomId : {}, UserId : {}, {}", getId(), gameUser.getUserId(), packet.getMsgName());
+        }
         dispatcher.dispatch(this, gameUser, packet);
     }
 
@@ -74,8 +77,9 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
      */
     @Override
     public boolean onCreateRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
-        logger.info("onCreateRoom - RoomId : {}, UserId : {}", getId(),
-            gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onCreateRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
 
         try {
             gameUserMap.put(gameUser.getUserId(), gameUser);
@@ -106,14 +110,19 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
      */
     @Override
     public boolean onJoinRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
-        logger.info("onJoinRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onJoinRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
         boolean isSuccess = false;
         try {
-            logger.info("onJoinRoom - roomMatchMaking");
+            if (logger.isDebugEnabled()) {
+                logger.debug("onJoinRoom - roomMatchMaking");
+            }
             if (gameUserMap.containsKey(gameUser.getUserId())) {
-                logger.info("Already Joined User " + gameUser.getUserId());
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Already Joined User " + gameUser.getUserId());
+                }
             } else {
-
                 gameUserMap.put(gameUser.getUserId(), gameUser);
                 gameUserScoreMap.put(gameUser.getGameUserInfo().getUuid(), 0);
 
@@ -145,7 +154,9 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
      */
     @Override
     public boolean onLeaveRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
-        logger.info("onLeaveRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onLeaveRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
         try {
             gameUserMap.remove(gameUser.getUserId());
             gameUserScoreMap.remove(gameUser.getGameUserInfo().getUuid());
@@ -163,25 +174,31 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
 
     @Override
     public void onPostLeaveRoom(GameUser gameUser) throws SuspendExecution {
-        logger.info("onPostLeaveRoom - RoomId : {}, UserId : {}", getId(),
-            gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onPostLeaveRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
     }
 
     @Override
     public void onRejoinRoom(GameUser gameUser, Payload outPayload) throws SuspendExecution {
-        logger.info("onRejoinRoom - RoomId : {}, UserId : {}", getId(),
-            gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onRejoinRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
         outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_TAP)));
     }
 
     @Override
     public void onTransferOut(TransferPack transferPack) throws SuspendExecution {
-        logger.info("onTransferOut - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onTransferOut - RoomId : {}", getId());
+        }
     }
 
     @Override
     public void onTransferIn(List<GameUser> userList, TransferPack transferPack) throws SuspendExecution {
-        logger.info("onTransferIn - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onTransferIn - RoomId : {}", getId());
+        }
         this.gameUserMap.clear();
         for (GameUser user : userList) {
             this.gameUserMap.put(user.getUserId(), user);
@@ -190,13 +207,17 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
 
     @Override
     public boolean canTransfer() throws SuspendExecution {
-        logger.info("canTransfer - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("canTransfer - RoomId : {}", getId());
+        }
         return false;
     }
 
     @Override
     public void onTimer(Timer timer, Object arg) throws SuspendExecution {
-        logger.info("onTimer - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onTimer - RoomId : {}", getId());
+        }
     }
 
     public Map<Integer, GameUser> getGameUserMap() {

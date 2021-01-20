@@ -1,11 +1,11 @@
 package com.nhn.gameanvil.sample.game.single._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.nhn.gameanvil.node.game.RoomPacketHandler;
+import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.sample.game.single.SingleGameRoom;
 import com.nhn.gameanvil.sample.game.user.GameUser;
 import com.nhn.gameanvil.sample.protocol.GameSingle;
-import com.nhn.gameanvil.node.game.RoomPacketHandler;
-import com.nhn.gameanvil.packet.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,9 @@ public class _TapMsg implements RoomPacketHandler<SingleGameRoom, GameUser> {
             if (tapMsg != null) {
                 singleRoom.getSingleGameData().setCombo(tapMsg.getCombo());
                 singleRoom.getSingleGameData().addScore();
-                logger.info("TapMsg  : {}, score {}", tapMsg, singleRoom.getSingleGameData().getScore());
+                if (logger.isDebugEnabled()) {
+                    logger.debug("TapMsg  : {}, score {}", tapMsg, singleRoom.getSingleGameData().getScore());
+                }
             } else {
                 logger.error("TapMsg tapMsg is null!!!");
             }

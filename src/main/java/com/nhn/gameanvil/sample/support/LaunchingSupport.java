@@ -24,27 +24,38 @@ public class LaunchingSupport extends BaseSupportNode {
 
     @Override
     public void onInit() {
-        logger.info("onInit");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onInit");
+        }
     }
 
     @Override
     public void onPrepare() throws SuspendExecution {
-        logger.info("onPrepare");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onPrepare");
+        }
+        setReady();
     }
 
     @Override
     public void onReady() throws SuspendExecution {
-        logger.info("onReady");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onReady");
+        }
     }
 
     @Override
     public void onDispatch(Packet packet) throws SuspendExecution {
-        logger.info("onDispatch : {}", packet.getMsgName());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDispatch : {}", packet.getMsgName());
+        }
     }
 
     @Override
     public boolean onDispatch(RestObject restObject) throws SuspendExecution {
-        logger.info("onDispatch : {}", restObject.getOriginUrl());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDispatch : {}", restObject.getOriginUrl());
+        }
         if (restMsgHandler.isRegisteredMessage(restObject)) {
             restMsgHandler.dispatch(this, restObject);
             return true;
@@ -55,16 +66,23 @@ public class LaunchingSupport extends BaseSupportNode {
 
     @Override
     public void onPause(Payload payload) throws SuspendExecution {
-        logger.info("onPause");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onPause");
+        }
     }
 
     @Override
     public void onShutdown() throws SuspendExecution {
-        logger.info("onShutdown");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onShutdown");
+        }
     }
 
     @Override
     public void onResume(final Payload payload) throws SuspendExecution {
-        logger.info("onResume");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onResume");
+        }
+        setReady();
     }
 }

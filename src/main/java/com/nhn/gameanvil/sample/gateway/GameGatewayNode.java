@@ -17,42 +17,59 @@ public class GameGatewayNode extends BaseGatewayNode implements TimerHandler {
 
     @Override
     public void onInit() throws SuspendExecution {
-        logger.info("onInit");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onInit");
+        }
     }
 
     @Override
     public void onPrepare() throws SuspendExecution {
-        logger.info("onPrepare");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onPrepare");
+        }
         setReady();
     }
 
     @Override
     public void onReady() throws SuspendExecution {
-        logger.info("onReady");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onReady");
+        }
     }
 
     @Override
     public void onDispatch(Packet packet) throws SuspendExecution {
-        logger.info("onDispatch : {}", packet.getMsgName());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDispatch : {}", packet.getMsgName());
+        }
     }
 
     @Override
     public void onPause(Payload payload) throws SuspendExecution {
-        logger.info("onPause");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onPause");
+        }
     }
 
     @Override
     public void onResume(Payload payload) throws SuspendExecution {
-        logger.info("onResume");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onResume");
+        }
+        setReady();
     }
 
     @Override
     public void onShutdown() throws SuspendExecution {
-        logger.info("onShutdown");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onShutdown");
+        }
     }
 
     @Override
     public void onTimer(Timer timerObject, Object arg) throws SuspendExecution {
-        logger.info("onTimer - message : {}", arg);
+        if (logger.isDebugEnabled()) {
+            logger.debug("onTimer - message : {}", arg);
+        }
     }
 }

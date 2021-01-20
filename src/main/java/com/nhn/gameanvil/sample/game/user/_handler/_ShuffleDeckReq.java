@@ -1,14 +1,15 @@
 package com.nhn.gameanvil.sample.game.user._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.nhn.gameanvil.packet.Packet;
+import com.nhn.gameanvil.packet.PacketHandler;
+import com.nhn.gameanvil.sample.game.GameNode;
+import com.nhn.gameanvil.sample.game.user.GameUser;
 import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
 import com.nhn.gameanvil.sample.protocol.Result;
 import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
 import com.nhn.gameanvil.sample.protocol.User;
 import com.nhn.gameanvil.sample.protocol.User.CurrencyType;
-import com.nhn.gameanvil.sample.game.user.GameUser;
-import com.nhn.gameanvil.packet.Packet;
-import com.nhn.gameanvil.packet.PacketHandler;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -19,7 +20,6 @@ import org.slf4j.LoggerFactory;
  * 유저가 가지고 있는 현제 덱정보 서버갱신 저장, request 형식으로 전달되어 서버에서 처리후 reply 처리가 되어야 한다.
  */
 public class _ShuffleDeckReq implements PacketHandler<GameUser> {
-
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private static final String[] DECK_LIST = {"africa", "alpha", "america", "animal", "asia", "candy", "dessert", "europe", "sushi", "tamastory", "western"};
@@ -29,7 +29,9 @@ public class _ShuffleDeckReq implements PacketHandler<GameUser> {
         Result.ErrorCode resultCode = ErrorCode.UNKNOWN;
         User.ShuffleDeckRes.Builder shuffleDeckRes = User.ShuffleDeckRes.newBuilder();
         try {
-            logger.info("_ShuffleDeckReq - userId : {}", gameUser.getUserId());
+            if (logger.isDebugEnabled()) {
+                logger.debug("_ShuffleDeckReq - userId : {}", gameUser.getUserId());
+            }
 
             // 덱 셔플 처리
             User.ShuffleDeckReq shuffleDeckReq = User.ShuffleDeckReq.parseFrom(packet.getStream());
@@ -58,13 +60,21 @@ public class _ShuffleDeckReq implements PacketHandler<GameUser> {
             if (resultCode == ErrorCode.NONE) {
                 ArrayList<String> shuffleDeckList = new ArrayList<>(Arrays.asList(DECK_LIST));
                 shuffleDeckList.remove(gameUser.getGameUserInfo().getCurrentDeck());
-                logger.info("_ShuffleDeckReq - shuffleDeckList : {}", shuffleDeckList);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("_ShuffleDeckReq - shuffleDeckList : {}", shuffleDeckList);
+                }
 
                 String nextDeck = shuffleDeckList.get(new Random().nextInt(shuffleDeckList.size()));
-                logger.info("_ShuffleDeckReq - nextDeck : {}", nextDeck);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("_ShuffleDeckReq - nextDeck : {}", nextDeck);
+                }
 
                 // 유저 덱 변경 저장
+                // TODO - DB 테스트 : 기존 Mybatis UPDATE
                 int dbResultCount = UserDbHelperService.getInstance().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
+                // TODO - DB 테스트 : X dev api 노드 단위 생성 UPDATE
+//                int dbResultCount = ((GameNode)GameNode.getInstance()).getUserDbHelper().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
+
                 if (dbResultCount == 1) {   // 정상 저장되었을 경우에 응답 데이터 설정
                     gameUser.getGameUserInfo().setCurrentDeck(nextDeck);
 
@@ -81,7 +91,9 @@ public class _ShuffleDeckReq implements PacketHandler<GameUser> {
         }
 
         shuffleDeckRes.setResultCode(resultCode);
-        logger.info("shuffleDeckRes - {}", shuffleDeckRes);
+        if (logger.isDebugEnabled()) {
+            logger.debug("_ShuffleDeckReq::shuffleDeckRes - {}", shuffleDeckRes);
+        }
         gameUser.reply(new Packet(shuffleDeckRes.build()));
     }
 }

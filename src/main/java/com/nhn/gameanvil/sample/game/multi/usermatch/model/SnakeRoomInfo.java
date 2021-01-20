@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * 유저 매치 하는 방정보
  */
-public class SnakeRoomInfo extends UserMatchInfo implements Serializable {
+public class SnakeRoomInfo extends UserMatchInfo implements Serializable, Comparable<SnakeRoomInfo> {
 
     private int id;
     private int rating;
@@ -36,5 +36,20 @@ public class SnakeRoomInfo extends UserMatchInfo implements Serializable {
 
     public int getMaxUserCount() {
         return maxUserCount;
+    }
+
+    @Override
+    public int compareTo(SnakeRoomInfo o) {
+        if (this.rating < o.getRating())
+            return -1;
+        else if (this.rating > o.getRating())
+            return 1;
+
+        if (this.id < o.getId())
+            return -1;
+        else if (this.id > o.getId())
+            return 1;
+
+        return 0;
     }
 }

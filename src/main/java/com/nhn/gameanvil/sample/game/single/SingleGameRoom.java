@@ -39,20 +39,23 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
 
     @Override
     public void onInit() throws SuspendExecution {
-        logger.info("onInit - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onInit - RoomId : {}", getId());
+        }
     }
 
     @Override
     public void onDestroy() throws SuspendExecution {
-        logger.info("onDestroy - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDestroy - RoomId : {}", getId());
+        }
     }
 
     @Override
     public void onDispatch(GameUser gameUser, Packet packet) throws SuspendExecution {
-        logger.info("onDispatch : RoomId : {}, UserId : {}, {}",
-            getId(),
-            gameUser.getUserId(),
-            packet.getMsgName());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDispatch : RoomId : {}, UserId : {}, msgName : {}", getId(), gameUser.getUserId(), packet.getMsgName());
+        }
         dispatcher.dispatch(this, gameUser, packet);
     }
 
@@ -68,8 +71,7 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
     @Override
     public boolean onCreateRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
         // 싱글게임 처리로 혼자서 방을 만들고 게임을 한다.
-        logger.info("onCreateRoom - RoomId : {}, UserId : {}", getId(),
-            gameUser.getUserId());
+        logger.info("onCreateRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
 
         // 에러코드 기본값 설정
         Result.ErrorCode resultCode = Result.ErrorCode.UNKNOWN;
@@ -84,24 +86,27 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
             try {
                 // 게임시작 데이터 확인
                 GameSingle.StartGameReq startGameReq = GameSingle.StartGameReq.parseFrom(startGamePacket.getStream());
-                logger.debug("onCreateRoom - startGameReq : {}", startGameReq);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("onCreateRoom - startGameReq : {}", startGameReq);
+                }
 
                 if (startGameReq == null || startGameReq.getDeck().isEmpty()) {
                     resultCode = Result.ErrorCode.PARAMETER_IS_EMPTY;
                     logger.error("onCreateRoom fail!! startGameReq is null!!");
                 } else if (gameUser.getGameUserInfo().getHeart() < 1) {
                     resultCode = Result.ErrorCode.NOT_ENOUGH_HEART;
-                    logger.info("onCreateRoom fail!! NOT_ENOUGH_HEART is null!! : {}", gameUser.getGameUserInfo().getHeart());
+                    logger.warn("onCreateRoom fail!! NOT_ENOUGH_HEART is null!! : {}", gameUser.getGameUserInfo().getHeart());
                 } else {
                     //--------------------------------- 게임 입장 로직 처리
-
                     gameUser.getGameUserInfo().useHeart();
 
                     // 게임에서 사용할 데이터 설정
                     singleGameData.setDeck(startGameReq.getDeck());
                     singleGameData.setDifficulty(startGameReq.getDifficultyValue());
 
-                    logger.info("onCreateRoom Success. singleGameData:{}", singleGameData);
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("onCreateRoom Success. singleGameData:{}", singleGameData);
+                    }
                     resultCode = Result.ErrorCode.NONE;
                 }
             } catch (IOException e) {
@@ -124,8 +129,9 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
 
     @Override
     public boolean onJoinRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
-        logger.info("onJoinRoom - RoomId : {}, UserId : {}", getId(),
-            gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onJoinRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
         outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_SINGLE)));
         return true;
     }
@@ -142,7 +148,9 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
     @Override
     public boolean onLeaveRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
         // 게임이 종료되고 게임을 나갈때 처리
-        logger.info("onLeaveRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onLeaveRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
 
         // 에러 코드 기본값 설정
         Result.ErrorCode resultCode = Result.ErrorCode.UNKNOWN;
@@ -153,23 +161,32 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
         if (gameUser.getGameUserInfo().getHighScore() < singleGameData.getScore()) {
             gameUser.getGameUserInfo().setHighScore(singleGameData.getScore());
             boolean isSuccess = false;
-            int dbSuccessCount = UserDbHelperService.getInstance().updateUserHigScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
-            logger.info("DB update Result : {}", dbSuccessCount);
+            // TODO - DB 테스트 : 기존 Mybatis UPDATE
+//            int dbSuccessCount = UserDbHelperService.getInstance().updateUserHigScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
+            // TODO - DB 테스트 : X dev api 노드 단위 생성 UPDATE
+            int dbSuccessCount = ((GameNode)gameUser.getBaseGameNode()).getUserDbHelper().updateUserHigScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
+
+            if (logger.isDebugEnabled()) {
+                logger.debug("DB update Result : {}", dbSuccessCount);
+            }
+
             if (dbSuccessCount == 1) {
                 isSuccess = true;
             }
 
-            if (isSuccess) {
-                isSuccess = ((GameNode)GameNode.getInstance()).getRedisHelper().setSingleScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
-                logger.info("Redis set Result : {}", isSuccess);
-            }
+//            if (isSuccess) {
+//                isSuccess = ((GameNode)GameNode.getInstance()).getRedisHelper().setSingleScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
+//                if (logger.isDebugEnabled()) {
+//                    logger.debug("Redis set Result : {}", isSuccess);
+//                }
+//            }
 
-            if (!isSuccess) {
-                resultCode = ErrorCode.DB_ERROR;
-                endGameRes.setErrorCode(resultCode);
-                outPayload.add(new Packet(endGameRes));
-                return false;
-            }
+//            if (!isSuccess) {
+//                resultCode = ErrorCode.DB_ERROR;
+//                endGameRes.setErrorCode(resultCode);
+//                outPayload.add(new Packet(endGameRes));
+//                return false;
+//            }
         }
 
         // 게임 종료 패킷 확인
@@ -182,7 +199,9 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
             try {
                 // 게임 종료 데이터 확인
                 GameSingle.EndGameReq endGameReq = GameSingle.EndGameReq.parseFrom(endGamePacket.getStream());
-                logger.debug("onLeaveRoom - endGameReq : {}", endGameReq);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("onLeaveRoom - endGameReq : {}", endGameReq);
+                }
 
                 if (endGameReq == null) {
                     resultCode = Result.ErrorCode.PARAMETER_IS_EMPTY;
@@ -190,7 +209,9 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
                 } else {
                     //--------------------------------- 게임 종료 로직 처리
 
-                    logger.info("onLeaveRoom Success. singleGameData:{}", singleGameData);
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("onLeaveRoom Success. singleGameData:{}", singleGameData);
+                    }
                     resultCode = Result.ErrorCode.NONE;
                 }
             } catch (IOException e) {
@@ -202,7 +223,9 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
         if (resultCode == Result.ErrorCode.NONE) {
             endGameRes.setUserData(gameUser.getUserDataByProto());
             endGameRes.setTotalScore(singleGameData.getTotalScore());
-            logger.info("onLeaveRoom endGameRes:{}", endGameRes);
+            if (logger.isDebugEnabled()) {
+                logger.debug("onLeaveRoom endGameRes:{}", endGameRes);
+            }
 
             outPayload.add(new Packet(endGameRes));
             return true;
@@ -213,14 +236,16 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
 
     @Override
     public void onPostLeaveRoom(GameUser gameUser) throws SuspendExecution {
-        logger.info("onPostLeaveRoom - RoomId : {}, UserId : {}", getId(),
-            gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onPostLeaveRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
     }
 
     @Override
     public void onRejoinRoom(GameUser gameUser, Payload outPayload) throws SuspendExecution {
-        logger.info("onRejoinRoom - RoomId : {}, UserId : {}", getId(),
-            gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onRejoinRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
         outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_SINGLE)));
     }
 
@@ -236,13 +261,17 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
 
     @Override
     public boolean canTransfer() throws SuspendExecution {
-        logger.info("canTransfer - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("canTransfer - RoomId : {}", getId());
+        }
         return false;
     }
 
     @Override
     public void onTimer(Timer timer, Object arg) throws SuspendExecution {
-        logger.info("onTimer - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onTimer - RoomId : {}", getId());
+        }
     }
 
     public SingleTapGameInfo getSingleGameData() {

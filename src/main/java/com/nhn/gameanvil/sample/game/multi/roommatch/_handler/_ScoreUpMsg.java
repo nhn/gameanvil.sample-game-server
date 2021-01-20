@@ -1,11 +1,11 @@
 package com.nhn.gameanvil.sample.game.multi.roommatch._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.gameanvil.sample.game.user.GameUser;
-import com.nhn.gameanvil.sample.protocol.GameMulti;
-import com.nhn.gameanvil.sample.game.multi.roommatch.UnlimitedTapRoom;
 import com.nhn.gameanvil.node.game.RoomPacketHandler;
 import com.nhn.gameanvil.packet.Packet;
+import com.nhn.gameanvil.sample.game.multi.roommatch.UnlimitedTapRoom;
+import com.nhn.gameanvil.sample.game.user.GameUser;
+import com.nhn.gameanvil.sample.protocol.GameMulti;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,9 @@ public class _ScoreUpMsg implements RoomPacketHandler<UnlimitedTapRoom, GameUser
         try {
             GameMulti.ScoreUpMsg scoreUpMsg = GameMulti.ScoreUpMsg.parseFrom(packet.getStream());
             if (scoreUpMsg != null) {
-                logger.info("ScoreUpMsg userId {} : {}", user.getUserId(), scoreUpMsg);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("ScoreUpMsg userId {} : msg {}", user.getUserId(), scoreUpMsg);
+                }
 
                 // 전달 받은 스코어 저장
                 room.getGameUserScoreMap().put(user.getGameUserInfo().getUuid(), (int)scoreUpMsg.getScore());
@@ -30,7 +32,9 @@ public class _ScoreUpMsg implements RoomPacketHandler<UnlimitedTapRoom, GameUser
 
                 // 방에있는 유저들에게 메세지 전송.
                 for (GameUser gameUser : room.getGameUserMap().values()) {
-                    logger.info("BroadcastTapBirdMsg userId {} : {}", gameUser.getUserId(), broadcastMsg);
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("BroadcastTapBirdMsg userId {} : msg {}", gameUser.getUserId(), broadcastMsg);
+                    }
                     gameUser.send(new Packet(broadcastMsg));
                 }
             } else {

@@ -4,9 +4,9 @@ import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhn.gameanvil.async.Async;
 import com.nhn.gameanvil.async.Callable;
 import com.nhn.gameanvil.sample.common.GameConstants;
+import com.nhn.gameanvil.sample.game.user.model.GameUserInfo;
 import com.nhn.gameanvil.sample.mybatis.dto.UserDto;
 import com.nhn.gameanvil.sample.mybatis.mappers.UserDataMapper;
-import com.nhn.gameanvil.sample.game.user.model.GameUserInfo;
 import java.util.concurrent.TimeoutException;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -33,6 +33,44 @@ public enum UserDbHelperService {
      * @throws SuspendExecution
      */
     public GameUserInfo selectUserByUuid(String uuid) throws TimeoutException, SuspendExecution {
+//        Session session = GameSessionFactory.getSession();
+//
+//        // Row SQL
+//        CompletableFuture<SqlResult> future = session.sql("SELECT * FROM users WHERE uuid = " + uuid).executeAsync();
+//        try {
+//            SqlResult result = Async.awaitFuture(future);
+//
+//            Row row = result.fetchOne();
+//            if (row == null) {
+//                return null;
+//            }
+//            GameUserInfo gameUserInfo = new GameUserInfo();
+//            gameUserInfo.setUuid(row.getString("uuid"));
+//            gameUserInfo.setLoginType(row.getInt("login_type"));
+//            gameUserInfo.setAppVersion(row.getString("app_version"));
+//            gameUserInfo.setAppStore(row.getString("app_store"));
+//            gameUserInfo.setDeviceModel(row.getString("device_model"));
+//            gameUserInfo.setDeviceCountry(row.getString("device_country"));
+//            gameUserInfo.setDeviceLanguage(row.getString("device_language"));
+//            gameUserInfo.setNickname(row.getString("nickname"));
+//            gameUserInfo.setHeart(row.getInt("heart"));
+//            gameUserInfo.setCoin(row.getInt("coin"));
+//            gameUserInfo.setRuby(row.getLong("ruby"));
+//            gameUserInfo.setLevel(row.getInt("level"));
+//            gameUserInfo.setExp(row.getLong("exp"));
+//            gameUserInfo.setHighScore(row.getLong("high_score"));
+//            gameUserInfo.setCurrentDeck(row.getString("current_deck"));
+//            if (logger.isDebugEnabled()) {
+//                logger.debug("-----> mysql x-dev api selectUserByUuid{} : {},", uuid, gameUserInfo);
+//            }
+//            return gameUserInfo;
+//        } catch (TimeoutException e) {
+//            logger.error("UserDbHelperService::selectUserByUuid()", e);
+//            return null;
+//        } finally {
+//            session.close();
+//        }
+
         // Callable 형태로 Async 실행하고 결과 리턴.
         GameUserInfo gameUserInfo = Async.callBlocking(GameConstants.DB_THREAD_POOL, new Callable<GameUserInfo>() {
             @Override
@@ -63,6 +101,43 @@ public enum UserDbHelperService {
      * @throws SuspendExecution
      */
     public int insertUser(GameUserInfo gameUserInfo) throws TimeoutException, SuspendExecution {
+//        Session session = GameSessionFactory.getSession();
+//
+//        // Row SQL
+//        CompletableFuture<SqlResult> future = session.sql(
+//            "INSERT INTO users (uuid, login_type, app_version, app_store, device_model, device_country, device_language, nickname, heart, coin, ruby, level, exp, high_score, current_deck, create_date, update_date) VALUES (" +
+//                gameUserInfo.getUuid() + ",'" +
+//                gameUserInfo.getLoginType() + "','" +
+//                gameUserInfo.getAppVersion() + "','" +
+//                gameUserInfo.getAppStore() + "','" +
+//                gameUserInfo.getDeviceModel() + "','" +
+//                gameUserInfo.getDeviceCountry() + "','" +
+//                gameUserInfo.getDeviceLanguage() + "','" +
+//                gameUserInfo.getNickname() + "'," +
+//                gameUserInfo.getHeart() + "," +
+//                gameUserInfo.getCoin() + "," +
+//                gameUserInfo.getRuby() + "," +
+//                gameUserInfo.getLevel() + "," +
+//                gameUserInfo.getExp() + "," +
+//                gameUserInfo.getHighScore() + ",'" +
+//                gameUserInfo.getCurrentDeck() + "', NOW(), NOW())").executeAsync();
+//
+//        try {
+//            SqlResult result = Async.awaitFuture(future);
+//
+//            if (logger.isDebugEnabled()) {
+//                logger.debug("-----> mysql x-dev api insertUser {} : {},", result.getAffectedItemsCount(), gameUserInfo);
+//            }
+//            session.commit();
+//            return (int)result.getAffectedItemsCount();
+//        } catch (TimeoutException e) {
+//            logger.error("UserDbHelperService::insertUser()", e);
+//            session.rollback();
+//            return 0;
+//        } finally {
+//            session.close();
+//        }
+
         // Callable 형태로 Async 실행하고 결과 리턴.
         Integer resultCount = Async.callBlocking(GameConstants.DB_THREAD_POOL, new Callable<Integer>() {
             @Override
@@ -93,6 +168,27 @@ public enum UserDbHelperService {
      * @throws SuspendExecution
      */
     public int updateUserCurrentDeck(String uuid, String currentDeck) throws TimeoutException, SuspendExecution {
+//        Session session = GameSessionFactory.getSession();
+//
+//        // Row SQL
+//        CompletableFuture<SqlResult> future = session.sql(
+//            "UPDATE users SET current_deck = '" + currentDeck + "' WHERE uuid = '" + uuid + "'").executeAsync();
+//        try {
+//            SqlResult result = Async.awaitFuture(future);
+//
+//            if (logger.isDebugEnabled()) {
+//                logger.debug("-----> mysql x-dev api updateUserCurrentDeck {} : uuid {}, deck {},", result.getAffectedItemsCount(), uuid, currentDeck);
+//            }
+//            session.commit();
+//            return (int)result.getAffectedItemsCount();
+//        } catch (TimeoutException e) {
+//            logger.error("UserDbHelperService::updateUserCurrentDeck()", e);
+//            session.rollback();
+//            return 0;
+//        } finally {
+//            session.close();
+//        }
+
         // Callable 형태로 Async 실행하고 결과 리턴.
         Integer resultCount = Async.callBlocking(GameConstants.DB_THREAD_POOL, new Callable<Integer>() {
             @Override
@@ -123,6 +219,27 @@ public enum UserDbHelperService {
      * @throws SuspendExecution
      */
     public int updateUserNickname(String uuid, String nickname) throws TimeoutException, SuspendExecution {
+//        Session session = GameSessionFactory.getSession();
+//
+//        // Row SQL
+//        CompletableFuture<SqlResult> future = session.sql(
+//            "UPDATE users SET nickname = '" + nickname + "' WHERE uuid = '" + uuid + "'").executeAsync();
+//        try {
+//            SqlResult result = Async.awaitFuture(future);
+//
+//            if (logger.isDebugEnabled()) {
+//                logger.debug("-----> mysql x-dev api updateUserNickname {} : uuid {}, nickname {},", result.getAffectedItemsCount(), uuid, nickname);
+//            }
+//            session.commit();
+//            return (int)result.getAffectedItemsCount();
+//        } catch (TimeoutException e) {
+//            logger.error("UserDbHelperService::updateUserNickname()", e);
+//            session.rollback();
+//            return 0;
+//        } finally {
+//            session.close();
+//        }
+
         // Callable 형태로 Async 실행하고 결과 리턴.
         Integer resultCount = Async.callBlocking(GameConstants.DB_THREAD_POOL, new Callable<Integer>() {
             @Override
@@ -153,6 +270,27 @@ public enum UserDbHelperService {
      * @throws SuspendExecution
      */
     public int updateUserHigScore(String uuid, int highScore) throws SuspendExecution {
+//        Session session = GameSessionFactory.getSession();
+//
+//        // Row SQL
+//        CompletableFuture<SqlResult> future = session.sql(
+//            "UPDATE users SET high_Score = '" + highScore + "' WHERE uuid = '" + uuid + "'").executeAsync();
+//        try {
+//            SqlResult result = Async.awaitFuture(future);
+//
+//            if (logger.isDebugEnabled()) {
+//                logger.debug("-----> mysql x-dev api updateUserHigScore {} : uuid {}, highScore {},", result.getAffectedItemsCount(), uuid, highScore);
+//            }
+//            session.commit();
+//            return (int)result.getAffectedItemsCount();
+//        } catch (TimeoutException e) {
+//            logger.error("UserDbHelperService::updateUserHigScore()", e);
+//            session.rollback();
+//            return 0;
+//        } finally {
+//            session.close();
+//        }
+
         // Callable 형태로 Async 실행하고 결과 리턴.
         Integer resultCount = 0;
 

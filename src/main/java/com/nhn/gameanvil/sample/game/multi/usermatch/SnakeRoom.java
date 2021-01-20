@@ -16,8 +16,6 @@ import com.nhn.gameanvil.sample.protocol.GameMulti.SnakePositionData;
 import com.nhn.gameanvil.sample.protocol.GameMulti.SnakeUserData;
 import com.nhn.gameanvil.sample.protocol.User.RoomType;
 import com.nhn.gameanvil.serializer.TransferPack;
-import com.nhn.gameanvil.timer.Timer;
-import com.nhn.gameanvil.timer.TimerHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,8 +59,9 @@ public class SnakeRoom extends BaseRoom<GameUser> {
 
     @Override
     public void onInit() throws SuspendExecution {
-        logger.info("onInit - RoomId : {}", getId());
-
+        if (logger.isDebugEnabled()) {
+            logger.debug("onInit - RoomId : {}", getId());
+        }
         // 데이터 초기화
         foodList = new ArrayList<>();
         gameUserMap = new TreeMap<>();
@@ -72,15 +71,16 @@ public class SnakeRoom extends BaseRoom<GameUser> {
 
     @Override
     public void onDestroy() throws SuspendExecution {
-        logger.info("onDestroy - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDestroy - RoomId : {}", getId());
+        }
     }
 
     @Override
     public void onDispatch(GameUser gameUser, Packet packet) throws SuspendExecution {
-        logger.info("onDispatch : RoomId : {}, UserId : {}, {}",
-            getId(),
-            gameUser.getUserId(),
-            packet.getMsgName());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDispatch : RoomId : {}, UserId : {}, {}", getId(), gameUser.getUserId(), packet.getMsgName());
+        }
         dispatcher.dispatch(this, gameUser, packet);
     }
 
@@ -95,7 +95,9 @@ public class SnakeRoom extends BaseRoom<GameUser> {
      */
     @Override
     public boolean onCreateRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
-        logger.info("onCreateRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onCreateRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
         foodIndex = 0;
 
         try {
@@ -124,7 +126,9 @@ public class SnakeRoom extends BaseRoom<GameUser> {
      */
     @Override
     public boolean onJoinRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
-        logger.info("onJoinRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onJoinRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
         boolean isSuccess = false;
         try {
             if (gameUserMap.containsKey(gameUser.getUserId())) {
@@ -138,7 +142,9 @@ public class SnakeRoom extends BaseRoom<GameUser> {
                 gameUserScoreMap.put(gameUser.getGameUserInfo().getUuid(), 0);
                 if (gameUserMap.size() == 2) {  // 두명이들어왔을때 게임 시작
                     for (GameUser user : gameUserMap.values()) {
-                        logger.info("onJoinRoom - UserId : {}, SnakeGamInfo : {}", getId(), getSnakeGameInfoMsgByProto());
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("onJoinRoom - UserId : {}, SnakeGamInfo : {}", getId(), getSnakeGameInfoMsgByProto());
+                        }
                         user.send(new Packet(getSnakeGameInfoMsgByProto()));    // 두병 모두 들어왔을때 두유저에게 게임 정보 전송
                     }
 
@@ -158,7 +164,9 @@ public class SnakeRoom extends BaseRoom<GameUser> {
 
     @Override
     public boolean onLeaveRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
-        logger.info("onLeaveRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onLeaveRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
         return true;
     }
 
@@ -170,8 +178,9 @@ public class SnakeRoom extends BaseRoom<GameUser> {
      */
     @Override
     public void onPostLeaveRoom(GameUser gameUser) throws SuspendExecution {
-        logger.info("onPostLeaveRoom - RoomId : {}, UserId : {}", getId(),
-            gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onPostLeaveRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
 
         gameUserMap.remove(gameUser.getUserId());
         gameUserScoreMap.remove(gameUser.getGameUserInfo().getUuid());
@@ -180,7 +189,9 @@ public class SnakeRoom extends BaseRoom<GameUser> {
 
         for (GameUser user : gameUserMap.values()) {    // 방에 있는 모두를 방에서 내보낸다.
             if (user.isJoinedRoom()) {
-                logger.info("kickoutRoom - RoomId : {}, UserId : {}", getId(), user.getUserId());
+                if (logger.isDebugEnabled()) {
+                    logger.debug("kickoutRoom - RoomId : {}, UserId : {}", getId(), user.getUserId());
+                }
                 user.kickoutRoom();
             }
         }
@@ -188,20 +199,25 @@ public class SnakeRoom extends BaseRoom<GameUser> {
 
     @Override
     public void onRejoinRoom(GameUser gameUser, Payload outPayload) throws SuspendExecution {
-        logger.info("onRejoinRoom - RoomId : {}, UserId : {}", getId(),
-            gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onRejoinRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
         outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_SNAKE)));
     }
 
     @Override
     public boolean canTransfer() throws SuspendExecution {
-        logger.info("canTransfer - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("canTransfer - RoomId : {}", getId());
+        }
         return false;
     }
 
     @Override
     public void onTransferOut(TransferPack transferPack) throws SuspendExecution {
-        logger.info("onTransferOut - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onTransferOut - RoomId : {}", getId());
+        }
         SnakeRoomTransferInfo snakeRoomTransferInfo = new SnakeRoomTransferInfo();
         snakeRoomTransferInfo.setFoodList(foodList);
         snakeRoomTransferInfo.setGameUserMap(gameUserMap);
@@ -217,7 +233,9 @@ public class SnakeRoom extends BaseRoom<GameUser> {
 
     @Override
     public void onTransferIn(List<GameUser> userList, TransferPack transferPack) throws SuspendExecution {
-        logger.info("onTransferIn - RoomId : {}", getId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onTransferIn - RoomId : {}", getId());
+        }
         SnakeRoomTransferInfo snakeRoomTransferInfo = (SnakeRoomTransferInfo)transferPack.get("SnakeRoomTransferInfo");
         foodList = snakeRoomTransferInfo.getFoodList();
         gameUserMap = snakeRoomTransferInfo.getGameUserMap();
@@ -242,7 +260,9 @@ public class SnakeRoom extends BaseRoom<GameUser> {
                     for (SnakePositionInfo food : foodList) {
                         if (food.getX() == newFood.getX() && food.getY() == newFood.getY()) {
                             isDuplicate = true;
-                            logger.info("onTimer - new Food is isDuplicate : {}, foodIndex {}, newFood {}", getId(), foodIndex + 1, newFood);
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("onTimer - new Food is isDuplicate : {}, foodIndex {}, newFood {}", getId(), foodIndex + 1, newFood);
+                            }
                             break;
                         }
                     }
@@ -266,7 +286,9 @@ public class SnakeRoom extends BaseRoom<GameUser> {
                     gameUser.send(new Packet(snakeNewFoodMsg));
                 }
 
-                logger.info("onTimer - RoomId : {}, foodIndex {}, newFood {}", getId(), foodIndex, newFood);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("onTimer - RoomId : {}, foodIndex {}, newFood {}", getId(), foodIndex, newFood);
+                }
             }
         });
     }

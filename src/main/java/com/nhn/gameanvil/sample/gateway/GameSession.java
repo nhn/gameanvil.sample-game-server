@@ -14,13 +14,11 @@ public class GameSession extends BaseSession {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
     private static PacketDispatcher packetDispatcher = new PacketDispatcher();
-
-    static {
-    }
-
     @Override
     public void onDispatch(Packet packet) throws SuspendExecution {
-        logger.info("onDispatch : {}", packet.getMsgName());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDispatch : {}", packet.getMsgName());
+        }
 
         packetDispatcher.dispatch(this, packet);
     }

@@ -2,7 +2,6 @@ package com.nhn.gameanvil.sample.gateway;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.nhn.gameanvil.GameAnvilUtil;
 import com.nhn.gameanvil.async.http.HttpRequest;
 import com.nhn.gameanvil.async.http.HttpResponse;
@@ -33,9 +32,9 @@ public class GameConnection extends BaseConnection<GameSession> {
     public boolean onAuthenticate(String accountId, String password, String deviceId,
         Payload payload, Payload outPayload) throws SuspendExecution {
         // 클라이언트로 무터 전달 받은 데이터 출력
-        logger.info(
-            "onAuthenticate - accountId : {}, password : {}, deviceId : {}",
-            accountId, password, deviceId);
+        if (logger.isDebugEnabled()) {
+            logger.debug("onAuthenticate - accountId : {}, password : {}, deviceId : {}", accountId, password, deviceId);
+        }
 
         // 응답 코드 기본값 지정
         Result.ErrorCode resultCode = ErrorCode.UNKNOWN;
@@ -59,7 +58,9 @@ public class GameConnection extends BaseConnection<GameSession> {
                         resultCode = ErrorCode.TOKEN_IS_EMPTY;
                         logger.error("onAuthenticate fail!! authenticationReq.getAccessToken() is empty!!");
                     } else {
-                        logger.info("onAuthenticate Success. token:{}", authenticationReq.getAccessToken());
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("onAuthenticate Success. token:{}", authenticationReq.getAccessToken());
+                        }
 
                         if (authenticationReq.getAccessToken().startsWith("TapTap_AccessToken")) {
                             // 플랫폼 테스트용 토큰 - 검증없이 정상 처리
@@ -68,12 +69,16 @@ public class GameConnection extends BaseConnection<GameSession> {
                             // Gamebse 인증
                             //----------------------------------- 토큰 유효한지에 대한 검증 Gamebase
                             String gamebaseUrl = String.format(GameConstants.GAMEBASE_DEFAULT_URL + "/tcgb-gateway/v1.2/apps/X2bqX5du/members/%s/tokens/%s", accountId, authenticationReq.getAccessToken());
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("httpRequest url [{}]", gamebaseUrl);
+                            }
                             HttpRequest httpRequest = new HttpRequest(gamebaseUrl);
                             httpRequest.getBuilder().addHeader("Content-Type", "application/json");
                             httpRequest.getBuilder().addHeader("X-Secret-Key", GameConstants.GAMEBASE_SECRET_KEY);
-                            logger.info("httpRequest url [{}]", gamebaseUrl);
                             HttpResponse response = httpRequest.GET();
-                            logger.info("httpRequest response:[{}]", response.toString());
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("httpRequest response:[{}]", response.toString());
+                            }
 
                             // Gamebase 응답 json 데이터 객체 파싱
                             AuthenticationResponse gamebaseResponse = response.getContents(AuthenticationResponse.class);
@@ -82,9 +87,12 @@ public class GameConnection extends BaseConnection<GameSession> {
                             } else {
                                 resultCode = ErrorCode.TOKEN_NOT_VALIDATED;
                             }
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("gamebaseResponse response:[{}]", gamebaseResponse.getHeader().getResultCode());
+                            }
 
-                            String testurl = String.format(GameConstants.GAMEBASE_DEFAULT_URL + "/tcgb-member/v1.2/apps/X2bqX5du/members");
-                            HttpRequest httpRequestPost = new HttpRequest(testurl);
+                            String testUrl = String.format(GameConstants.GAMEBASE_DEFAULT_URL + "/tcgb-member/v1.2/apps/X2bqX5du/members");
+                            HttpRequest httpRequestPost = new HttpRequest(testUrl);
                             httpRequestPost.getBuilder().addHeader("Content-Type", "application/json");
                             httpRequestPost.getBuilder().addHeader("X-Secret-Key", GameConstants.GAMEBASE_SECRET_KEY);
 
@@ -93,9 +101,9 @@ public class GameConnection extends BaseConnection<GameSession> {
 
                             httpRequestPost.getBuilder().setBody(GameAnvilUtil.Gson().toJson(userIds));
                             HttpResponse responsePost = httpRequestPost.POST();
-                            logger.info("httpRequestPost:[{}] , getResponseBody[{}]", responsePost.toString(), responsePost.getResponse().getResponseBody());
-
-                            logger.info("gamebaseResponse response:[{}]", gamebaseResponse.getHeader().getResultCode());
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("httpRequestPost:[{}] , getResponseBody[{}]", responsePost.toString(), responsePost.getResponse().getResponseBody());
+                            }
                             //------------------------------------
                         }
                     }
@@ -105,9 +113,7 @@ public class GameConnection extends BaseConnection<GameSession> {
                 }
             }
         } else {
-            logger.error(
-                "onAuthenticate fail. password must be same as accountId. id:{}, pw:{}, device:{}",
-                accountId, password, deviceId);
+            logger.error("onAuthenticate fail. password must be same as accountId. id:{}, pw:{}, device:{}", accountId, password, deviceId);
             resultCode = ErrorCode.PASSWORD_NOT_MATCHED;
         }
 
@@ -124,37 +130,51 @@ public class GameConnection extends BaseConnection<GameSession> {
 
     @Override
     public void onDispatch(Packet packet) throws SuspendExecution {
-        logger.info("onDispatch : {}", packet.getMsgName());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDispatch : {}", packet.getMsgName());
+        }
         packetDispatcher.dispatch(this, packet);
     }
 
     @Override
     public void onPreLogin(Payload outPayload) throws SuspendExecution {
-        logger.info("onPreLogin");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onPreLogin");
+        }
     }
 
     @Override
     public void onPostLogin(GameSession session) throws SuspendExecution {
-        logger.info("onPostLogin : {}", session.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onPostLogin : {}", session.getUserId());
+        }
     }
 
     @Override
     public void onPostLogout(GameSession session) throws SuspendExecution {
-        logger.info("onPostLogout : {}", session.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onPostLogout : {}", session.getUserId());
+        }
     }
 
     @Override
     public void onPause() throws SuspendExecution {
-        logger.info("onPause : {}", getAccountId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onPause : {}", getAccountId());
+        }
     }
 
     @Override
     public void onResume() throws SuspendExecution {
-        logger.info("onResume");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onResume");
+        }
     }
 
     @Override
     public void onDisconnect() throws SuspendExecution {
-        logger.info("onDisconnect");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDisconnect");
+        }
     }
 }

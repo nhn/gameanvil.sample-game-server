@@ -1,12 +1,13 @@
 package com.nhn.gameanvil.sample.game.user._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.nhn.gameanvil.packet.Packet;
+import com.nhn.gameanvil.packet.PacketHandler;
+import com.nhn.gameanvil.sample.game.GameNode;
+import com.nhn.gameanvil.sample.game.user.GameUser;
 import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
 import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
 import com.nhn.gameanvil.sample.protocol.User;
-import com.nhn.gameanvil.sample.game.user.GameUser;
-import com.nhn.gameanvil.packet.Packet;
-import com.nhn.gameanvil.packet.PacketHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +30,7 @@ public class _ChangeNicknameReq implements PacketHandler<GameUser> {
             User.ChangeNicknameReq changeNicknameReq = User.ChangeNicknameReq.parseFrom(packet.getStream());
             if (changeNicknameReq == null || changeNicknameReq.getNickname() == null || changeNicknameReq.getNickname().isEmpty()) {
                 resultCode = ErrorCode.PARAMETER_IS_EMPTY;
-                logger.error("shuffleDeckReq is null or empty!!");
+                logger.error("_ChangeNicknameReq is null or empty!!");
             } else {
                 // 닉네임 ng word 확인 -- 필요한 로직 구현 필요
                 checkNickname = changeNicknameReq.getNickname();
@@ -38,7 +39,10 @@ public class _ChangeNicknameReq implements PacketHandler<GameUser> {
                 // 닉네임 저장
                 if (resultCode == ErrorCode.NONE) {
                     // 유저 덱 변경 저장
+                    // TODO - DB 테스트 : 기존 Mybatis UPDATE
                     int dbResultCount = UserDbHelperService.getInstance().updateUserNickname(gameUser.getGameUserInfo().getUuid(), checkNickname);
+                    // TODO - DB 테스트 : X dev api 노드 단위 생성 UPDATE
+//                    int dbResultCount = ((GameNode)GameNode.getInstance()).getUserDbHelper().updateUserNickname(gameUser.getGameUserInfo().getUuid(), checkNickname);
                     if (dbResultCount == 1) {   // 정상 저장되었을 경우에 응답 데이터 설정
                         gameUser.getGameUserInfo().setNickname(checkNickname);
 
@@ -51,12 +55,14 @@ public class _ChangeNicknameReq implements PacketHandler<GameUser> {
             }
 
         } catch (Exception e) {
-            logger.error("_ShuffleDeckReq::execute()", e);
+            logger.error("_ChangeNicknameReq::execute()", e);
             resultCode = ErrorCode.UNKNOWN;
         }
 
         changeNicknameRes.setResultCode(resultCode);
-        logger.info("changeNicknameRes - {}", changeNicknameRes);
+        if (logger.isDebugEnabled()) {
+            logger.debug("_ChangeNicknameReq::changeNicknameRes - {}", changeNicknameRes);
+        }
         gameUser.reply(new Packet(changeNicknameRes.build()));
     }
 }

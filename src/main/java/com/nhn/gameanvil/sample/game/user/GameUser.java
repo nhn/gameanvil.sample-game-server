@@ -63,7 +63,9 @@ public class GameUser extends BaseUser implements TimerHandler {
      */
     @Override
     public boolean onLogin(Payload payload, Payload accountPayload, Payload outPayload) throws SuspendExecution {
-        logger.debug("onLogin - UserId : {}", getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onLogin - UserId : {}", getUserId());
+        }
 
         Result.ErrorCode resultCode = ErrorCode.UNKNOWN;
         boolean isSuccess = false;
@@ -78,7 +80,9 @@ public class GameUser extends BaseUser implements TimerHandler {
             try {
                 // 로그인 패킷
                 Authentication.LoginReq loginReq = Authentication.LoginReq.parseFrom(loginPacket.getStream());
-                logger.debug("onLogin - loginReq : {}", loginReq);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("onLogin - loginReq : {}", loginReq);
+                }
 
                 if (loginReq == null || loginReq.getUuid().isEmpty()) {
                     resultCode = ErrorCode.PARAMETER_IS_EMPTY;
@@ -96,7 +100,10 @@ public class GameUser extends BaseUser implements TimerHandler {
                     gameUserInfo.setDeviceLanguage(loginReq.getDeviceLanguage());
 
                     // DB에서 유저 데이터 검색
-                    GameUserInfo dbGameUserInfo = UserDbHelperService.getInstance().selectUserByUuid(gameUserInfo.getUuid());
+                    // TODO - DB 테스트 : 기존 Mybatis SELECT
+//                    GameUserInfo dbGameUserInfo = UserDbHelperService.getInstance().selectUserByUuid(gameUserInfo.getUuid());
+                    // TODO - DB 테스트 : X dev api 노드 단위 생성 SELECT
+                    GameUserInfo dbGameUserInfo = ((GameNode)this.getBaseGameNode()).getUserDbHelper().selectUserByUuid(gameUserInfo.getUuid());
 
                     if (dbGameUserInfo == null) {   // DB에 데이터가 없으므로 신규
                         // 게임 데이터 설정
@@ -110,8 +117,14 @@ public class GameUser extends BaseUser implements TimerHandler {
                         gameUserInfo.setCurrentDeck("sushi");
 
                         // 신규 DB 저장
-                        int dbResultCount = UserDbHelperService.getInstance().insertUser(gameUserInfo);
-                        logger.info("DB User Insert {} ", dbResultCount);
+                        // TODO - DB 테스트 : 기존 Mybatis UPDATE
+//                        int dbResultCount = UserDbHelperService.getInstance().insertUser(gameUserInfo);
+                        // TODO - DB 테스트 : X dev api 노드 단위 생성 UPDATE
+                        int dbResultCount = ((GameNode)this.getBaseGameNode()).getUserDbHelper().insertUser(gameUserInfo);
+
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("DB User Insert {} ", dbResultCount);
+                        }
                     } else {
                         // DB에서 가져온 유저 데이터 설정
                         gameUserInfo.setNickname(dbGameUserInfo.getNickname());
@@ -124,17 +137,18 @@ public class GameUser extends BaseUser implements TimerHandler {
                         gameUserInfo.setCurrentDeck(dbGameUserInfo.getCurrentDeck());
                     }
 
-                    logger.info("onLogin Success. userInfo:{}", gameUserInfo);
+                    if (logger.isDebugEnabled()) {
+                        logger.debug("onLogin Success. userInfo:{}", gameUserInfo);
+                    }
                     resultCode = ErrorCode.NONE;
                     isSuccess = true;
 
                     // 로그인한 유저 데이터 레디스에 세팅
-
-                    boolean isRedisSuccess = ((GameNode)GameNode.getInstance()).getRedisHelper().setUserData(gameUserInfo);
-
-                    if (!isRedisSuccess) {
-                        logger.warn("Redis setUserData fail!!! {} ", gameUserInfo);
-                    }
+//                    boolean isRedisSuccess = ((GameNode)GameNode.getInstance()).getRedisHelper().setUserData(gameUserInfo);
+//
+//                    if (!isRedisSuccess) {
+//                        logger.warn("Redis setUserData fail!!! {} ", gameUserInfo);
+//                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -154,12 +168,16 @@ public class GameUser extends BaseUser implements TimerHandler {
 
     @Override
     public void onPostLogin() throws SuspendExecution {
-        logger.debug("onPostLogin - UserId : {}", getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onPostLogin - UserId : {}", getUserId());
+        }
     }
 
     @Override
     public boolean onReLogin(Payload payload, Payload accountPayload, Payload outPayload) throws SuspendExecution {
-        logger.debug("onReLogin - UserId : {}, payload {}, accountPayload {}, outPayload{}", getUserId(), payload, accountPayload, outPayload);
+        if (logger.isDebugEnabled()) {
+            logger.debug("onReLogin - UserId : {}, payload {}, accountPayload {}, outPayload{}", getUserId(), payload, accountPayload, outPayload);
+        }
 
         // 로그인 처리후 클라이언트에 응답 프로토콜 작성
         Authentication.LoginRes.Builder loginRes = Authentication.LoginRes.newBuilder();
@@ -171,24 +189,31 @@ public class GameUser extends BaseUser implements TimerHandler {
 
     @Override
     public void onDisconnect() throws SuspendExecution {
-        logger.debug("onDisconnect - UserId : {}", getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDisconnect - UserId : {}", getUserId());
+        }
 
         // 사용자가 접속이 끊길때 유저가 방안에 있다면 방에서 나오기
         if (isJoinedRoom()) {
-            logger.info("kickoutRoom - UserId : {}", getUserType());
+            if (logger.isDebugEnabled()) {
+                logger.debug("kickoutRoom - UserId : {}", getUserType());
+            }
             kickoutRoom();
         }
     }
 
     @Override
     public void onDispatch(Packet packet) throws SuspendExecution {
+        if (logger.isDebugEnabled()) {
+            logger.debug("onDispatch");
+        }
         packetDispatcher.dispatch(this, packet);
     }
 
     @Override
     public void onPause() throws SuspendExecution {
-        if (logger.isTraceEnabled()) {
-            logger.trace("onPause");
+        if (logger.isDebugEnabled()) {
+            logger.debug("onPause");
         }
 
         if (!isJoinedRoom()) {
@@ -198,34 +223,46 @@ public class GameUser extends BaseUser implements TimerHandler {
 
     @Override
     public void onResume() throws SuspendExecution {
-        logger.debug("onResume - UserId : {}", getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onResume - UserId : {}", getUserId());
+        }
     }
 
     @Override
     public void onLogout(Payload payload, Payload outPayload) throws SuspendExecution {
-        logger.debug("onLogout - UserId : {}, payload : {}, outPayload : {}", getUserId(), payload, outPayload);
+        if (logger.isDebugEnabled()) {
+            logger.debug("onLogout - UserId : {}, payload : {}, outPayload : {}", getUserId(), payload, outPayload);
+        }
     }
 
     @Override
     public boolean canLogout() throws SuspendExecution {
-        logger.debug("canLogout - UserId : {}", getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("canLogout - UserId : {}", getUserId());
+        }
         return true;
     }
 
     @Override
     public boolean canTransfer() throws SuspendExecution {
-        logger.debug("canTransfer - UserId : {}", getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("canTransfer - UserId : {}", getUserId());
+        }
         return false;
     }
 
     @Override
     public void onTimer(Timer timer, Object o) throws SuspendExecution {
-        logger.debug("onTimer - UserId : {}", getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onTimer - UserId : {}", getUserId());
+        }
     }
 
     @Override
     public void onTransferOut(TransferPack transferPack) throws SuspendExecution {
-        logger.debug("onTransferOut - UserId : {}", getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onTransferOut - UserId : {}", getUserId());
+        }
         GameUserTransferInfo gameUserTransferInfo = new GameUserTransferInfo(); // 트랜스퍼용 객체 생성
         gameUserTransferInfo.setGameUserInfo(gameUserInfo);
         gameUserTransferInfo.setGetSnakePositionInfoList(snakePositionInfoList);
@@ -234,7 +271,9 @@ public class GameUser extends BaseUser implements TimerHandler {
 
     @Override
     public void onTransferIn(TransferPack transferPack) throws SuspendExecution {
-        logger.debug("onTransferIn - UserId : {}", getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onTransferIn - UserId : {}", getUserId());
+        }
         GameUserTransferInfo gameUserTransferInfo = (GameUserTransferInfo)transferPack.get("GameUserInfo");
         gameUserInfo = gameUserTransferInfo.getGameUserInfo();
         snakePositionInfoList = gameUserTransferInfo.getGetSnakePositionInfoList();
@@ -250,7 +289,9 @@ public class GameUser extends BaseUser implements TimerHandler {
      */
     @Override
     public MatchRoomResult onMatchRoom(String roomType, Payload payload) throws SuspendExecution {
-        logger.info("onMatchRoom - UserId : {}, RoomIdBeforeMove : {}", getUserId(), getRoomIdBeforeMove());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onMatchRoom - UserId : {}, RoomIdBeforeMove : {}, roomType {}", getUserId(), getRoomIdBeforeMove(), roomType);
+        }
         try {
             UnlimitedTapRoomInfo terms = new UnlimitedTapRoomInfo();
             // moveRoom 옵션이 true일 경우 room에 참여중인 상태에서도 matchRoom 이 가능하다.
@@ -279,7 +320,9 @@ public class GameUser extends BaseUser implements TimerHandler {
      */
     @Override
     public boolean onMatchUser(final String roomType, final Payload payload, Payload outPayload) throws SuspendExecution {
-        logger.info("onMatchUser - UserId : {}", getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onMatchUser - UserId : {}", getUserId());
+        }
         try {
             String matchingGroup = getChannelId();
             SnakeRoomInfo term = new SnakeRoomInfo(getUserId(), 100);
@@ -289,7 +332,6 @@ public class GameUser extends BaseUser implements TimerHandler {
         }
         return false;
     }
-
 
     public User.UserData getUserDataByProto() {     // 프로토콜 용 데이터 생성
         User.UserData.Builder userData = User.UserData.newBuilder();

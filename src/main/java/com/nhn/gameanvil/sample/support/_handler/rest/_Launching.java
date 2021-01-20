@@ -22,7 +22,9 @@ public class _Launching implements RestPacketHandler {
     public void execute(Object target, RestObject restObject) throws SuspendExecution {
         Map<String, List<String>> queryMap = restObject.getRequestParameters();
 
-        logger.info("execute restObject url {}, parameter {} ", restObject.getOriginUrl(), restObject.getRequestParameters());
+        if (logger.isDebugEnabled()) {
+            logger.debug("execute restObject url {}, parameter {} ", restObject.getOriginUrl(), restObject.getRequestParameters());
+        }
         String responseMessage = "SUCCESS";
         int stateCode = 200;
 

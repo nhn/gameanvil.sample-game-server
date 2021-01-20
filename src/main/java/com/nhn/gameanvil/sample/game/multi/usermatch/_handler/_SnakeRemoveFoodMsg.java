@@ -1,13 +1,13 @@
 package com.nhn.gameanvil.sample.game.multi.usermatch._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.nhn.gameanvil.node.game.RoomPacketHandler;
+import com.nhn.gameanvil.packet.Packet;
+import com.nhn.gameanvil.sample.game.multi.usermatch.SnakeRoom;
+import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakePositionInfo;
 import com.nhn.gameanvil.sample.game.user.GameUser;
 import com.nhn.gameanvil.sample.protocol.GameMulti;
 import com.nhn.gameanvil.sample.protocol.GameMulti.SnakePositionData;
-import com.nhn.gameanvil.sample.game.multi.usermatch.SnakeRoom;
-import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakePositionInfo;
-import com.nhn.gameanvil.node.game.RoomPacketHandler;
-import com.nhn.gameanvil.packet.Packet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,13 +17,14 @@ import org.slf4j.LoggerFactory;
 public class _SnakeRemoveFoodMsg implements RoomPacketHandler<SnakeRoom, GameUser> {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-
     @Override
     public void execute(SnakeRoom room, GameUser user, Packet packet) throws SuspendExecution {
         try {
             GameMulti.SnakeFoodMsg snakeRemoveFoodMsg = GameMulti.SnakeFoodMsg.parseFrom(packet.getStream());
             if (snakeRemoveFoodMsg != null) {
-                logger.info("snakeRemoveFoodMsg  : {} : {}", user.getUserId(), snakeRemoveFoodMsg);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("snakeRemoveFoodMsg  : {} : {}", user.getUserId(), snakeRemoveFoodMsg);
+                }
 
                 if (snakeRemoveFoodMsg.getIsDelete()) { // 삭제
                     // 삭제할 food 위치
@@ -41,7 +42,9 @@ public class _SnakeRemoveFoodMsg implements RoomPacketHandler<SnakeRoom, GameUse
                         if (gameUser.getUserId() == user.getUserId()) {   // 나에게는 전송하지많음
                             continue;
                         }
-                        logger.info("snakeRemoveFoodMsg relay : {} : {}", gameUser.getUserId(), snakeRemoveFoodMsg);
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("snakeRemoveFoodMsg relay : {} : {}", gameUser.getUserId(), snakeRemoveFoodMsg);
+                        }
 
                         gameUser.send(new Packet(snakeRemoveFoodMsg));
                     }

@@ -1,13 +1,13 @@
 package com.nhn.gameanvil.sample.game.multi.usermatch._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.nhn.gameanvil.node.game.RoomPacketHandler;
+import com.nhn.gameanvil.packet.Packet;
+import com.nhn.gameanvil.sample.game.multi.usermatch.SnakeRoom;
 import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakePositionInfo;
 import com.nhn.gameanvil.sample.game.user.GameUser;
 import com.nhn.gameanvil.sample.protocol.GameMulti;
 import com.nhn.gameanvil.sample.protocol.GameMulti.SnakePositionData;
-import com.nhn.gameanvil.sample.game.multi.usermatch.SnakeRoom;
-import com.nhn.gameanvil.node.game.RoomPacketHandler;
-import com.nhn.gameanvil.packet.Packet;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +18,14 @@ import org.slf4j.LoggerFactory;
 public class _SnakeUserMsg implements RoomPacketHandler<SnakeRoom, GameUser> {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-
     @Override
     public void execute(SnakeRoom room, GameUser user, Packet packet) throws SuspendExecution {
         try {
             GameMulti.SnakeUserMsg snakeUserMsg = GameMulti.SnakeUserMsg.parseFrom(packet.getStream());
             if (snakeUserMsg != null) {
-                logger.info("SnakeUserMsg  : {} : {}", user.getUserId(), snakeUserMsg);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("SnakeUserMsg  : {} : {}", user.getUserId(), snakeUserMsg);
+                }
                 // 스코어 저장
                 room.getGameUserScoreMap().put(user.getGameUserInfo().getUuid(), (int)snakeUserMsg.getUserData().getBaseData().getScore());
 
@@ -42,7 +43,9 @@ public class _SnakeUserMsg implements RoomPacketHandler<SnakeRoom, GameUser> {
                         if (gameUser.getUserId() == user.getUserId()) {   // 나에게는 전송하지많음
                             continue;
                         }
-                        logger.info("snakeUserMsg relay : {} : {}", gameUser.getUserId(), snakeUserMsg);
+                        if (logger.isDebugEnabled()) {
+                            logger.debug("snakeUserMsg relay : {} : {}", gameUser.getUserId(), snakeUserMsg);
+                        }
 
                         gameUser.send(new Packet(snakeUserMsg));
                     }

@@ -1,7 +1,7 @@
 package com.nhn.gameanvil.sample.game.multi.roommatch;
 
-import com.nhn.gameanvil.sample.game.multi.roommatch.model.UnlimitedTapRoomInfo;
 import com.nhn.gameanvil.node.match.RoomMatchMaker;
+import com.nhn.gameanvil.sample.game.multi.roommatch.model.UnlimitedTapRoomInfo;
 import java.util.Comparator;
 import java.util.List;
 import org.slf4j.Logger;
@@ -15,11 +15,13 @@ public class UnlimitedTapRoomMatchMaker extends RoomMatchMaker<UnlimitedTapRoomI
 
     @Override
     public UnlimitedTapRoomInfo match(UnlimitedTapRoomInfo terms, Object... args) {
-        logger.info("match {}", terms);
         int bypassRoomId = terms.getRoomId();
-        logger.info("match - args : {}", args);
         List<UnlimitedTapRoomInfo> rooms = getRooms();
-        logger.info("match - rooms : {}", rooms.size());
+
+        if (logger.isDebugEnabled()) {
+            logger.debug("match terms : {}, args : {}, rooms : {}", terms, args, rooms.size());
+        }
+
         // rooms는 인원수가 적은 순서로 정렬되어있음.
         // roomId 가 bypassRoomId이 아닌 첫번째 room을 선택.
         for (UnlimitedTapRoomInfo info : rooms) {
@@ -42,7 +44,9 @@ public class UnlimitedTapRoomMatchMaker extends RoomMatchMaker<UnlimitedTapRoomI
             }
 
             // 매칭 성공!
-            logger.info("match : {}", info.getRoomId());
+            if (logger.isDebugEnabled()) {
+                logger.debug("match : {}", info.getRoomId());
+            }
             return info;
         }
 
@@ -56,7 +60,9 @@ public class UnlimitedTapRoomMatchMaker extends RoomMatchMaker<UnlimitedTapRoomI
         return new Comparator<UnlimitedTapRoomInfo>() {
             @Override
             public int compare(UnlimitedTapRoomInfo o1, UnlimitedTapRoomInfo o2) {
-                logger.info("match - compare : {}, {}", o1, o2);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("match - compare : {}, {}", o1, o2);
+                }
                 return o1.getUserMaxCount() - o2.getUserMaxCount();
             }
         };
