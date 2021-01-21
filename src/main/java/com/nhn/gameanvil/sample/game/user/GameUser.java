@@ -144,11 +144,11 @@ public class GameUser extends BaseUser implements TimerHandler {
                     isSuccess = true;
 
                     // 로그인한 유저 데이터 레디스에 세팅
-//                    boolean isRedisSuccess = ((GameNode)GameNode.getInstance()).getRedisHelper().setUserData(gameUserInfo);
-//
-//                    if (!isRedisSuccess) {
-//                        logger.warn("Redis setUserData fail!!! {} ", gameUserInfo);
-//                    }
+                    boolean isRedisSuccess = ((GameNode)GameNode.getInstance()).getRedisHelper().setUserData(gameUserInfo);
+
+                    if (!isRedisSuccess) {
+                        logger.warn("Redis setUserData fail!!! {} ", gameUserInfo);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

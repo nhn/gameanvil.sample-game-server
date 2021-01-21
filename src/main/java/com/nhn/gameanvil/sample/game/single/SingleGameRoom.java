@@ -174,19 +174,19 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
                 isSuccess = true;
             }
 
-//            if (isSuccess) {
-//                isSuccess = ((GameNode)GameNode.getInstance()).getRedisHelper().setSingleScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
-//                if (logger.isDebugEnabled()) {
-//                    logger.debug("Redis set Result : {}", isSuccess);
-//                }
-//            }
+            if (isSuccess) {
+                isSuccess = ((GameNode)GameNode.getInstance()).getRedisHelper().setSingleScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Redis set Result : {}", isSuccess);
+                }
+            }
 
-//            if (!isSuccess) {
-//                resultCode = ErrorCode.DB_ERROR;
-//                endGameRes.setErrorCode(resultCode);
-//                outPayload.add(new Packet(endGameRes));
-//                return false;
-//            }
+            if (!isSuccess) {
+                resultCode = ErrorCode.DB_ERROR;
+                endGameRes.setErrorCode(resultCode);
+                outPayload.add(new Packet(endGameRes));
+                return false;
+            }
         }
 
         // 게임 종료 패킷 확인

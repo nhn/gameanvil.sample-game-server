@@ -8,8 +8,6 @@ import com.mysql.cj.xdevapi.Session;
 import com.mysql.cj.xdevapi.SqlResult;
 import com.nhn.gameanvil.async.Async;
 import com.nhn.gameanvil.sample.game.user.model.GameUserInfo;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
@@ -20,21 +18,14 @@ public class UserDbHelper {
 
     private String connectionUrl;
     private Client client;
+    Session session;
 
     public UserDbHelper(String connectionUrl) {
         this.connectionUrl = connectionUrl;
 
         ClientFactory cf = new ClientFactory();
-        client = cf.getClient(connectionUrl, "{\"pooling\":{\"enabled\":true, \"maxSize\":300, \"maxIdleTime\":30000, \"queueTimeout\":10000} }");
-//        List<Session> sessions = new ArrayList<>();
-//        for (int i = 0; i < 300; ++i) {
-//            sessions.add(client.getSession());
-//        }
-//
-//        for (Session session : sessions) {
-//            session.close();
-//        }
-
+        client = cf.getClient(connectionUrl, "{\"pooling\":{\"enabled\":true, \"maxSize\":25, \"maxIdleTime\":30000, \"queueTimeout\":10000} }");
+        session = client.getSession();
         logger.warn("-----> mysql x-dev api UserDbHelper !!");
     }
 
@@ -48,7 +39,6 @@ public class UserDbHelper {
      */
     public GameUserInfo selectUserByUuid(String uuid) throws TimeoutException, SuspendExecution {
         // TODO case1 : x dev api async 처리
-        Session session = client.getSession();
 
         // Row SQL
         CompletableFuture<SqlResult> future = session.sql("SELECT * FROM users WHERE uuid = '" + uuid + "'").executeAsync();
@@ -82,8 +72,6 @@ public class UserDbHelper {
         } catch (TimeoutException e) {
             logger.error("UserDbHelperService::selectUserByUuid()", e);
             return null;
-        } finally {
-            session.close();
         }
 
         // TODO case 2 : x dev api sync
@@ -163,8 +151,8 @@ public class UserDbHelper {
      */
     public int insertUser(GameUserInfo gameUserInfo) throws TimeoutException, SuspendExecution {
         // TODO case1 : x dev api async 처리
-        Session session = client.getSession();
 
+        session.startTransaction();
         // Row SQL
         CompletableFuture<SqlResult> future = session.sql(
             "INSERT INTO users (uuid, login_type, app_version, app_store, device_model, device_country, device_language, nickname, heart, coin, ruby, level, exp, high_score, current_deck, create_date, update_date) VALUES (" +
@@ -196,8 +184,6 @@ public class UserDbHelper {
             logger.error("UserDbHelperService::insertUser()", e);
             session.rollback();
             return 0;
-        } finally {
-            session.close();
         }
 
         // TODO case 2 : x dev api sync
@@ -270,8 +256,8 @@ public class UserDbHelper {
      */
     public int updateUserCurrentDeck(String uuid, String currentDeck) throws TimeoutException, SuspendExecution {
         // TODO case1 : x dev api async 처리
-        Session session = client.getSession();
 
+        session.startTransaction();
         // Row SQL
         CompletableFuture<SqlResult> future = session.sql(
             "UPDATE users SET current_deck = '" + currentDeck + "' WHERE uuid = '" + uuid + "'").executeAsync();
@@ -287,8 +273,6 @@ public class UserDbHelper {
             logger.error("UserDbHelperService::updateUserCurrentDeck()", e);
             session.rollback();
             return 0;
-        } finally {
-            session.close();
         }
 
         // TODO case 3 : 기존 mybatis
@@ -323,8 +307,8 @@ public class UserDbHelper {
      */
     public int updateUserNickname(String uuid, String nickname) throws TimeoutException, SuspendExecution {
         // TODO case1 : x dev api async 처리
-        Session session = client.getSession();
 
+        session.startTransaction();
         // Row SQL
         CompletableFuture<SqlResult> future = session.sql(
             "UPDATE users SET nickname = '" + nickname + "' WHERE uuid = '" + uuid + "'").executeAsync();
@@ -340,8 +324,6 @@ public class UserDbHelper {
             logger.error("UserDbHelperService::updateUserNickname()", e);
             session.rollback();
             return 0;
-        } finally {
-            session.close();
         }
 
         // TODO case 3 : 기존 mybatis
@@ -376,8 +358,8 @@ public class UserDbHelper {
      */
     public int updateUserHigScore(String uuid, int highScore) throws SuspendExecution {
         // TODO case1 : x dev api async 처리
-        Session session = client.getSession();
 
+        session.startTransaction();
         // Row SQL
         CompletableFuture<SqlResult> future = session.sql(
             "UPDATE users SET high_Score = '" + highScore + "' WHERE uuid = '" + uuid + "'").executeAsync();
@@ -393,8 +375,6 @@ public class UserDbHelper {
             logger.error("UserDbHelperService::updateUserHigScore()", e);
             session.rollback();
             return 0;
-        } finally {
-            session.close();
         }
 
         // TODO case 2 : x dev api sync
@@ -458,6 +438,7 @@ public class UserDbHelper {
     }
 
     public void closeClient() {
+        session.close();
         client.close();
     }
 }

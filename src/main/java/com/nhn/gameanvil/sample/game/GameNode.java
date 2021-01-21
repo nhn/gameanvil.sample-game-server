@@ -13,6 +13,7 @@ import com.nhn.gameanvil.node.game.data.ChannelUserInfo;
 import com.nhn.gameanvil.node.game.data.RoomInfo;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.Payload;
+import com.nhn.gameanvil.sample.common.GameConstants;
 import com.nhn.gameanvil.sample.db.UserDbHelper;
 import com.nhn.gameanvil.sample.redis.RedisHelper;
 import java.sql.Connection;
@@ -37,9 +38,9 @@ public class GameNode extends BaseGameNode {
 
         // FIXME RedisClient 노드마다 생성, singleton 으로 만들어서 접근 하면 안된다.
         // 레디스 생성
-//        redisHelper = new RedisHelper();
-//        // 레디스 연결 처리
-//        redisHelper.connect(GameConstants.REDIS_URL, GameConstants.REDIS_PORT);
+        redisHelper = new RedisHelper();
+        // 레디스 연결 처리
+        redisHelper.connect(GameConstants.REDIS_URL, GameConstants.REDIS_PORT);
 
         // TODO - xdevapi 게임 노드에서 생성
         userDbHelper = new UserDbHelper("mysqlx://10.77.14.245:33060/taptap?user=kevin&password=kevin1234");  // 빌드머신 mysql 8.0
@@ -71,110 +72,103 @@ public class GameNode extends BaseGameNode {
 //        }
 
         // 성능 시간 비교 테스트
-        ClientFactory cf = new ClientFactory();
-        String connectionUrl = "mysqlx://10.77.14.245:33060/taptap?user=kevin&password=kevin1234"; // 빌드머신2 mysql 8.0
-//        String connectionUrl = "mysqlx://10.77.14.245:33060/taptap?user=root&password=Tardis"; // 빌드머신2 mysql 8.0
-//        String connectionUrl = "mysqlx://localhost:33060/taptap?user=kevin&password=kevin1234"; // 로컬 mysql 8.0
-//        String connectionUrl = "mysqlx://localhost:33060/taptap?xdevapi.ssl-mode=DISABLED&user=root&password=1234";  // 로컬 mysql 5.7
-        Client cli = cf.getClient(connectionUrl, "{\"pooling\":{\"enabled\":true, \"maxSize\":100, \"maxIdleTime\":30000, \"queueTimeout\":10000} }");
-
-        // case 1 : x dev api async UPDATE 1건 -------------------------------------------------------------
-        long startTime = System.currentTimeMillis();
-        Session session = cli.getSession();
-
-        // Row SQL
-        CompletableFuture<SqlResult> future = session.sql("SELECT * FROM users LIMIT 1").executeAsync();
-        try {
-            SqlResult result = Async.awaitFuture(future);
-
-            List<Row> row = result.fetchAll();
-            long endTime = System.currentTimeMillis() - startTime;
-            logger.warn("--> mysql x dev api executeAsync selectUser : result {}, elapsed {} sec", row.size(), endTime / 1000.0);
-        } catch (TimeoutException e) {
-            logger.error("UserDbHelperService::selectUserByUuid()", e);
-        } finally {
-            session.close();
-        }
-        // ------------------------------------------------------------------------------------------------
-
-        // case 2 : x dev api sync SELECT 1건 -------------------------------------------------------------
-        startTime = System.currentTimeMillis();
-        session = cli.getSession();
-        SqlResult sqlResult = session.sql("SELECT * FROM users LIMIT 1").execute();
-        List<Row> row = sqlResult.fetchAll();
-        long endTime = System.currentTimeMillis() - startTime;
-        logger.warn("--> mysql x dev api execute selectUser : result {}, elapsed {} sec", row.size(), endTime / 1000.0);
-        session.close();
-        // ------------------------------------------------------------------------------------------------
-
-        // case 3 : x dev api async UPDATE 1건 ------------------------------------------------------------
-        startTime = System.currentTimeMillis();
-        session = cli.getSession();
-        int highScore = (int)(startTime % 1000);
-        // Row SQL
-        future = session.sql("UPDATE users SET high_Score = " + highScore + " WHERE uuid = '022fe8bf-5dd6-11ea-829b-10e7c63d98c01'").executeAsync();
-        try {
-            SqlResult result = Async.awaitFuture(future);
-            session.commit();
-            endTime = System.currentTimeMillis() - startTime;
-            logger.warn("--> mysql x dev api executeAsync updateUserHigScore : result {}, elapsed {} sec", result.getAffectedItemsCount(), endTime / 1000.0);
-        } catch (TimeoutException e) {
-            logger.error("UserDbHelperService::updateUserHigScore()", e);
-            session.rollback();
-        } finally {
-            session.close();
-        }
-        // ------------------------------------------------------------------------------------------------
-
-        // case 4 : x dev api sync UPDATE 1건 -------------------------------------------------------------
-        startTime = System.currentTimeMillis();
-        session = cli.getSession();
-        highScore = (int)(startTime % 1000);
-        // Row SQL
-        sqlResult = session.sql("UPDATE users SET high_Score = " + highScore + " WHERE uuid = '022fe8bf-5dd6-11ea-829b-10e7c63d98c01'").execute();
-        session.commit();
-        endTime = System.currentTimeMillis() - startTime;
-        logger.warn("--> mysql x dev api execute updateUserHigScore : result {}, elapsed {} sec", sqlResult.getAffectedItemsCount(), endTime / 1000.0);
-        session.close();
-        // ------------------------------------------------------------------------------------------------
-
-        // case 5 : 기존 jdbc sync SELECT 1건 -------------------------------------------------------------
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://10.77.14.245/taptap?serverTimezone=UTC", "kevin", "kevin1234");
-//            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/taptap?serverTimezone=UTC", "kevin", "kevin1234");
-            startTime = System.currentTimeMillis();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM users LIMIT 1");
-            endTime = System.currentTimeMillis() - startTime;
-            int resultCount = 0;
-            while (rs.next()) {
-                resultCount++;
-            }
-            logger.warn("--> mysql selectUser : result {}, elapsed {} sec", resultCount, endTime / 1000.0);
-            stmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        // ------------------------------------------------------------------------------------------------
-
-        // case 6 : 기존 jdbc sync UPDATE 1건 -------------------------------------------------------------
-        try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://10.77.14.245/taptap?serverTimezone=UTC", "kevin", "kevin1234");
-//            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/taptap?serverTimezone=UTC", "kevin", "kevin1234");
-            startTime = System.currentTimeMillis();
-            Statement stmt = conn.createStatement();
-            highScore = (int)(startTime % 1000);
-            int resultCount = stmt.executeUpdate("UPDATE users SET high_Score = " + highScore + " WHERE uuid = '022fe8bf-5dd6-11ea-829b-10e7c63d98c01'");
-            endTime = System.currentTimeMillis() - startTime;
-            logger.warn("--> mysql updateUserHigScore : result {}, elapsed {} sec", resultCount, endTime / 1000.0);
-//            conn.commit();
-            stmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        // ------------------------------------------------------------------------------------------------
+//        ClientFactory cf = new ClientFactory();
+//        String connectionUrl = "mysqlx://10.77.14.245:33060/taptap?user=kevin&password=kevin1234"; // 빌드머신2 mysql 8.0
+////        String connectionUrl = "mysqlx://10.77.14.245:33060/taptap?user=root&password=Tardis"; // 빌드머신2 mysql 8.0
+////        String connectionUrl = "mysqlx://localhost:33060/taptap?user=kevin&password=kevin1234"; // 로컬 mysql 8.0
+////        String connectionUrl = "mysqlx://localhost:33060/taptap?xdevapi.ssl-mode=DISABLED&user=root&password=1234";  // 로컬 mysql 5.7
+//        Client cli = cf.getClient(connectionUrl, "{\"pooling\":{\"enabled\":true, \"maxSize\":100, \"maxIdleTime\":30000, \"queueTimeout\":10000} }");
+//
+//        // case 1 : x dev api async UPDATE 1건 -------------------------------------------------------------
+//        long startTime = System.currentTimeMillis();
+//        Session session = cli.getSession();
+//
+//        // Row SQL
+//        CompletableFuture<SqlResult> future = session.sql("SELECT * FROM users LIMIT 1").executeAsync();
+//        try {
+//            SqlResult result = Async.awaitFuture(future);
+//
+//            List<Row> row = result.fetchAll();
+//            long endTime = System.currentTimeMillis() - startTime;
+//            logger.warn("--> mysql x dev api executeAsync selectUser : result {}, elapsed {} sec", row.size(), endTime / 1000.0);
+//        } catch (TimeoutException e) {
+//            logger.error("UserDbHelperService::selectUserByUuid()", e);
+//        }
+//        // ------------------------------------------------------------------------------------------------
+//
+//        // case 2 : x dev api sync SELECT 1건 -------------------------------------------------------------
+//        startTime = System.currentTimeMillis();
+//        SqlResult sqlResult = session.sql("SELECT * FROM users LIMIT 1").execute();
+//        List<Row> row = sqlResult.fetchAll();
+//        long endTime = System.currentTimeMillis() - startTime;
+//        logger.warn("--> mysql x dev api execute selectUser : result {}, elapsed {} sec", row.size(), endTime / 1000.0);
+//        // ------------------------------------------------------------------------------------------------
+//
+//        // case 3 : x dev api async UPDATE 1건 ------------------------------------------------------------
+//        startTime = System.currentTimeMillis();
+//        int highScore = (int)(startTime % 1000);
+//        session.startTransaction();
+//        // Row SQL
+//        future = session.sql("UPDATE users SET high_Score = " + highScore + " WHERE uuid = '022fe8bf-5dd6-11ea-829b-10e7c63d98c01'").executeAsync();
+//        try {
+//            SqlResult result = Async.awaitFuture(future);
+//            session.commit();
+//            endTime = System.currentTimeMillis() - startTime;
+//            logger.warn("--> mysql x dev api executeAsync updateUserHigScore : result {}, elapsed {} sec", result.getAffectedItemsCount(), endTime / 1000.0);
+//        } catch (TimeoutException e) {
+//            logger.error("UserDbHelperService::updateUserHigScore()", e);
+//            session.rollback();
+//        }
+//        // ------------------------------------------------------------------------------------------------
+//
+//        // case 4 : x dev api sync UPDATE 1건 -------------------------------------------------------------
+//        startTime = System.currentTimeMillis();
+//        session.startTransaction();
+//        highScore = (int)(startTime % 1000);
+//        // Row SQL
+//        sqlResult = session.sql("UPDATE users SET high_Score = " + highScore + " WHERE uuid = '022fe8bf-5dd6-11ea-829b-10e7c63d98c01'").execute();
+//        session.commit();
+//        endTime = System.currentTimeMillis() - startTime;
+//        logger.warn("--> mysql x dev api execute updateUserHigScore : result {}, elapsed {} sec", sqlResult.getAffectedItemsCount(), endTime / 1000.0);
+//        // ------------------------------------------------------------------------------------------------
+//
+//        // case 5 : 기존 jdbc sync SELECT 1건 -------------------------------------------------------------
+//        try {
+//            Connection conn = DriverManager.getConnection("jdbc:mysql://10.77.14.245/taptap?serverTimezone=UTC", "kevin", "kevin1234");
+////            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/taptap?serverTimezone=UTC", "kevin", "kevin1234");
+//            startTime = System.currentTimeMillis();
+//            Statement stmt = conn.createStatement();
+//            ResultSet rs = stmt.executeQuery("SELECT * FROM users LIMIT 1");
+//            endTime = System.currentTimeMillis() - startTime;
+//            int resultCount = 0;
+//            while (rs.next()) {
+//                resultCount++;
+//            }
+//            logger.warn("--> mysql selectUser : result {}, elapsed {} sec", resultCount, endTime / 1000.0);
+//            stmt.close();
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        // ------------------------------------------------------------------------------------------------
+//
+//        // case 6 : 기존 jdbc sync UPDATE 1건 -------------------------------------------------------------
+//        try {
+//            Connection conn = DriverManager.getConnection("jdbc:mysql://10.77.14.245/taptap?serverTimezone=UTC", "kevin", "kevin1234");
+////            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/taptap?serverTimezone=UTC", "kevin", "kevin1234");
+//            startTime = System.currentTimeMillis();
+//            Statement stmt = conn.createStatement();
+//            highScore = (int)(startTime % 1000);
+//            int resultCount = stmt.executeUpdate("UPDATE users SET high_Score = " + highScore + " WHERE uuid = '022fe8bf-5dd6-11ea-829b-10e7c63d98c01'");
+//            endTime = System.currentTimeMillis() - startTime;
+//            logger.warn("--> mysql updateUserHigScore : result {}, elapsed {} sec", resultCount, endTime / 1000.0);
+////            conn.commit();
+//            stmt.close();
+//            conn.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        // ------------------------------------------------------------------------------------------------
     }
 
     @Override
@@ -220,7 +214,7 @@ public class GameNode extends BaseGameNode {
             logger.debug("onShutdown");
         }
 
-//        redisHelper.shutdown();
+        redisHelper.shutdown();
         userDbHelper.closeClient();
     }
 
