@@ -3,9 +3,12 @@ package com.nhn.gameanvil.sample.db;
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.mysql.cj.xdevapi.Client;
 import com.mysql.cj.xdevapi.ClientFactory;
+import com.mysql.cj.xdevapi.Result;
 import com.mysql.cj.xdevapi.Row;
+import com.mysql.cj.xdevapi.RowResult;
 import com.mysql.cj.xdevapi.Session;
 import com.mysql.cj.xdevapi.SqlResult;
+import com.mysql.cj.xdevapi.Table;
 import com.nhn.gameanvil.async.Async;
 import com.nhn.gameanvil.sample.game.user.model.GameUserInfo;
 import java.util.concurrent.CompletableFuture;
@@ -18,7 +21,7 @@ public class UserDbHelper {
 
     private String connectionUrl;
     private Client client;
-    Session session;
+    private Session session;
 
     public UserDbHelper(String connectionUrl) {
         this.connectionUrl = connectionUrl;
@@ -40,12 +43,18 @@ public class UserDbHelper {
     public GameUserInfo selectUserByUuid(String uuid) throws TimeoutException, SuspendExecution {
         // TODO case1 : x dev api async 처리
 
-        // Row SQL
-        CompletableFuture<SqlResult> future = session.sql("SELECT * FROM users WHERE uuid = '" + uuid + "'").executeAsync();
-        try {
-            SqlResult result = Async.awaitFuture(future);
+        Table table = session.getDefaultSchema().getTable("users");
+        CompletableFuture<RowResult> future = table.select().where("uuid = :param").bind("param", uuid).executeAsync();
 
-            Row row = result.fetchOne();
+        // Row SQL
+//        CompletableFuture<SqlResult> future = session.sql("SELECT * FROM users WHERE uuid = '" + uuid + "'").executeAsync();
+        try {
+//            SqlResult result = Async.awaitFuture(future);
+
+            RowResult rowResult = Async.awaitFuture(future);
+
+            //          Row row = result.fetchOne();
+            Row row = rowResult.fetchOne();
             if (row == null) {
                 return null;
             }
@@ -65,9 +74,9 @@ public class UserDbHelper {
             gameUserInfo.setExp(row.getLong("exp"));
             gameUserInfo.setHighScore(row.getLong("high_score"));
             gameUserInfo.setCurrentDeck(row.getString("current_deck"));
-            if (logger.isDebugEnabled()) {
-                logger.debug("-----> mysql x-dev api selectUserByUuid{} : {},", uuid, gameUserInfo);
-            }
+//            if (logger.isDebugEnabled()) {
+            logger.info("-----> mysql x-dev api selectUserByUuid{} : {},", uuid, gameUserInfo);
+//            }
             return gameUserInfo;
         } catch (TimeoutException e) {
             logger.error("UserDbHelperService::selectUserByUuid()", e);
@@ -361,11 +370,15 @@ public class UserDbHelper {
 
         session.startTransaction();
         // Row SQL
-        CompletableFuture<SqlResult> future = session.sql(
-            "UPDATE users SET high_Score = '" + highScore + "' WHERE uuid = '" + uuid + "'").executeAsync();
-        try {
-            SqlResult result = Async.awaitFuture(future);
+//        CompletableFuture<SqlResult> future = session.sql(
+//            "UPDATE users SET high_Score = '" + highScore + "' WHERE uuid = '" + uuid + "'").executeAsync();
 
+        Table table = session.getDefaultSchema().getTable("users");
+        CompletableFuture<Result> future = table.update().set("high_Score", Integer.valueOf(highScore)).where("uuid = :uuid").bind("uuid", uuid).executeAsync();
+
+        try {
+//            SqlResult result = Async.awaitFuture(future);
+            Result result = Async.awaitFuture(future);
             if (logger.isDebugEnabled()) {
                 logger.debug("-----> mysql x-dev api updateUserHigScore {} : uuid {}, highScore {},", result.getAffectedItemsCount(), uuid, highScore);
             }
@@ -435,6 +448,10 @@ public class UserDbHelper {
 //        }
 //
 //        return resultCount;
+    }
+
+    public Session getSession() {
+        return session;
     }
 
     public void closeClient() {

@@ -1,6 +1,9 @@
 package com.nhn.gameanvil.sample.game.user;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.mysql.cj.xdevapi.Collection;
+import com.mysql.cj.xdevapi.Schema;
+import com.nhn.gameanvil.async.Async;
 import com.nhn.gameanvil.node.game.BaseUser;
 import com.nhn.gameanvil.node.game.data.MatchRoomResult;
 import com.nhn.gameanvil.packet.Packet;
@@ -15,7 +18,6 @@ import com.nhn.gameanvil.sample.game.user._handler._ShuffleDeckReq;
 import com.nhn.gameanvil.sample.game.user._handler._SingleScoreRankingReq;
 import com.nhn.gameanvil.sample.game.user.model.GameUserInfo;
 import com.nhn.gameanvil.sample.game.user.model.GameUserTransferInfo;
-import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
 import com.nhn.gameanvil.sample.protocol.Authentication;
 import com.nhn.gameanvil.sample.protocol.GameMulti;
 import com.nhn.gameanvil.sample.protocol.GameMulti.RoomUserData;
@@ -29,6 +31,8 @@ import com.nhn.gameanvil.timer.Timer;
 import com.nhn.gameanvil.timer.TimerHandler;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,6 +158,50 @@ public class GameUser extends BaseUser implements TimerHandler {
                 e.printStackTrace();
             }
         }
+
+//        Schema schema = ((GameNode)this.getBaseGameNode()).getUserDbHelper().getSession().getDefaultSchema();
+//        Collection collection = schema.createCollection("user_info", true);
+
+        // remove
+//        CompletableFuture<com.mysql.cj.xdevapi.Result> future = collection.remove("_id = '00006007cbda0000000000000001'").executeAsync();
+//        try {
+//            com.mysql.cj.xdevapi.Result result = Async.awaitFuture(future);
+//            logger.info("usr_info remove : {}", result.getAffectedItemsCount());
+//        } catch (TimeoutException e) {
+//            e.printStackTrace();
+//        }
+
+        // modify
+//        CompletableFuture<com.mysql.cj.xdevapi.Result> future = collection.modify("_id = '00006007cbda0000000000000001'").set("uuid", 2).executeAsync();
+//        try {
+//            com.mysql.cj.xdevapi.Result result = Async.awaitFuture(future);
+//            logger.info("usr_info modify : {}", result.getAffectedItemsCount());
+//        } catch (TimeoutException e) {
+//            e.printStackTrace();
+//        }
+
+        // find
+//        CompletableFuture<DocResult> future = collection.find("uuid = :uuid").bind("uuid", gameUserInfo.getUuid()).executeAsync();
+//        try {
+//            DocResult docResult = Async.awaitFuture(future);
+//            DbDoc dbDoc = docResult.fetchOne();
+//            logger.info("usr_info : {}", dbDoc.toFormattedString());
+//        } catch (TimeoutException e) {
+//            e.printStackTrace();
+//        }
+
+        // add
+//        Schema schema = ((GameNode)this.getBaseGameNode()).getUserDbHelper().getSession().getDefaultSchema();
+//        Collection collection = schema.createCollection("user_info", true);
+//        DbDoc dbDoc = JsonParser.parseDoc(GameAnvilUtil.Gson().toJson(gameUserInfo));
+//
+//        CompletableFuture<AddResult> future = collection.add(dbDoc).executeAsync();
+//        try {
+//            AddResult addResult = Async.awaitFuture(future);
+//            logger.info("idList : {}", addResult.getGeneratedIds());
+//        } catch (TimeoutException e) {
+//            e.printStackTrace();
+//        }
 
         // 로그인 처리후 클라이언트에 응답 프로토콜 작성
         Authentication.LoginRes.Builder loginRes = Authentication.LoginRes.newBuilder();
