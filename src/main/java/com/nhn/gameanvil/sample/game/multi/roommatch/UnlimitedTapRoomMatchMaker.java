@@ -27,19 +27,19 @@ public class UnlimitedTapRoomMatchMaker extends RoomMatchMaker<UnlimitedTapRoomI
         for (UnlimitedTapRoomInfo info : rooms) {
             if (info.getRoomId() == bypassRoomId) {
                 // moveRoom 옵션이 true 일 경우 참여중인 방은 제외하기
-                logger.info("match - bypass : {}", bypassRoomId);
+                logger.debug("match - bypass : {}", bypassRoomId);
                 continue;
             }
 
             // 최대 인원수가 terms와 다르면 pass!
             if (info.getUserMaxCount() != terms.getUserMaxCount()) {
-                logger.info("match - userCountMax : {}", info.getUserMaxCount());
+                logger.debug("match - userCountMax : {}", info.getUserMaxCount());
                 continue;
             }
 
             // 꽉 찼으면 pass!
             if (info.getUserMaxCount() == info.getUserCurrentCount()) {
-                logger.info("match - userCountCurr : {}", info.getUserMaxCount());
+                logger.debug("match - userCountCurr : {}", info.getUserMaxCount());
                 continue;
             }
 

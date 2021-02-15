@@ -3,16 +3,16 @@
 <configuration>
   <!-- MySQL 접속 정보를 지정한다. -->
   <properties>
-<!--    <property name="hostname" value="10.77.14.22" />-->
+    <property name="hostname" value="10.77.14.22" />
 <!--    <property name="hostname" value="127.0.0.1" />-->
-    <property name="hostname" value="10.77.14.245" />
+<!--    <property name="hostname" value="10.77.14.245" />-->
     <property name="portnumber" value="3306" />
     <property name="database" value="taptap" />
-    <property name="username" value="kevin" />
+<!--    <property name="username" value="kevin" />-->
 <!--        <property name="username" value="root" />-->
-<!--    <property name="username" value="taptap" />-->
-<!--    <property name="password" value="nhn!@#123" />-->
-    <property name="password" value="kevin1234" />
+    <property name="username" value="taptap" />
+    <property name="password" value="nhn!@#123" />
+<!--    <property name="password" value="kevin1234" />-->
 <!--        <property name="password" value="1234" />-->
   </properties>
   <settings>

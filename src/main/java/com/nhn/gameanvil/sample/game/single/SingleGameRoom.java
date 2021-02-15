@@ -22,6 +22,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
+
 /**
  * 게임 혼자 하는 싱글룸 처리
  */
@@ -71,7 +73,9 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
     @Override
     public boolean onCreateRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
         // 싱글게임 처리로 혼자서 방을 만들고 게임을 한다.
-        logger.info("onCreateRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        if (logger.isDebugEnabled()) {
+            logger.debug("onCreateRoom - RoomId : {}, UserId : {}", getId(), gameUser.getUserId());
+        }
 
         // 에러코드 기본값 설정
         Result.ErrorCode resultCode = Result.ErrorCode.UNKNOWN;
@@ -163,13 +167,17 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
             boolean isSuccess = false;
             // TODO - DB 테스트 : 기존 Mybatis UPDATE
 //            int dbSuccessCount = UserDbHelperService.getInstance().updateUserHigScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
-            // TODO - DB 테스트 : X dev api 노드 단위 생성 UPDATE
-            int dbSuccessCount = ((GameNode)gameUser.getBaseGameNode()).getUserDbHelper().updateUserHigScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
+            // TODO - DB 테스트 : X dev api UPDATE
+            int dbSuccessCount = ((GameNode)gameUser.getBaseGameNode()).getUserDbHelperMysqlX().updateUserHigScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
+
+            // TODO - DB 테스트 : jasync-sql UPDATE
+//            int dbSuccessCount = ((GameNode)gameUser.getBaseGameNode()).getUserDbHelperJasyncsql().updateUserHigScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
 
             if (logger.isDebugEnabled()) {
                 logger.debug("DB update Result : {}", dbSuccessCount);
             }
 
+            logger.debug("DB update Result : {}", dbSuccessCount);
             if (dbSuccessCount == 1) {
                 isSuccess = true;
             }

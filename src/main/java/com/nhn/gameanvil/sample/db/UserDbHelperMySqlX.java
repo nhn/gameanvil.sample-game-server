@@ -1,35 +1,54 @@
 package com.nhn.gameanvil.sample.db;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.mysql.cj.xdevapi.Client;
-import com.mysql.cj.xdevapi.ClientFactory;
 import com.mysql.cj.xdevapi.Result;
 import com.mysql.cj.xdevapi.Row;
-import com.mysql.cj.xdevapi.RowResult;
 import com.mysql.cj.xdevapi.Session;
+import com.mysql.cj.xdevapi.SessionFactory;
 import com.mysql.cj.xdevapi.SqlResult;
-import com.mysql.cj.xdevapi.Table;
 import com.nhn.gameanvil.async.Async;
+import com.nhn.gameanvil.async.Callable;
 import com.nhn.gameanvil.sample.game.user.model.GameUserInfo;
+import com.nhn.gameanvilcore.GameAnvilInternalThreadPool;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class UserDbHelper {
+public class UserDbHelperMySqlX {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private String connectionUrl;
-    private Client client;
-    private Session session;
+    // 커넥션풀 사용
+//    private Client client;
+//    private Session session;
 
-    public UserDbHelper(String connectionUrl) {
-        this.connectionUrl = connectionUrl;
+    // 자체 커넥션풀 설정
+    private final int MAX_SESSION = 10;
+    private int idx = 0;
+    private SessionFactory sessionFactory = new SessionFactory();
+    private List<Session> sessions = new ArrayList<>();
 
-        ClientFactory cf = new ClientFactory();
-        client = cf.getClient(connectionUrl, "{\"pooling\":{\"enabled\":true, \"maxSize\":25, \"maxIdleTime\":30000, \"queueTimeout\":10000} }");
-        session = client.getSession();
-        logger.warn("-----> mysql x-dev api UserDbHelper !!");
+    public UserDbHelperMySqlX(String connectionUrl) {
+        // 커넥션 풀 사용 생성
+//        ClientFactory cf = new ClientFactory();
+//        client = cf.getClient(connectionUrl, "{\"pooling\":{\"enabled\":true, \"maxSize\":10, \"maxIdleTime\":30000, \"queueTimeout\":10000} }");
+//        session = client.getSession();
+
+//        Session session = new SessionFactory().getSession(connectionUrl);
+//        sessions.add(session);
+//        sessionUpdate = new SessionFactory().getSession(connectionUrl);
+        logger.warn("-----> mysql x-dev api UserDbHelperMysqlX !!");
+
+        // 커넥션 생성
+        for (int i = 0; i < MAX_SESSION; ++i) {
+            sessions.add(sessionFactory.getSession(connectionUrl));
+        }
+    }
+
+    public Session getSession() {
+        return sessions.get(idx++ % MAX_SESSION);
     }
 
     /**
@@ -42,19 +61,36 @@ public class UserDbHelper {
      */
     public GameUserInfo selectUserByUuid(String uuid) throws TimeoutException, SuspendExecution {
         // TODO case1 : x dev api async 처리
-
-        Table table = session.getDefaultSchema().getTable("users");
-        CompletableFuture<RowResult> future = table.select().where("uuid = :param").bind("param", uuid).executeAsync();
+        Session session = getSession();
 
         // Row SQL
-//        CompletableFuture<SqlResult> future = session.sql("SELECT * FROM users WHERE uuid = '" + uuid + "'").executeAsync();
+//        CompletableFuture<SqlResult> future = getSession().sql("SELECT * FROM users WHERE uuid = '" + uuid + "'").executeAsync();
+
         try {
-//            SqlResult result = Async.awaitFuture(future);
 
-            RowResult rowResult = Async.awaitFuture(future);
+//            SqlResult result = Async.callBlocking(GameAnvilInternalThreadPool.get(), new Callable<SqlResult>() {
+//                @Override
+//                public SqlResult call() throws Exception {
+////                    SqlResult sqlResult = session.sql("SELECT * FROM users WHERE uuid = '" + uuid + "'").executeAsync().get();
+////                    return sqlResult;
+//                    return session.sql("CALL sp_Users_Select_Uuid('" + uuid + "')").executeAsync().get();
+//                }
+//            });
 
-            //          Row row = result.fetchOne();
-            Row row = rowResult.fetchOne();
+            //
+            CompletableFuture<SqlResult> future = Async.callBlocking(GameAnvilInternalThreadPool.get(), new Callable<CompletableFuture<SqlResult>>() {
+                @Override
+                public CompletableFuture<SqlResult> call() {
+                    // raw sql
+//                    return session.sql("SELECT * FROM users WHERE uuid = '" + uuid + "'").executeAsync(); // Note> 이름은 Async이지만 코드 내부에서 스레드 블러킹을 유발한다! 미친!
+                    // stored procedure
+                    return session.sql("CALL sp_Users_Select_Uuid('" + uuid + "')").executeAsync();
+                }
+            });
+
+            SqlResult result = Async.awaitFuture(future);
+
+            Row row = result.fetchOne();
             if (row == null) {
                 return null;
             }
@@ -74,9 +110,9 @@ public class UserDbHelper {
             gameUserInfo.setExp(row.getLong("exp"));
             gameUserInfo.setHighScore(row.getLong("high_score"));
             gameUserInfo.setCurrentDeck(row.getString("current_deck"));
-//            if (logger.isDebugEnabled()) {
-            logger.info("-----> mysql x-dev api selectUserByUuid{} : {},", uuid, gameUserInfo);
-//            }
+            if (logger.isDebugEnabled()) {
+                logger.debug("-----> mysql x-dev api selectUserByUuid{} : {},", uuid, gameUserInfo);
+            }
             return gameUserInfo;
         } catch (TimeoutException e) {
             logger.error("UserDbHelperService::selectUserByUuid()", e);
@@ -160,38 +196,119 @@ public class UserDbHelper {
      */
     public int insertUser(GameUserInfo gameUserInfo) throws TimeoutException, SuspendExecution {
         // TODO case1 : x dev api async 처리
-
-        session.startTransaction();
         // Row SQL
-        CompletableFuture<SqlResult> future = session.sql(
-            "INSERT INTO users (uuid, login_type, app_version, app_store, device_model, device_country, device_language, nickname, heart, coin, ruby, level, exp, high_score, current_deck, create_date, update_date) VALUES (" +
-                gameUserInfo.getUuid() + ",'" +
-                gameUserInfo.getLoginType() + "','" +
-                gameUserInfo.getAppVersion() + "','" +
-                gameUserInfo.getAppStore() + "','" +
-                gameUserInfo.getDeviceModel() + "','" +
-                gameUserInfo.getDeviceCountry() + "','" +
-                gameUserInfo.getDeviceLanguage() + "','" +
-                gameUserInfo.getNickname() + "'," +
-                gameUserInfo.getHeart() + "," +
-                gameUserInfo.getCoin() + "," +
-                gameUserInfo.getRuby() + "," +
-                gameUserInfo.getLevel() + "," +
-                gameUserInfo.getExp() + "," +
-                gameUserInfo.getHighScore() + ",'" +
-                gameUserInfo.getCurrentDeck() + "', NOW(), NOW())").executeAsync();
-
+//        CompletableFuture<SqlResult> future = getSession().sql(
+//            "INSERT INTO users (uuid, login_type, app_version, app_store, device_model, device_country, device_language, nickname, heart, coin, ruby, level, exp, high_score, current_deck, create_date, update_date) VALUES (" +
+//                gameUserInfo.getUuid() + ",'" +
+//                gameUserInfo.getLoginType() + "','" +
+//                gameUserInfo.getAppVersion() + "','" +
+//                gameUserInfo.getAppStore() + "','" +
+//                gameUserInfo.getDeviceModel() + "','" +
+//                gameUserInfo.getDeviceCountry() + "','" +
+//                gameUserInfo.getDeviceLanguage() + "','" +
+//                gameUserInfo.getNickname() + "'," +
+//                gameUserInfo.getHeart() + "," +
+//                gameUserInfo.getCoin() + "," +
+//                gameUserInfo.getRuby() + "," +
+//                gameUserInfo.getLevel() + "," +
+//                gameUserInfo.getExp() + "," +
+//                gameUserInfo.getHighScore() + ",'" +
+//                gameUserInfo.getCurrentDeck() + "', NOW(), NOW())").executeAsync();
+        Session session = getSession();
         try {
+            CompletableFuture<SqlResult> future = Async.callBlocking(GameAnvilInternalThreadPool.get(), new Callable<CompletableFuture<SqlResult>>() {
+                @Override
+                public CompletableFuture<SqlResult> call() throws Exception {
+                    // raw sql
+//                    return session.sql(
+//                        "INSERT INTO users (uuid, login_type, app_version, app_store, device_model, device_country, device_language, nickname, heart, coin, ruby, level, exp, high_score, current_deck, create_date, update_date) VALUES (" +
+//                            gameUserInfo.getUuid() + ",'" +
+//                            gameUserInfo.getLoginType() + "','" +
+//                            gameUserInfo.getAppVersion() + "','" +
+//                            gameUserInfo.getAppStore() + "','" +
+//                            gameUserInfo.getDeviceModel() + "','" +
+//                            gameUserInfo.getDeviceCountry() + "','" +
+//                            gameUserInfo.getDeviceLanguage() + "','" +
+//                            gameUserInfo.getNickname() + "'," +
+//                            gameUserInfo.getHeart() + "," +
+//                            gameUserInfo.getCoin() + "," +
+//                            gameUserInfo.getRuby() + "," +
+//                            gameUserInfo.getLevel() + "," +
+//                            gameUserInfo.getExp() + "," +
+//                            gameUserInfo.getHighScore() + ",'" +
+//                            gameUserInfo.getCurrentDeck() + "', NOW(), NOW())").executeAsync(); // Note> 이름은 Async이지만 코드 내부에서 스레드 블러킹을 유발한다! 미친!
+
+                    // stored procedure
+                    return session.sql(
+                        "CALL sp_Users_Insert (" +
+                            gameUserInfo.getUuid() + ",'" +
+                            gameUserInfo.getLoginType() + "','" +
+                            gameUserInfo.getAppVersion() + "','" +
+                            gameUserInfo.getAppStore() + "','" +
+                            gameUserInfo.getDeviceModel() + "','" +
+                            gameUserInfo.getDeviceCountry() + "','" +
+                            gameUserInfo.getDeviceLanguage() + "','" +
+                            gameUserInfo.getNickname() + "'," +
+                            gameUserInfo.getHeart() + "," +
+                            gameUserInfo.getCoin() + "," +
+                            gameUserInfo.getRuby() + "," +
+                            gameUserInfo.getLevel() + "," +
+                            gameUserInfo.getExp() + "," +
+                            gameUserInfo.getHighScore() + ",'" +
+                            gameUserInfo.getCurrentDeck() + "')").executeAsync();
+                }
+            });
+
             SqlResult result = Async.awaitFuture(future);
+
+//            SqlResult result = Async.callBlocking(GameAnvilInternalThreadPool.get(), new Callable<SqlResult>() {
+//                @Override
+//                public SqlResult call() throws Exception {
+////                    return session.sql(
+////                        "INSERT INTO users (uuid, login_type, app_version, app_store, device_model, device_country, device_language, nickname, heart, coin, ruby, level, exp, high_score, current_deck, create_date, update_date) VALUES (" +
+////                            gameUserInfo.getUuid() + ",'" +
+////                            gameUserInfo.getLoginType() + "','" +
+////                            gameUserInfo.getAppVersion() + "','" +
+////                            gameUserInfo.getAppStore() + "','" +
+////                            gameUserInfo.getDeviceModel() + "','" +
+////                            gameUserInfo.getDeviceCountry() + "','" +
+////                            gameUserInfo.getDeviceLanguage() + "','" +
+////                            gameUserInfo.getNickname() + "'," +
+////                            gameUserInfo.getHeart() + "," +
+////                            gameUserInfo.getCoin() + "," +
+////                            gameUserInfo.getRuby() + "," +
+////                            gameUserInfo.getLevel() + "," +
+////                            gameUserInfo.getExp() + "," +
+////                            gameUserInfo.getHighScore() + ",'" +
+////                            gameUserInfo.getCurrentDeck() + "', NOW(), NOW())").executeAsync().get(); // Note> 이름은 Async이지만 코드 내부에서 스레드 블러킹을 유발한다! 미친!
+//
+//                    return session.sql(
+//                        "CALL sp_Users_Insert (" +
+//                            gameUserInfo.getUuid() + ",'" +
+//                            gameUserInfo.getLoginType() + "','" +
+//                            gameUserInfo.getAppVersion() + "','" +
+//                            gameUserInfo.getAppStore() + "','" +
+//                            gameUserInfo.getDeviceModel() + "','" +
+//                            gameUserInfo.getDeviceCountry() + "','" +
+//                            gameUserInfo.getDeviceLanguage() + "','" +
+//                            gameUserInfo.getNickname() + "'," +
+//                            gameUserInfo.getHeart() + "," +
+//                            gameUserInfo.getCoin() + "," +
+//                            gameUserInfo.getRuby() + "," +
+//                            gameUserInfo.getLevel() + "," +
+//                            gameUserInfo.getExp() + "," +
+//                            gameUserInfo.getHighScore() + ",'" +
+//                            gameUserInfo.getCurrentDeck() + "')").executeAsync().get(); // Note> 이름은 Async이지만 코드 내부에서 스레드 블러킹을 유발한다! 미친!
+//
+//                }
+//            });
 
             if (logger.isDebugEnabled()) {
                 logger.debug("-----> mysql x-dev api insertUser {} : {},", result.getAffectedItemsCount(), gameUserInfo);
             }
-            session.commit();
             return (int)result.getAffectedItemsCount();
         } catch (TimeoutException e) {
             logger.error("UserDbHelperService::insertUser()", e);
-            session.rollback();
             return 0;
         }
 
@@ -265,24 +382,62 @@ public class UserDbHelper {
      */
     public int updateUserCurrentDeck(String uuid, String currentDeck) throws TimeoutException, SuspendExecution {
         // TODO case1 : x dev api async 처리
+        Session session = getSession();
 
-        session.startTransaction();
         // Row SQL
-        CompletableFuture<SqlResult> future = session.sql(
-            "UPDATE users SET current_deck = '" + currentDeck + "' WHERE uuid = '" + uuid + "'").executeAsync();
+//        CompletableFuture<SqlResult> future = getSession().sql(
+//            "UPDATE users SET current_deck = '" + currentDeck + "' WHERE uuid = '" + uuid + "'").executeAsync();
         try {
+//            SqlResult result = Async.callBlocking(GameAnvilInternalThreadPool.get(), new Callable<SqlResult>() {
+//                @Override
+//                public SqlResult call() throws Exception {
+////                    return session.sql(query).executeAsync(); // Note> 이름은 Async이지만 코드 내부에서 스레드 블러킹을 유발한다! 미친!
+////                    try {
+////                        SqlResult sqlResult = AsyncCompletionStage.get(session.sql(query).executeAsync());
+////                        session.sql("BEGIN").executeAsync().get();
+//                        SqlResult sqlResult = session.sql("UPDATE users SET current_deck = '" + currentDeck + "' WHERE uuid = '" + uuid + "'").executeAsync().get();
+//
+////                    SqlResult sqlResult = session.sql("CALL sp_Users_Update_CurrentDeck('" + uuid + "', '" + currentDeck + "')").executeAsync().get();
+//
+//                    //                        session.sql("COMMIT").executeAsync().get();
+//                    return sqlResult;
+////                    } catch (Exception e) {
+////                        session.sql("ROLLBACK").executeAsync().get();
+////                        throw new Exception(e);
+////                    }
+//                }
+//            });
+
+            CompletableFuture<SqlResult> future = Async.callBlocking(GameAnvilInternalThreadPool.get(), new Callable<CompletableFuture<SqlResult>>() {
+                @Override
+                public CompletableFuture<SqlResult> call() throws Exception {
+//                    return session.sql("UPDATE users SET current_deck = '" + currentDeck + "' WHERE uuid = '" + uuid + "'").executeAsync(); // Note> 이름은 Async이지만 코드 내부에서 스레드 블러킹을 유발한다! 미친!
+                    return session.sql("CALL sp_Users_Update_CurrentDeck('" + uuid + "', '" + currentDeck + "')").executeAsync();
+                }
+            });
+
             SqlResult result = Async.awaitFuture(future);
 
             if (logger.isDebugEnabled()) {
                 logger.debug("-----> mysql x-dev api updateUserCurrentDeck {} : uuid {}, deck {},", result.getAffectedItemsCount(), uuid, currentDeck);
             }
-            session.commit();
-            return (int)result.getAffectedItemsCount();
+//            return (int)result.getAffectedItemsCount();
+            return 1;
         } catch (TimeoutException e) {
             logger.error("UserDbHelperService::updateUserCurrentDeck()", e);
-            session.rollback();
             return 0;
         }
+
+////                SqlResult result = CompletableFuture.
+////                    runAsync(() -> session.sql("BEGIN").executeAsync()).
+////                    thenApply(aVoid -> session.sql("UPDATE users SET current_deck = '" + currentDeck + "' WHERE uuid = '" + uuid + "'").executeAsync()).
+////                    thenApply(sqlResult -> {
+////                        session.sql("COMMIT").executeAsync();
+////                        return sqlResult;
+////                    }).exceptionally(throwable -> {
+////                    session.sql("ROLLBACK").executeAsync();
+////                    return null;
+////                }).get().get();
 
         // TODO case 3 : 기존 mybatis
         // Callable 형태로 Async 실행하고 결과 리턴.
@@ -316,22 +471,36 @@ public class UserDbHelper {
      */
     public int updateUserNickname(String uuid, String nickname) throws TimeoutException, SuspendExecution {
         // TODO case1 : x dev api async 처리
-
-        session.startTransaction();
         // Row SQL
-        CompletableFuture<SqlResult> future = session.sql(
-            "UPDATE users SET nickname = '" + nickname + "' WHERE uuid = '" + uuid + "'").executeAsync();
+//        CompletableFuture<SqlResult> future = getSession().sql(
+//            "UPDATE users SET nickname = '" + nickname + "' WHERE uuid = '" + uuid + "'").executeAsync();
+
+        Session session = getSession();
         try {
+            CompletableFuture<SqlResult> future = Async.callBlocking(GameAnvilInternalThreadPool.get(), new Callable<CompletableFuture<SqlResult>>() {
+                @Override
+                public CompletableFuture<SqlResult> call() throws Exception {
+//                    return session.sql("UPDATE users SET nickname = '" + nickname + "' WHERE uuid = '" + uuid + "'").executeAsync(); // Note> 이름은 Async이지만 코드 내부에서 스레드 블러킹을 유발한다! 미친!
+                    return session.sql("CALL sp_Users_Update_Nickname('" + uuid + "', '" + nickname + "')").executeAsync();
+                }
+            });
+
             SqlResult result = Async.awaitFuture(future);
+
+//            SqlResult result = Async.callBlocking(GameAnvilInternalThreadPool.get(), new Callable<SqlResult>() {
+//                @Override
+//                public SqlResult call() throws Exception {
+////                    return session.sql("UPDATE users SET nickname = '" + nickname + "' WHERE uuid = '" + uuid + "'").executeAsync().get(); // Note> 이름은 Async이지만 코드 내부에서 스레드 블러킹을 유발한다! 미친!
+//                    return session.sql("CALL sp_Users_Update_Nickname('" + uuid + "', '" + nickname + "')").executeAsync().get(); // Note> 이름은 Async이지만 코드 내부에서 스레드 블러킹을 유발한다! 미친!
+//                }
+//            });
 
             if (logger.isDebugEnabled()) {
                 logger.debug("-----> mysql x-dev api updateUserNickname {} : uuid {}, nickname {},", result.getAffectedItemsCount(), uuid, nickname);
             }
-            session.commit();
             return (int)result.getAffectedItemsCount();
         } catch (TimeoutException e) {
             logger.error("UserDbHelperService::updateUserNickname()", e);
-            session.rollback();
             return 0;
         }
 
@@ -368,25 +537,39 @@ public class UserDbHelper {
     public int updateUserHigScore(String uuid, int highScore) throws SuspendExecution {
         // TODO case1 : x dev api async 처리
 
-        session.startTransaction();
         // Row SQL
-//        CompletableFuture<SqlResult> future = session.sql(
-//            "UPDATE users SET high_Score = '" + highScore + "' WHERE uuid = '" + uuid + "'").executeAsync();
+//        CompletableFuture<SqlResult> future = getSession().sql("UPDATE users SET high_Score = '" + highScore + "' WHERE uuid = '" + uuid + "'").executeAsync();
 
-        Table table = session.getDefaultSchema().getTable("users");
-        CompletableFuture<Result> future = table.update().set("high_Score", Integer.valueOf(highScore)).where("uuid = :uuid").bind("uuid", uuid).executeAsync();
+//        Table table = session.getDefaultSchema().getTable("users");
+//        CompletableFuture<Result> future = table.update().set("high_Score", Integer.valueOf(highScore)).where("uuid = :uuid").bind("uuid", uuid).executeAsync();
 
+        Session session = getSession();
         try {
-//            SqlResult result = Async.awaitFuture(future);
+            CompletableFuture<SqlResult> future = Async.callBlocking(GameAnvilInternalThreadPool.get(), new Callable<CompletableFuture<SqlResult>>() {
+                @Override
+                public CompletableFuture<SqlResult> call() throws Exception {
+//                    return session.sql("UPDATE users SET high_Score = '" + highScore + "' WHERE uuid = '" + uuid + "'").executeAsync(); // Note> 이름은 Async이지만 코드 내부에서 스레드 블러킹을 유발한다! 미친!
+                    return session.sql("CALL sp_Users_Update_HighScore('" + uuid + "', " + highScore + ")").executeAsync();
+                }
+            });
+
             Result result = Async.awaitFuture(future);
+
+//            SqlResult result = Async.callBlocking(GameAnvilInternalThreadPool.get(), new Callable<SqlResult>() {
+//                @Override
+//                public SqlResult call() throws Exception {
+////                    return session.sql("UPDATE users SET high_Score = '" + highScore + "' WHERE uuid = '" + uuid + "'").executeAsync().get(); // Note> 이름은 Async이지만 코드 내부에서 스레드 블러킹을 유발한다! 미친!
+//                    return session.sql("CALL sp_Users_Update_HighScore('" + uuid + "', " + highScore + ")").executeAsync().get(); // Note> 이름은 Async이지만 코드 내부에서 스레드 블러킹을 유발한다! 미친!
+//
+//                }
+//            });
+
             if (logger.isDebugEnabled()) {
                 logger.debug("-----> mysql x-dev api updateUserHigScore {} : uuid {}, highScore {},", result.getAffectedItemsCount(), uuid, highScore);
             }
-            session.commit();
             return (int)result.getAffectedItemsCount();
         } catch (TimeoutException e) {
             logger.error("UserDbHelperService::updateUserHigScore()", e);
-            session.rollback();
             return 0;
         }
 
@@ -450,12 +633,13 @@ public class UserDbHelper {
 //        return resultCount;
     }
 
-    public Session getSession() {
-        return session;
-    }
 
     public void closeClient() {
-        session.close();
-        client.close();
+//        session.close();
+//        client.close();
+
+        for (int i = 0; i < MAX_SESSION; ++i) {
+            sessions.get(i).close();
+        }
     }
 }

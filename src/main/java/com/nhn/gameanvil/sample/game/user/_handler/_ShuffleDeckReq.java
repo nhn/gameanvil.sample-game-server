@@ -16,6 +16,8 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
+
 /**
  * 유저가 가지고 있는 현제 덱정보 서버갱신 저장, request 형식으로 전달되어 서버에서 처리후 reply 처리가 되어야 한다.
  */
@@ -71,9 +73,12 @@ public class _ShuffleDeckReq implements PacketHandler<GameUser> {
 
                 // 유저 덱 변경 저장
                 // TODO - DB 테스트 : 기존 Mybatis UPDATE
-                int dbResultCount = UserDbHelperService.getInstance().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
-                // TODO - DB 테스트 : X dev api 노드 단위 생성 UPDATE
-//                int dbResultCount = ((GameNode)GameNode.getInstance()).getUserDbHelper().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
+//                int dbResultCount = UserDbHelperService.getInstance().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
+                // TODO - DB 테스트 : X dev api UPDATE
+                int dbResultCount = ((GameNode)GameNode.getInstance()).getUserDbHelperMysqlX().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
+
+                // TODO - DB 테스트 : jasync-sql UPDATE
+//                int dbResultCount = ((GameNode)gameUser.getBaseGameNode()).getUserDbHelperJasyncsql().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
 
                 if (dbResultCount == 1) {   // 정상 저장되었을 경우에 응답 데이터 설정
                     gameUser.getGameUserInfo().setCurrentDeck(nextDeck);

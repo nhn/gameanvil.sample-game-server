@@ -79,6 +79,8 @@ public enum UserDbHelperService {
                 try {
                     UserDataMapper userDataMapper = sqlSession.getMapper(UserDataMapper.class);
                     UserDto userDto = userDataMapper.selectUserByUuid(uuid);
+//                    UserDto userDto = userDataMapper.selectUserByUuidSP(uuid);
+//                    logger.info("Mybatis selectUserByUuid userDto {}", userDto);
                     if (userDto == null) {
                         return null;
                     } else {
@@ -146,6 +148,8 @@ public enum UserDbHelperService {
                 try {
                     UserDataMapper userDataMapper = sqlSession.getMapper(UserDataMapper.class);
                     int resultCount = userDataMapper.insertUser(gameUserInfo.toDtoUser());
+//                    int resultCount = userDataMapper.insertUserSP(gameUserInfo.toDtoUser());
+//                    logger.info("Mybatis insertUser resultCount {}", resultCount);
                     if (resultCount == 1) { // 단건 저장이기에 1개면 정상으로 디비 commit
                         sqlSession.commit();
                     }
@@ -197,6 +201,9 @@ public enum UserDbHelperService {
                 UserDataMapper userDataMapper = sqlSession.getMapper(UserDataMapper.class);
                 try {
                     int resultCount = userDataMapper.updateUserCurrentDeck(uuid, currentDeck);
+//                    int resultCount = userDataMapper.updateUserCurrentDeckSP(uuid, currentDeck);
+ //                   logger.info("Mybatis updateUserCurrentDeck resultCount {}", resultCount);
+
                     if (resultCount == 1) {
                         sqlSession.commit();
                     }
@@ -248,6 +255,9 @@ public enum UserDbHelperService {
                 UserDataMapper userDataMapper = sqlSession.getMapper(UserDataMapper.class);
                 try {
                     int resultCount = userDataMapper.updateUserNickname(uuid, nickname);
+//                    int resultCount = userDataMapper.updateUserNicknameSP(uuid, nickname);
+//                    logger.info("Mybatis updateUserNickname resultCount {}", resultCount);
+
                     if (resultCount == 1) {
                         sqlSession.commit();
                     }
@@ -302,10 +312,14 @@ public enum UserDbHelperService {
                     UserDataMapper userDataMapper = sqlSession.getMapper(UserDataMapper.class);
                     try {
                         int resultCount = userDataMapper.updateUserHighScore(uuid, highScore);
+//                        int resultCount = userDataMapper.updateUserHighScoreSP(uuid, highScore);
+//                        logger.info("Mybatis updateUserHigScore resultCount {}", resultCount);
+
                         if (resultCount == 1) {
                             sqlSession.commit();
                         }
-                        return resultCount;
+//                        return resultCount;
+                        return 1;
                     } finally {
                         sqlSession.close();
                     }

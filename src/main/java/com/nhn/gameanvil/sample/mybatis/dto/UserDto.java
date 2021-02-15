@@ -180,4 +180,27 @@ public class UserDto {
         gameUserInfo.setCurrentDeck(this.getCurrentDeck());
         return gameUserInfo;
     }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+            "uuid='" + uuid + '\'' +
+            ", loginType=" + loginType +
+            ", appVersion='" + appVersion + '\'' +
+            ", appStore='" + appStore + '\'' +
+            ", deviceModel='" + deviceModel + '\'' +
+            ", deviceCountry='" + deviceCountry + '\'' +
+            ", deviceLanguage='" + deviceLanguage + '\'' +
+            ", nickname='" + nickname + '\'' +
+            ", heart=" + heart +
+            ", coin=" + coin +
+            ", ruby=" + ruby +
+            ", level=" + level +
+            ", exp=" + exp +
+            ", highScore=" + highScore +
+            ", currentDeck='" + currentDeck + '\'' +
+            ", createDate=" + createDate +
+            ", updateDate=" + updateDate +
+            '}';
+    }
 }

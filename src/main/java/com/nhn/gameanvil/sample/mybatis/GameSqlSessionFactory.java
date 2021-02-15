@@ -27,7 +27,7 @@ public class GameSqlSessionFactory {
         try {
             // mybatis_config.xml 파일의 경로 지정
             String mybatisConfigPath = System.getProperty("mybatisConfig"); // 파라미터 전달 된경우
-            logger.info("mybatisConfigPath : {}", mybatisConfigPath);
+            logger.debug("mybatisConfigPath : {}", mybatisConfigPath);
             if (mybatisConfigPath != null) {
                 logger.info("load to mybatisConfigPath : {}", mybatisConfigPath);
                 InputStream inputStream = new FileInputStream(mybatisConfigPath);

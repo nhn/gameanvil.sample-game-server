@@ -15,10 +15,12 @@
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.23" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
     <orderEntry type="library" name="Maven: com.nhn.gameanvil:gameanvil:DEV-1.2.0-jdk8" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.23" level="project" />
+    <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
+    <orderEntry type="library" name="Maven: com.nhn.gameanvil:gameanvil:DEV-1.2.0-jdk8" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec-socks:4.1.50.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.50.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.50.Final" level="project" />
-    <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.50.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-codec:4.1.50.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-handler-proxy:4.1.50.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-resolver-dns:4.1.50.Final" level="project" />
@@ -110,5 +112,20 @@
     <orderEntry type="library" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" name="Maven: org.mybatis:mybatis:3.5.3" level="project" />
+    <orderEntry type="library" name="Maven: com.github.jasync-sql:jasync-mysql:1.1.6" level="project" />
+    <orderEntry type="library" name="Maven: com.github.jasync-sql:jasync-pool:1.1.6" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.2" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2" level="project" />
+    <orderEntry type="library" name="Maven: com.github.jasync-sql:jasync-common:1.1.6" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.20" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.4.20" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains:annotations:13.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.20" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.4.2" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-common:1.4.0" level="project" />
+    <orderEntry type="library" name="Maven: org.joda:joda-convert:1.8.1" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.49.Final" level="project" />
+    <orderEntry type="library" name="Maven: io.github.microutils:kotlin-logging:1.7.6" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-script-runtime:1.4.30-RC" level="project" />
   </component>
 </module>

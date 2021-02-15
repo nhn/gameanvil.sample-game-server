@@ -11,6 +11,8 @@ import com.nhn.gameanvil.sample.protocol.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
+
 /**
  * 유저가 닉네임 변경 서버갱신, DB저장, request 형식으로 전달되어 서버에서 처리후 reply 처리가 되어야 한다.
  */
@@ -23,7 +25,7 @@ public class _ChangeNicknameReq implements PacketHandler<GameUser> {
         ErrorCode resultCode = ErrorCode.UNKNOWN;
         User.ChangeNicknameRes.Builder changeNicknameRes = User.ChangeNicknameRes.newBuilder();
         try {
-            logger.info("userId : {}", gameUser.getUserId());
+            logger.debug("userId : {}", gameUser.getUserId());
             String checkNickname = null;
 
             // 닉네임 변경 요청 처리
@@ -40,9 +42,13 @@ public class _ChangeNicknameReq implements PacketHandler<GameUser> {
                 if (resultCode == ErrorCode.NONE) {
                     // 유저 덱 변경 저장
                     // TODO - DB 테스트 : 기존 Mybatis UPDATE
-                    int dbResultCount = UserDbHelperService.getInstance().updateUserNickname(gameUser.getGameUserInfo().getUuid(), checkNickname);
-                    // TODO - DB 테스트 : X dev api 노드 단위 생성 UPDATE
-//                    int dbResultCount = ((GameNode)GameNode.getInstance()).getUserDbHelper().updateUserNickname(gameUser.getGameUserInfo().getUuid(), checkNickname);
+//                    int dbResultCount = UserDbHelperService.getInstance().updateUserNickname(gameUser.getGameUserInfo().getUuid(), checkNickname);
+                    // TODO - DB 테스트 : X dev api UPDATE
+                    int dbResultCount = ((GameNode)GameNode.getInstance()).getUserDbHelperMysqlX().updateUserNickname(gameUser.getGameUserInfo().getUuid(), checkNickname);
+
+                    // TODO - DB 테스트 : jasync-sql UPDATE
+//                    int dbResultCount = ((GameNode)GameNode.getInstance()).getUserDbHelperJasyncsql().updateUserNickname(gameUser.getGameUserInfo().getUuid(), checkNickname);
+
                     if (dbResultCount == 1) {   // 정상 저장되었을 경우에 응답 데이터 설정
                         gameUser.getGameUserInfo().setNickname(checkNickname);
 

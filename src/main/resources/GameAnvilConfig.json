@@ -8,7 +8,11 @@
 
     "ipcPort": 16000, // 다른 ipc node 와 통신할때 사용되는 port
     "publisherPort" : 13300, // publish socket 을 위한 port
-    "debugMode": false //디버깅시 각종 timeout 이 발생안하도록 하는 옵션 , 리얼에서는 반드시 false 이어야 한다.
+    "debugMode": false, //디버깅시 각종 timeout 이 발생안하도록 하는 옵션 , 리얼에서는 반드시 false 이어야 한다.
+
+    "testLoggingNodeCnt" : 1,       // 성능테스트 로깅 노드 갯수(디폴트 0 - 0이면 설정되지않는다.)
+    "testLoggingPort": 28888,       // 성능테스트 로그집계 rest port(디폴트 28888)
+    "isTestLoggingSnapshot": true   // 성능테스트 로그 집계 1분단위 스냅샷 설정 여부(디폴트 false)
   },
 
   //-------------------------------------------------------------------------------------

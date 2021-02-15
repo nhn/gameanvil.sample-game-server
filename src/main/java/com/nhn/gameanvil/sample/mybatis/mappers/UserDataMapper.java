@@ -10,8 +10,13 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface UserDataMapper {
     int insertUser(UserDto userDto);
+    int insertUserSP(UserDto userDto);
     UserDto selectUserByUuid(@Param("uuid")final String uuid);
+    UserDto selectUserByUuidSP(@Param("uuid")final String uuid);
     int updateUserCurrentDeck(@Param("uuid") final String uuid, @Param("currentDeck") final String currentDeck);
+    int updateUserCurrentDeckSP(@Param("uuid") final String uuid, @Param("currentDeck") final String currentDeck);
     int updateUserNickname(@Param("uuid") final String uuid, @Param("nickname") final String nickname);
+    int updateUserNicknameSP(@Param("uuid") final String uuid, @Param("nickname") final String nickname);
     int updateUserHighScore(@Param("uuid") final String uuid, @Param("highScore") final int highScore);
+    int updateUserHighScoreSP(@Param("uuid") final String uuid, @Param("highScore") final int highScore);
 }

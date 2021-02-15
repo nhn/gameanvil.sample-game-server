@@ -8,6 +8,35 @@
         VALUES (#{uuid}, #{loginType}, #{appVersion}, #{appStore}, #{deviceModel}, #{deviceCountry}, #{deviceLanguage}, #{nickname}, #{heart}, #{coin}, #{ruby}, #{level}, #{exp}, #{highScore}, #{currentDeck}, NOW(),NOW())
     </insert>
 
+  <insert id="insertUserSP" statementType="CALLABLE" parameterType="com.nhn.gameanvil.sample.mybatis.dto.UserDto">
+    {
+      CALL sp_Users_Insert (
+          #{uuid, jdbcType=VARCHAR},
+          #{loginType},
+          #{appVersion, jdbcType=VARCHAR},
+          #{appStore, jdbcType=VARCHAR},
+          #{deviceModel, jdbcType=VARCHAR},
+          #{deviceCountry, jdbcType=VARCHAR},
+          #{deviceLanguage, jdbcType=VARCHAR},
+          #{nickname, jdbcType=VARCHAR},
+          #{heart},
+          #{coin},
+          #{ruby},
+          #{level},
+          #{exp},
+          #{highScore},
+          #{currentDeck, jdbcType=VARCHAR})
+      }
+  </insert>
+
+  <select id="selectUserByUuidSP" statementType="CALLABLE" resultType="com.nhn.gameanvil.sample.mybatis.dto.UserDto">
+    {
+        CALL sp_Users_Select_Uuid(
+            #{uuid, jdbcType=VARCHAR})
+    }
+
+    </select>
+
   <select id="selectUserByUuid" resultType="com.nhn.gameanvil.sample.mybatis.dto.UserDto">
         SELECT
           uuid,
@@ -31,17 +60,40 @@
         WHERE uuid = #{uuid}
     </select>
 
+
   <update id="updateUserCurrentDeck">
         UPDATE users SET current_deck = #{currentDeck} WHERE uuid = #{uuid}
+    </update>
+
+  <update id="updateUserCurrentDeckSP" statementType="CALLABLE">
+{
+    CALL sp_Users_Update_CurrentDeck(
+        #{uuid, jdbcType=VARCHAR},
+        #{currentDeck, jdbcType=VARCHAR})
+}
     </update>
 
   <update id="updateUserNickname">
         UPDATE users SET nickname = #{nickname} WHERE uuid = #{uuid}
     </update>
 
+  <update id="updateUserNicknameSP" statementType="CALLABLE">
+{
+    CALL sp_Users_Update_Nickname(
+        #{uuid, jdbcType=VARCHAR},
+        #{nickname, jdbcType=VARCHAR})
+}
+    </update>
+
   <update id="updateUserHighScore">
         UPDATE users SET high_score = #{highScore} WHERE uuid = #{uuid}
     </update>
 
-
+  <update id="updateUserHighScoreSP" statementType="CALLABLE">
+{
+    CALL sp_Users_Update_Nickname(
+        #{uuid, jdbcType=VARCHAR},
+        #{highScore})
+}
+    </update>
 </mapper>

@@ -1,9 +1,6 @@
 package com.nhn.gameanvil.sample.game.user;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.mysql.cj.xdevapi.Collection;
-import com.mysql.cj.xdevapi.Schema;
-import com.nhn.gameanvil.async.Async;
 import com.nhn.gameanvil.node.game.BaseUser;
 import com.nhn.gameanvil.node.game.data.MatchRoomResult;
 import com.nhn.gameanvil.packet.Packet;
@@ -18,6 +15,7 @@ import com.nhn.gameanvil.sample.game.user._handler._ShuffleDeckReq;
 import com.nhn.gameanvil.sample.game.user._handler._SingleScoreRankingReq;
 import com.nhn.gameanvil.sample.game.user.model.GameUserInfo;
 import com.nhn.gameanvil.sample.game.user.model.GameUserTransferInfo;
+import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
 import com.nhn.gameanvil.sample.protocol.Authentication;
 import com.nhn.gameanvil.sample.protocol.GameMulti;
 import com.nhn.gameanvil.sample.protocol.GameMulti.RoomUserData;
@@ -31,10 +29,10 @@ import com.nhn.gameanvil.timer.Timer;
 import com.nhn.gameanvil.timer.TimerHandler;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+//import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
 
 /**
  * 게임에서 사용 하는 게임 유저 객체
@@ -102,14 +100,22 @@ public class GameUser extends BaseUser implements TimerHandler {
                     gameUserInfo.setDeviceModel(loginReq.getDeviceModel());
                     gameUserInfo.setDeviceCountry(loginReq.getDeviceCountry());
                     gameUserInfo.setDeviceLanguage(loginReq.getDeviceLanguage());
-
+//                    GameUserInfo dbGameUserInfo = null;
                     // DB에서 유저 데이터 검색
                     // TODO - DB 테스트 : 기존 Mybatis SELECT
 //                    GameUserInfo dbGameUserInfo = UserDbHelperService.getInstance().selectUserByUuid(gameUserInfo.getUuid());
-                    // TODO - DB 테스트 : X dev api 노드 단위 생성 SELECT
-                    GameUserInfo dbGameUserInfo = ((GameNode)this.getBaseGameNode()).getUserDbHelper().selectUserByUuid(gameUserInfo.getUuid());
+//                    UserDbHelperService.getInstance().updateUserCurrentDeck(gameUserInfo.getUuid(),  "test"+gameUserInfo.getUuid());
 
-                    if (dbGameUserInfo == null) {   // DB에 데이터가 없으므로 신규
+                    // TODO - DB 테스트 : X dev api SELECT
+//                    GameUserInfo dbGameUserInfo = ((GameNode)this.getBaseGameNode()).getUserDbHelperMysqlX().selectUserByUuid(gameUserInfo.getUuid());
+//                    ((GameNode)this.getBaseGameNode()).getUserDbHelperMysqlX().selectUserByUuid(gameUserInfo.getUuid());
+                    ((GameNode)this.getBaseGameNode()).getUserDbHelperMysqlX().updateUserCurrentDeck(gameUserInfo.getUuid(), "test"+gameUserInfo.getUuid());
+
+                    // TODO - DB 테스트 : jasync-sql UPDATE
+//                    GameUserInfo dbGameUserInfo = ((GameNode)this.getBaseGameNode()).getUserDbHelperJasyncsql().selectUserByUuid(gameUserInfo.getUuid());
+//                    ((GameNode)this.getBaseGameNode()).getUserDbHelperJasyncsql().updateUserCurrentDeck(gameUserInfo.getUuid(), "test"+gameUserInfo.getUuid());
+
+//                    if (dbGameUserInfo == null) {   // DB에 데이터가 없으므로 신규
                         // 게임 데이터 설정
                         gameUserInfo.setNickname("GameAnvil-" + getUserId());
                         gameUserInfo.setHeart(3);
@@ -121,25 +127,28 @@ public class GameUser extends BaseUser implements TimerHandler {
                         gameUserInfo.setCurrentDeck("sushi");
 
                         // 신규 DB 저장
-                        // TODO - DB 테스트 : 기존 Mybatis UPDATE
+                        // TODO - DB 테스트 : 기존 Mybatis INSERT
 //                        int dbResultCount = UserDbHelperService.getInstance().insertUser(gameUserInfo);
-                        // TODO - DB 테스트 : X dev api 노드 단위 생성 UPDATE
-                        int dbResultCount = ((GameNode)this.getBaseGameNode()).getUserDbHelper().insertUser(gameUserInfo);
+                        // TODO - DB 테스트 : X dev api INSERT
+//                        int dbResultCount = ((GameNode)this.getBaseGameNode()).getUserDbHelperMysqlX().insertUser(gameUserInfo);
 
-                        if (logger.isDebugEnabled()) {
-                            logger.debug("DB User Insert {} ", dbResultCount);
-                        }
-                    } else {
-                        // DB에서 가져온 유저 데이터 설정
-                        gameUserInfo.setNickname(dbGameUserInfo.getNickname());
-                        gameUserInfo.setHeart(dbGameUserInfo.getHeart());
-                        gameUserInfo.setCoin(dbGameUserInfo.getCoin());
-                        gameUserInfo.setRuby(dbGameUserInfo.getRuby());
-                        gameUserInfo.setLevel(dbGameUserInfo.getLevel());
-                        gameUserInfo.setExp(dbGameUserInfo.getExp());
-                        gameUserInfo.setHighScore(dbGameUserInfo.getHighScore());
-                        gameUserInfo.setCurrentDeck(dbGameUserInfo.getCurrentDeck());
-                    }
+                        // TODO - DB 테스트 : jasync-sql INSERT
+//                        int dbResultCount = ((GameNode)this.getBaseGameNode()).getUserDbHelperJasyncsql().insertUser(gameUserInfo);
+
+//                        if (logger.isDebugEnabled()) {
+//                            logger.debug("DB User Insert {} ", dbResultCount);
+//                        }
+//                    } else {
+//                        // DB에서 가져온 유저 데이터 설정
+//                        gameUserInfo.setNickname(dbGameUserInfo.getNickname());
+//                        gameUserInfo.setHeart(dbGameUserInfo.getHeart());
+//                        gameUserInfo.setCoin(dbGameUserInfo.getCoin());
+//                        gameUserInfo.setRuby(dbGameUserInfo.getRuby());
+//                        gameUserInfo.setLevel(dbGameUserInfo.getLevel());
+//                        gameUserInfo.setExp(dbGameUserInfo.getExp());
+//                        gameUserInfo.setHighScore(dbGameUserInfo.getHighScore());
+//                        gameUserInfo.setCurrentDeck(dbGameUserInfo.getCurrentDeck());
+//                    }
 
                     if (logger.isDebugEnabled()) {
                         logger.debug("onLogin Success. userInfo:{}", gameUserInfo);

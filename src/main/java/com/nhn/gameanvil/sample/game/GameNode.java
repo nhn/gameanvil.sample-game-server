@@ -1,12 +1,7 @@
 package com.nhn.gameanvil.sample.game;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.mysql.cj.xdevapi.Client;
-import com.mysql.cj.xdevapi.ClientFactory;
-import com.mysql.cj.xdevapi.Row;
-import com.mysql.cj.xdevapi.Session;
-import com.mysql.cj.xdevapi.SqlResult;
-import com.nhn.gameanvil.async.Async;
+import com.github.jasync.sql.db.Configuration;
 import com.nhn.gameanvil.node.game.BaseGameNode;
 import com.nhn.gameanvil.node.game.data.ChannelUpdateType;
 import com.nhn.gameanvil.node.game.data.ChannelUserInfo;
@@ -14,27 +9,23 @@ import com.nhn.gameanvil.node.game.data.RoomInfo;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.Payload;
 import com.nhn.gameanvil.sample.common.GameConstants;
-import com.nhn.gameanvil.sample.db.UserDbHelper;
+import com.nhn.gameanvil.sample.db.UserDbHelperJasyncSql;
+import com.nhn.gameanvil.sample.db.UserDbHelperMySqlX;
 import com.nhn.gameanvil.sample.redis.RedisHelper;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GameNode extends BaseGameNode {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private RedisHelper redisHelper;
-    private UserDbHelper userDbHelper;
+    private UserDbHelperMySqlX userDbHelperMysqlX;
+    private UserDbHelperJasyncSql userDbHelperJasyncsql;
+
+//    private Connection connection;
 
     @Override
     public void onInit() throws SuspendExecution {
-        logger.info("onInit");
+        logger.debug("onInit");
 
         // FIXME RedisClient 노드마다 생성, singleton 으로 만들어서 접근 하면 안된다.
         // 레디스 생성
@@ -43,33 +34,16 @@ public class GameNode extends BaseGameNode {
         redisHelper.connect(GameConstants.REDIS_URL, GameConstants.REDIS_PORT);
 
         // TODO - xdevapi 게임 노드에서 생성
-        userDbHelper = new UserDbHelper("mysqlx://10.77.14.245:33060/taptap?user=kevin&password=kevin1234");  // 빌드머신 mysql 8.0
-//        userDbHelper = new UserDbHelper("mysqlx://localhost:33060/taptap?user=kevin&password=kevin1234");  // 로컬 mysql 8.0
+        userDbHelperMysqlX = new UserDbHelperMySqlX("mysqlx://10.77.14.245:33060/taptap?user=kevin&password=kevin1234");  // 빌드머신 mysql 8.0
 //        userDbHelper = new UserDbHelper("mysqlx://localhost:33060/taptap?xdevapi.ssl-mode=DISABLED&user=root&password=1234"); // 로컬 mysql. 5.7
 
-//        ClientFactory cf = new ClientFactory();
-//        String connectionUrl = "mysqlx://mcjeon:dodanto@10.77.14.245:33060/world";  // Note> connection string 두 방식 모두 가능
-////        String connectionUrl = "mysqlx://10.77.14.245:33060/world?user=mcjeon&password=dodanto"; // Note> connection string 두 방식 모두 가능
-//        Client cli = cf.getClient(connectionUrl, "{\"pooling\":{\"enabled\":true, \"maxSize\":100, \"maxIdleTime\":30000, \"queueTimeout\":10000} }");
-
-//        Session session = cli.getSession();
-//        //Session session = new SessionFactory().getSession(connectionUrl); // Note> connection pooling 없이 사용하는 방법
-//
-//        //session.sql("USE world"); // Note> Java에서는 이런식으로 schema 변경 가능
-//
-//        // Note> sql() 사용
-//        CompletableFuture<SqlResult> future = session.sql("select * from city").executeAsync();
-//
-//        try {
-//            SqlResult result = Async.awaitFuture(future);
-//            List<Row> rows = result.fetchAll();
-//
-//            for (Row row : rows)
-//                logger.warn("-----> mysql x-dev api: {}, {}, {}, {}", row.getString("ID"), row.getString("Name"), row.getString("District"), row.getString("Population"));
-//
-//        } catch (TimeoutException e) {
-//            logger.error("GameSpaceNode::onInit()", e);
-//        }
+        Configuration configuration = new Configuration(
+            "taptap",
+            "10.77.14.22",
+            3306,
+            "nhn!@#123",
+            "taptap");
+        userDbHelperJasyncsql = new UserDbHelperJasyncSql(configuration);
 
         // 성능 시간 비교 테스트
 //        ClientFactory cf = new ClientFactory();
@@ -215,7 +189,9 @@ public class GameNode extends BaseGameNode {
         }
 
         redisHelper.shutdown();
-        userDbHelper.closeClient();
+        userDbHelperMysqlX.closeClient();
+
+        userDbHelperJasyncsql.disconnect();
     }
 
     @Override
@@ -291,7 +267,11 @@ public class GameNode extends BaseGameNode {
         return redisHelper;
     }
 
-    public UserDbHelper getUserDbHelper() {
-        return userDbHelper;
+    public UserDbHelperMySqlX getUserDbHelperMysqlX() {
+        return userDbHelperMysqlX;
+    }
+
+    public UserDbHelperJasyncSql getUserDbHelperJasyncsql() {
+        return userDbHelperJasyncsql;
     }
 }
