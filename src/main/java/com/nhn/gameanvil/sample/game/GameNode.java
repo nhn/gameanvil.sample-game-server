@@ -24,7 +24,7 @@ public class GameNode extends BaseGameNode {
         // 레디스 생성
         redisHelper = new RedisHelper();
         // 레디스 연결 처리
-        redisHelper.connect(GameConstants.REDIS_URL, GameConstants.REDIS_PORT);
+        redisHelper.connect(GameConstants.REDIS_URL, GameConstants.REDIS_PORT, GameConstants.REDIS_PASSWORD);
     }
 
     @Override

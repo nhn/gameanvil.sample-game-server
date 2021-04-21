@@ -34,7 +34,7 @@
     <dependency>
       <groupId>com.nhn.gameanvil</groupId>
       <artifactId>gameanvil</artifactId>
-      <version>1.1.0-jdk8</version>
+      <version>1.1.10-jdk8</version>
     </dependency>
 
     <!-- junit -->
@@ -50,6 +50,14 @@
       <artifactId>mybatis</artifactId>
       <version>3.5.3</version>
     </dependency>
+
+    <!-- mySql DB -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.23</version>
+    </dependency>
+
   </dependencies>
 
   <name>sample_game_server</name>

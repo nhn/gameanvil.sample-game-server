@@ -29,8 +29,12 @@ public class GameConstants {
 //    public static final String REDIS_URL = "10.77.14.22";
 //    public static final int REDIS_PORT = 7500;
 
-    public static final String REDIS_URL = "10.160.194.98";
-    public static final int REDIS_PORT = 7610;
+//    public static final String REDIS_URL = "10.160.194.98";
+//    public static final int REDIS_PORT = 7610;
+
+    public static final String REDIS_PASSWORD = "Q8zrhR121FQTOt3m17rpSr9mhvp36cyo";
+    public static final String REDIS_URL = "20b09b6c-49f7-4f8d-9ba8-d3899094076b.public.easycache.cloud.toast.com";
+    public static final int REDIS_PORT = 10000;
 
     // 디비 쓰레드 풀
     public static final String DB_THREAD_POOL = "DB_THREAD_POOL";

@@ -5,18 +5,16 @@ import static org.slf4j.LoggerFactory.getLogger;
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhn.gameanvil.GameAnvilUtil;
 import com.nhn.gameanvil.async.redis.Lettuce;
+import com.nhn.gameanvil.async.redis.RedisSingle;
 import com.nhn.gameanvil.sample.common.GameConstants;
 import com.nhn.gameanvil.sample.game.user.model.GameUserInfo;
 import com.nhn.gameanvil.sample.game.user.model.SingleRankingInfo;
 import io.lettuce.core.KeyValue;
 import io.lettuce.core.RedisFuture;
-import io.lettuce.core.RedisURI;
 import io.lettuce.core.ScoredValue;
-import io.lettuce.core.cluster.RedisClusterClient;
-import io.lettuce.core.cluster.api.StatefulRedisClusterConnection;
-import io.lettuce.core.cluster.api.async.RedisAdvancedClusterAsyncCommands;
+import io.lettuce.core.api.async.RedisAsyncCommands;
+import io.lettuce.core.codec.StringCodec;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,9 +31,13 @@ public class RedisHelper {
     public static final String REDIS_SINGLE_SCORE_KEY = "taptap_single_score";
     public static final String REDIS_USER_DATA_KEY = "taptap_user_data";
 
-    private RedisClusterClient clusterClient;
-    private StatefulRedisClusterConnection<String, String> clusterConnection;
-    private RedisAdvancedClusterAsyncCommands<String, String> clusterAsyncCommands;
+    // 레디스 싱글
+    private RedisSingle redisSingle;
+
+    // 레디스 클러스터 사용
+//    private RedisClusterClient clusterClient;
+//    private StatefulRedisClusterConnection<String, String> clusterConnection;
+//    private RedisAdvancedClusterAsyncCommands<String, String> clusterAsyncCommands;
 
     /**
      * 레디스 연결, 사용하기전에 최초에 한번 호출해서 연결 해야 한다.
@@ -44,26 +46,35 @@ public class RedisHelper {
      * @param port 점속 port
      * @throws SuspendExecution
      */
-    public void connect(String url, int port) throws SuspendExecution {
-        // 레디스 연결 처리
-//        RedisURI clusterURI = RedisURI.Builder.redis(url, port).build();
-//        this.clusterClient = RedisClusterClient.create(Collections.singletonList(clusterURI));
-        this.clusterClient = RedisClusterClient.create("redis://password@10.160.194.98:7610");
-        this.clusterConnection = Lettuce.connect(GameConstants.REDIS_THREAD_POOL, clusterClient);
+    public void connect(String url, int port, String password) throws SuspendExecution {
+        // 레디스 싱글 연결
+        this.redisSingle = new RedisSingle<>(url, port, password);
+        this.redisSingle.connect(GameConstants.REDIS_THREAD_POOL, StringCodec.UTF8);
 
-        if (this.clusterConnection.isOpen()) {
+        if (this.redisSingle.isConnected()) {
             logger.info("============= Connected to Redis using Lettuce =============");
         }
 
-        this.clusterAsyncCommands = clusterConnection.async();
+        // 레디스 클러스터 연결 처리
+//        RedisURI clusterURI = RedisURI.Builder.redis(url, port).build();
+//        this.clusterClient = RedisClusterClient.create(Collections.singletonList(clusterURI));
+//        this.clusterClient = RedisClusterClient.create("redis://password@10.160.194.98:7610");
+//        this.clusterConnection = Lettuce.connect(GameConstants.REDIS_THREAD_POOL, clusterClient);
+//
+//        if (this.clusterConnection.isOpen()) {
+//            logger.info("============= Connected to Redis using Lettuce =============");
+//        }
+//
+//        this.clusterAsyncCommands = clusterConnection.async();
     }
 
     /**
      * 접속 종료 서버가 내려가기전에 호출되어야 한다,
      */
     public void shutdown() {
-        clusterConnection.close();
-        clusterClient.shutdown();
+        // 레디스 클러스터 종료
+//        clusterConnection.close();
+//        clusterClient.shutdown();
 
         if (logger.isTraceEnabled()) {
             logger.trace("onShutdown");
@@ -82,7 +93,11 @@ public class RedisHelper {
 
         boolean isSuccess = false;
         try {
-            Lettuce.awaitFuture(clusterAsyncCommands.hset(REDIS_USER_DATA_KEY, gameUserInfo.getUuid(), value)); // 해당 리턴값은 최초에 set 할때만 true 이고 있는값갱신시에는 false 응답
+            // 레디스 싱글
+            Lettuce.awaitFuture(redisSingle.getAsyncCommands().hset(REDIS_USER_DATA_KEY, gameUserInfo.getUuid(), value)); // 해당 리턴값은 최초에 set 할때만 true 이고 있는값갱신시에는 false 응답
+
+            // 레디스 클러스터
+//            Lettuce.awaitFuture(clusterAsyncCommands.hset(REDIS_USER_DATA_KEY, gameUserInfo.getUuid(), value)); // 해당 리턴값은 최초에 set 할때만 true 이고 있는값갱신시에는 false 응답
             isSuccess = true;
         } catch (TimeoutException e) {
             logger.error("setUserData - timeout", e);
@@ -103,7 +118,11 @@ public class RedisHelper {
         uuidList.toArray(stringArray);
 
         try {
-            List<KeyValue<String, String>> redisUserList = Lettuce.awaitFuture(clusterAsyncCommands.hmget(REDIS_USER_DATA_KEY, stringArray));
+            // 레디스 싱글
+            List<KeyValue> redisUserList = (List<KeyValue>)Lettuce.awaitFuture(redisSingle.getAsyncCommands().hmget(REDIS_USER_DATA_KEY, stringArray));
+
+            // 레디스 클러스터
+//            List<KeyValue<String, String>> redisUserList = Lettuce.awaitFuture(clusterAsyncCommands.hmget(REDIS_USER_DATA_KEY, stringArray));
             List<GameUserInfo> userDataList = new ArrayList<>();
             for (KeyValue<String, String> data : redisUserList) {
                 if (data.hasValue()) {
@@ -131,7 +150,11 @@ public class RedisHelper {
         logger.info("setSingleScore - key : {}, value1 : {}, value2 : {}", REDIS_SINGLE_SCORE_KEY, value, key);
         boolean isSuccess = false;
         try {
-            Lettuce.awaitFuture(clusterAsyncCommands.zadd(REDIS_SINGLE_SCORE_KEY, value, key));
+            // 레디스 싱글
+            Lettuce.awaitFuture(redisSingle.getAsyncCommands().zadd(REDIS_SINGLE_SCORE_KEY, value, key));
+
+            // 레디스 클러스터
+//            Lettuce.awaitFuture(clusterAsyncCommands.zadd(REDIS_SINGLE_SCORE_KEY, value, key));
             isSuccess = true;
         } catch (TimeoutException e) {
             logger.error("setSingleScore - timeout", e);
@@ -148,7 +171,8 @@ public class RedisHelper {
      * @throws SuspendExecution
      */
     public Map<String, SingleRankingInfo> getSingleRanking(int start, int end) throws SuspendExecution {
-        RedisFuture<List<ScoredValue<String>>> future = clusterAsyncCommands.zrevrangeWithScores(REDIS_SINGLE_SCORE_KEY, start, end);
+//        RedisFuture<List<ScoredValue<String>>> future = clusterAsyncCommands.zrevrangeWithScores(REDIS_SINGLE_SCORE_KEY, start, end);
+        RedisFuture<List<ScoredValue<String>>> future = redisSingle.getAsyncCommands().zrevrangeWithScores(REDIS_SINGLE_SCORE_KEY, start, end);
         CompletionStage<Map<String, SingleRankingInfo>> cs = future.thenApplyAsync(r -> {
             Map<String, SingleRankingInfo> rankingInfoMap = new LinkedHashMap<>();
             for (ScoredValue data : r) {

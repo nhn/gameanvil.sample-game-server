@@ -42,8 +42,7 @@ public class Main {
         bootstrap.setGateway()
             .connection(GameConnection.class)
             .session(GameSession.class)
-            .node(GameGatewayNode.class)
-            .enableWhiteModules();
+            .node(GameGatewayNode.class);
 
         // 게임 스페이스 설정
         bootstrap.setGame(GameConstants.GAME_NAME)
