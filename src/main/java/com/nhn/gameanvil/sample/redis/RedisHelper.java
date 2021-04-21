@@ -46,8 +46,9 @@ public class RedisHelper {
      */
     public void connect(String url, int port) throws SuspendExecution {
         // 레디스 연결 처리
-        RedisURI clusterURI = RedisURI.Builder.redis(url, port).build();
-        this.clusterClient = RedisClusterClient.create(Collections.singletonList(clusterURI));
+//        RedisURI clusterURI = RedisURI.Builder.redis(url, port).build();
+//        this.clusterClient = RedisClusterClient.create(Collections.singletonList(clusterURI));
+        this.clusterClient = RedisClusterClient.create("redis://password@10.160.194.98:7610");
         this.clusterConnection = Lettuce.connect(GameConstants.REDIS_THREAD_POOL, clusterClient);
 
         if (this.clusterConnection.isOpen()) {

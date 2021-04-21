@@ -26,8 +26,11 @@ public class GameConstants {
     public static final String REDIS_THREAD_POOL = "REDIS_THREAD_POOL";
 
     // 레디스 접속 정보
-    public static final String REDIS_URL = "10.77.14.22";
-    public static final int REDIS_PORT = 7500;
+//    public static final String REDIS_URL = "10.77.14.22";
+//    public static final int REDIS_PORT = 7500;
+
+    public static final String REDIS_URL = "10.160.194.98";
+    public static final int REDIS_PORT = 7610;
 
     // 디비 쓰레드 풀
     public static final String DB_THREAD_POOL = "DB_THREAD_POOL";
