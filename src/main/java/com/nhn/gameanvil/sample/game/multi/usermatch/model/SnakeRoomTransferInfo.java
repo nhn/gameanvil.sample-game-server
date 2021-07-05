@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 룸 트랜스퍼용 객체
+ * 룸 트랜스퍼용 클래스
  */
 public class SnakeRoomTransferInfo implements Serializable {
     // 서버에서 생성되는 food 리스트
@@ -87,5 +87,19 @@ public class SnakeRoomTransferInfo implements Serializable {
 
     public void setFoodIndex(int foodIndex) {
         this.foodIndex = foodIndex;
+    }
+
+    @Override
+    public String toString() {
+        return "SnakeRoomTransferInfo{" +
+            "foodList=" + foodList +
+            ", gameUserMap=" + gameUserMap +
+            ", gameUserScoreMap=" + gameUserScoreMap +
+            ", boarderLeft=" + boarderLeft +
+            ", boarderRight=" + boarderRight +
+            ", boarderBottom=" + boarderBottom +
+            ", boarderTop=" + boarderTop +
+            ", foodIndex=" + foodIndex +
+            '}';
     }
 }

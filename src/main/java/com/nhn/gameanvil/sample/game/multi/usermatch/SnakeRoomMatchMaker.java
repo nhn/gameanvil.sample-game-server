@@ -1,7 +1,10 @@
 package com.nhn.gameanvil.sample.game.multi.usermatch;
 
-import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakeRoomInfo;
-import com.nhn.gameanvil.node.match.UserMatchMaker;
+import com.nhn.gameanvil.annotation.RoomType;
+import com.nhn.gameanvil.annotation.ServiceName;
+import com.nhn.gameanvil.node.match.BaseUserMatchMaker;
+import com.nhn.gameanvil.sample.common.GameConstants;
+import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakeUserMatchInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +15,9 @@ import org.slf4j.LoggerFactory;
 /**
  * 유저 매치 2인 처리, 동시에 게임 처리, 한명이 방에 나가면 게임 종료
  */
-public class SnakeRoomMatchMaker extends UserMatchMaker<SnakeRoomInfo> {
+@ServiceName(GameConstants.GAME_NAME)
+@RoomType(GameConstants.GAME_ROOM_TYPE_MULTI_USER_MATCH)
+public class SnakeRoomMatchMaker extends BaseUserMatchMaker<SnakeUserMatchInfo> {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private final int matchPoolFactorMax = 1; // match 정원의 몇 배수까지 인원을 모은 후에 rating 별로 정렬해서 매칭할 것인가?
@@ -27,11 +32,11 @@ public class SnakeRoomMatchMaker extends UserMatchMaker<SnakeRoomInfo> {
     }
 
     @Override
-    public void match() {
+    public void onMatch() {
         // matchSize : 매치될 Room 인원 수
         // leastAmount : 매칭 계산에 필요한 인원 수.
         int leastAmount = matchSize * currentMatchPoolFactor;
-        List<SnakeRoomInfo> matchRequests = getMatchRequests(leastAmount);
+        List<SnakeUserMatchInfo> matchRequests = getMatchRequests(leastAmount);
         if (matchRequests == null) {
             // getMatchRequests : 매칭 요청자의 총 수가 leastAmount보다 적을 경우 null을 리턴한다.
             if (System.currentTimeMillis() - lastMatchTime >= 1000) {
@@ -50,14 +55,14 @@ public class SnakeRoomMatchMaker extends UserMatchMaker<SnakeRoomInfo> {
         // 0~99, 100~199, 200~299 ...
         // 요청이 많을 경우 여기에서 그룹을 묶는 작업을 하는 것이 서버에 부하가 될 수 있다.
         // 그룹 별로 RoomType을 나누어 별도의 MatchMaker를 사용하는 방법도 고려해 보자.
-        Map<Integer, List<SnakeRoomInfo>> entries = new TreeMap<>();
-        for (SnakeRoomInfo info : matchRequests) {
+        Map<Integer, List<SnakeUserMatchInfo>> entries = new TreeMap<>();
+        for (SnakeUserMatchInfo info : matchRequests) {
             int ratingGroup = info.getRating() / 100;
             if (!entries.containsKey(ratingGroup)) {
                 entries.put(ratingGroup, new ArrayList<>());
             }
 
-            List<SnakeRoomInfo> subEntries = entries.get(ratingGroup);
+            List<SnakeUserMatchInfo> subEntries = entries.get(ratingGroup);
             subEntries.add(info);
         }
 
@@ -72,7 +77,7 @@ public class SnakeRoomMatchMaker extends UserMatchMaker<SnakeRoomInfo> {
     }
 
     @Override
-    public boolean refill(SnakeRoomInfo req) {
+    public boolean onRefill(SnakeUserMatchInfo matchReq) {
         logger.info("SnakeRoomMatchMaker.refill()");
         // 리필 사용 하지않음
         return false;

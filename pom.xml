@@ -27,21 +27,14 @@
 
   <groupId>com.nhn.gameanvil</groupId>
   <artifactId>sample_game_server</artifactId>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
 
   <dependencies>
     <!-- gameanvil -->
     <dependency>
       <groupId>com.nhn.gameanvil</groupId>
       <artifactId>gameanvil</artifactId>
-      <version>1.1.0-jdk8</version>
-    </dependency>
-
-    <!-- junit -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>DEV-1.2.0-jdk8</version>
     </dependency>
 
     <!-- query -->
@@ -49,6 +42,13 @@
       <groupId>org.mybatis</groupId>
       <artifactId>mybatis</artifactId>
       <version>3.5.3</version>
+    </dependency>
+
+    <!-- mySql DB -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>8.0.23</version>
     </dependency>
   </dependencies>
 
@@ -58,6 +58,7 @@
 
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
@@ -167,6 +168,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.8</version>
         <executions>
           <!-- Ant task for Quasar AOT instrumentation -->
           <execution>

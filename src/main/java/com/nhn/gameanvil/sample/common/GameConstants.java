@@ -26,15 +26,27 @@ public class GameConstants {
     public static final String REDIS_THREAD_POOL = "REDIS_THREAD_POOL";
 
     // 레디스 접속 정보
-    public static final String REDIS_URL = "10.77.14.22";
+    public static final String REDIS_URL = "10.77.14.22"; // GameAnvil 팀 서버
     public static final int REDIS_PORT = 7500;
+    public static final String REDIS_PASSWORD = "password";
 
     // 디비 쓰레드 풀
     public static final String DB_THREAD_POOL = "DB_THREAD_POOL";
+
+    // DB 접속 정보
+    public static final String DB_USERNAME = "taptap";
+    public static final String DB_HOST = "10.77.14.22"; // GameAnvil 팀 서버
+    public static final int DB_PORT = 3306;
+    public static final String DB_PASSWORD = "nhn!@#123";
+    public static final String DB_DATABASE = "taptap";
+    public static final int MAX_ACTIVE_CONNECTION = 30;
 
     // 게임베이스 기본 url
     public static final String GAMEBASE_DEFAULT_URL = "https://api-gamebase.cloud.toast.com";
 
     // 게임베이스 시크릿키
     public static final String GAMEBASE_SECRET_KEY = "oNQMhNXW";
+
+    public static final boolean USE_DB_JASYNC_SQL = true;
+
 }

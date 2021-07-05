@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 /**
- * 싱글 랭킹 정보 데이터 객체
+ * 싱글 랭킹 정보 데이터 클래스
  */
 public class SingleRankingInfo implements Serializable {
     private String uuid;

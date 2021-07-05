@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 네임스페이스를 이용하여 SqlSession에서 Mapper를 사용하지 않고 바로 호출 사용가능.  -->
-<mapper namespace="com.nhn.gameanvil.sample.mybatis.mappers.UserDataMapper">
-  <insert id="insertUser" parameterType="com.nhn.gameanvil.sample.mybatis.dto.UserDto">
+<mapper namespace="com.nhn.gameanvil.sample.db.mybatis.mappers.UserDataMapper">
+  <insert id="insertUser" parameterType="com.nhn.gameanvil.sample.db.mybatis.dto.UserDto">
         INSERT INTO users
         (uuid, login_type, app_version, app_store, device_model, device_country, device_language, nickname, heart, coin, ruby, level, exp, high_score, current_deck, create_date, update_date)
         VALUES (#{uuid}, #{loginType}, #{appVersion}, #{appStore}, #{deviceModel}, #{deviceCountry}, #{deviceLanguage}, #{nickname}, #{heart}, #{coin}, #{ruby}, #{level}, #{exp}, #{highScore}, #{currentDeck}, NOW(),NOW())
     </insert>
 
-  <select id="selectUserByUuid" resultType="com.nhn.gameanvil.sample.mybatis.dto.UserDto">
+  <select id="selectUserByUuid" resultType="com.nhn.gameanvil.sample.db.mybatis.dto.UserDto">
         SELECT
           uuid,
           login_type AS loginType,

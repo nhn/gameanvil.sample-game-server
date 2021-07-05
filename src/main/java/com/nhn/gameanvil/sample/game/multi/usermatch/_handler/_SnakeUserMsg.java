@@ -1,13 +1,14 @@
 package com.nhn.gameanvil.sample.game.multi.usermatch._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.nhn.gameanvil.node.game.RoomPacketHandler;
+import com.nhn.gameanvil.packet.Packet;
+import com.nhn.gameanvil.sample.game.multi.usermatch.SnakeRoom;
 import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakePositionInfo;
 import com.nhn.gameanvil.sample.game.user.GameUser;
 import com.nhn.gameanvil.sample.protocol.GameMulti;
 import com.nhn.gameanvil.sample.protocol.GameMulti.SnakePositionData;
-import com.nhn.gameanvil.sample.game.multi.usermatch.SnakeRoom;
-import com.nhn.gameanvil.node.game.RoomPacketHandler;
-import com.nhn.gameanvil.packet.Packet;
+import java.io.IOException;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,10 +49,10 @@ public class _SnakeUserMsg implements RoomPacketHandler<SnakeRoom, GameUser> {
                     }
                 }
             } else {
-                logger.error("SnakeUserMsg is null!!!");
+                logger.error("_SnakeUserMsg::execute() SnakeUserMsg is null!!!");
             }
-        } catch (Exception e) {
-            logger.error("execute()", e);
+        } catch (IOException e) {
+            logger.error("_SnakeUserMsg::execute()", e);
         }
     }
 }

@@ -1,17 +1,21 @@
 package com.nhn.gameanvil.sample.game.user._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
+import com.nhn.gameanvil.packet.Packet;
+import com.nhn.gameanvil.packet.PacketHandler;
+import com.nhn.gameanvil.sample.common.GameConstants;
+import com.nhn.gameanvil.sample.db.mybatis.UserDbHelperService;
+import com.nhn.gameanvil.sample.game.GameNode;
+import com.nhn.gameanvil.sample.game.user.GameUser;
 import com.nhn.gameanvil.sample.protocol.Result;
 import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
 import com.nhn.gameanvil.sample.protocol.User;
 import com.nhn.gameanvil.sample.protocol.User.CurrencyType;
-import com.nhn.gameanvil.sample.game.user.GameUser;
-import com.nhn.gameanvil.packet.Packet;
-import com.nhn.gameanvil.packet.PacketHandler;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +39,7 @@ public class _ShuffleDeckReq implements PacketHandler<GameUser> {
             User.ShuffleDeckReq shuffleDeckReq = User.ShuffleDeckReq.parseFrom(packet.getStream());
             if (shuffleDeckReq == null || shuffleDeckReq.getCurrencyType() == CurrencyType.CURRENCY_NONE || shuffleDeckReq.getUsage() == 0) {
                 resultCode = ErrorCode.PARAMETER_IS_EMPTY;
-                logger.error("_ShuffleDeckReq fail!! shuffleDeckReq is null!!");
+                logger.error("_ShuffleDeckReq::execute() fail!! shuffleDeckReq is null!!");
             } else if (shuffleDeckReq.getCurrencyType() == CurrencyType.CURRENCY_COIN) { // 코인 확인
                 if (gameUser.getGameUserInfo().getCoin() < shuffleDeckReq.getUsage()) {
                     resultCode = ErrorCode.NOT_ENOUGH_COIN;
@@ -64,7 +68,15 @@ public class _ShuffleDeckReq implements PacketHandler<GameUser> {
                 logger.info("_ShuffleDeckReq - nextDeck : {}", nextDeck);
 
                 // 유저 덱 변경 저장
-                int dbResultCount = UserDbHelperService.getInstance().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
+                int dbResultCount = -1;
+                if (GameConstants.USE_DB_JASYNC_SQL) {
+                    // JAsyncSql
+                    dbResultCount = ((GameNode)gameUser.getBaseGameNode()).getJAsyncSqlManager().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
+                } else {
+                    // Mybatis
+                    dbResultCount = UserDbHelperService.getInstance().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
+                }
+
                 if (dbResultCount == 1) {   // 정상 저장되었을 경우에 응답 데이터 설정
                     gameUser.getGameUserInfo().setCurrentDeck(nextDeck);
 
@@ -75,7 +87,7 @@ public class _ShuffleDeckReq implements PacketHandler<GameUser> {
                     resultCode = ErrorCode.DB_ERROR;
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException | TimeoutException e) {
             logger.error("_ShuffleDeckReq::execute()", e);
             resultCode = ErrorCode.UNKNOWN;
         }

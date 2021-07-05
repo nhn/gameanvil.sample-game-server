@@ -10,7 +10,7 @@ enum CurrencyType {
   CURRENCY_RUBY = 2;
 }
 
-enum RoomType {
+enum RoomGameType {
   ROOM_SINGLE = 0;
   ROOM_TAP = 1;
   ROOM_SNAKE = 2;
@@ -50,5 +50,5 @@ message ChangeNicknameRes {
 }
 
 message RoomInfoMsg {
-  RoomType roomType = 1;
+  RoomGameType roomGameType = 1;
 }

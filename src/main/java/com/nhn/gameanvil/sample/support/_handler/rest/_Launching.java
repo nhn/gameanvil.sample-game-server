@@ -12,7 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 클라이언트가 처음 접속하여, 버전 정보 점검 정보 등을 획득
+ * 클라이언트가 정보를 전달 받고, 서버의 접속 정보 응답 처리
+ *
+ * 정보를 제대로 전달 하지않으면 400 으로 응답처리
  */
 
 public class _Launching implements RestPacketHandler {
@@ -44,7 +46,7 @@ public class _Launching implements RestPacketHandler {
         if (platform != null && appStore != null && appVersion != null && deviceId != null) {
             //파라미터가 이상없을때 세션 서버 정보 응답
             jsonObject.addProperty("serverUrl", "127.0.0.1");
-            jsonObject.addProperty("port", 11200);
+            jsonObject.addProperty("port", 18200);
         } else {
             stateCode = 400;
             responseMessage = "Invalid Parameters : platform, appStore, appVersion, deviceId ";
@@ -57,6 +59,6 @@ public class _Launching implements RestPacketHandler {
 //        restObject.setResponseStatus(HttpResponseStatus.BAD_REQUEST);
 
         // 결과 응답
-        restObject.writeString(GameAnvilUtil.Gson().toJson(jsonObject));   // gameplex에서 제공하는 Gson사용
+        restObject.writeString(GameAnvilUtil.Gson().toJson(jsonObject));   // GameAnvil 에서 제공하는 Gson사용
     }
 }

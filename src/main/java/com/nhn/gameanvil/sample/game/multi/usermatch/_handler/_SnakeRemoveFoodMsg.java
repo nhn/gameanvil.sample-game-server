@@ -1,18 +1,19 @@
 package com.nhn.gameanvil.sample.game.multi.usermatch._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.nhn.gameanvil.node.game.RoomPacketHandler;
+import com.nhn.gameanvil.packet.Packet;
+import com.nhn.gameanvil.sample.game.multi.usermatch.SnakeRoom;
+import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakePositionInfo;
 import com.nhn.gameanvil.sample.game.user.GameUser;
 import com.nhn.gameanvil.sample.protocol.GameMulti;
 import com.nhn.gameanvil.sample.protocol.GameMulti.SnakePositionData;
-import com.nhn.gameanvil.sample.game.multi.usermatch.SnakeRoom;
-import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakePositionInfo;
-import com.nhn.gameanvil.node.game.RoomPacketHandler;
-import com.nhn.gameanvil.packet.Packet;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * snake 게임에서 유저가 food 먹어서 삭제 했을때 상대방에게도 싱크 처리
+ * snake 게임에서 유저가 food를 먹어서 삭제 했을때 상대방에게도 처리된 내용 전달 처리
  */
 public class _SnakeRemoveFoodMsg implements RoomPacketHandler<SnakeRoom, GameUser> {
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -47,10 +48,10 @@ public class _SnakeRemoveFoodMsg implements RoomPacketHandler<SnakeRoom, GameUse
                     }
                 }
             } else {
-                logger.error("SnakeUserMsg is null!!!");
+                logger.error("_SnakeRemoveFoodMsg::execute() SnakeUserMsg is null!!!");
             }
-        } catch (Exception e) {
-            logger.error("execute()", e);
+        } catch (IOException e) {
+            logger.error("_SnakeRemoveFoodMsg::execute()", e);
         }
     }
 }

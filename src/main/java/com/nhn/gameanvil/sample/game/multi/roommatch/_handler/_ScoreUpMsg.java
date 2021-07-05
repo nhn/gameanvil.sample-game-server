@@ -1,11 +1,12 @@
 package com.nhn.gameanvil.sample.game.multi.roommatch._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.gameanvil.sample.game.user.GameUser;
-import com.nhn.gameanvil.sample.protocol.GameMulti;
-import com.nhn.gameanvil.sample.game.multi.roommatch.UnlimitedTapRoom;
 import com.nhn.gameanvil.node.game.RoomPacketHandler;
 import com.nhn.gameanvil.packet.Packet;
+import com.nhn.gameanvil.sample.game.multi.roommatch.UnlimitedTapRoom;
+import com.nhn.gameanvil.sample.game.user.GameUser;
+import com.nhn.gameanvil.sample.protocol.GameMulti;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,10 +35,10 @@ public class _ScoreUpMsg implements RoomPacketHandler<UnlimitedTapRoom, GameUser
                     gameUser.send(new Packet(broadcastMsg));
                 }
             } else {
-                logger.error("tapMsg is null!!!");
+                logger.error("_ScoreUpMsg::execute() tapMsg is null!!!");
             }
-        } catch (Exception e) {
-            logger.error("execute()", e);
+        } catch (IOException e) {
+            logger.error("_ScoreUpMsg::execute()", e);
         }
     }
 }

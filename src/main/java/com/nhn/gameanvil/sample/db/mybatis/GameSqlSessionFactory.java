@@ -1,4 +1,4 @@
-package com.nhn.gameanvil.sample.mybatis;
+package com.nhn.gameanvil.sample.db.mybatis;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,14 +12,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 게임에서 사용하는 DB 연결 객체
+ * 게임에서 사용하는 DB 연결 클래스
  */
 public class GameSqlSessionFactory {
     private static Logger logger = LoggerFactory.getLogger(GameSqlSessionFactory.class);
 
     private static SqlSessionFactory sqlSessionFactory;
 
-    /** XML에 명시된 접속 정보를 읽어들인다. */
+    /** XML에 명시된 접속 정보를 로드 */
     // 클래스 초기화 블럭 : 클래스 변수의 복잡한 초기화에 사용된다.
     // 클래스가 처음 로딩될 때 한번만 수행된다.
     static {
@@ -48,7 +48,7 @@ public class GameSqlSessionFactory {
     }
 
     /**
-     * 데이터베이스 접속 객체를 통해 DATABASE에 접속한 세션를 리턴한다.
+     * 데이터베이스 접속 객체를 통해 접속한 세션을 리턴
      */
     public static SqlSession getSqlSession() {
         return sqlSessionFactory.openSession();

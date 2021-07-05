@@ -3,7 +3,7 @@ package com.nhn.gameanvil.sample.gamebase.rest;
 import java.util.List;
 
 /**
- * Gamebase 인증 응답 객체
+ * Gamebase 인증 응답 클래스
  */
 public class AuthenticationResponse {
     private HeaderResponse header;
@@ -72,6 +72,17 @@ public class AuthenticationResponse {
         public void setRegDate(String regDate) {
             this.regDate = regDate;
         }
+
+        @Override
+        public String toString() {
+            return "AuthList{" +
+                "userId='" + userId + '\'' +
+                ", authSystem='" + authSystem + '\'' +
+                ", idPCode='" + idPCode + '\'' +
+                ", authKey='" + authKey + '\'' +
+                ", regDate='" + regDate + '\'' +
+                '}';
+        }
     }
 
     // 유저 정보
@@ -130,5 +141,25 @@ public class AuthenticationResponse {
         public void setAuthList(List<AuthList> authList) {
             this.authList = authList;
         }
+
+        @Override
+        public String toString() {
+            return "Member{" +
+                "userId='" + userId + '\'' +
+                ", valid='" + valid + '\'' +
+                ", appId='" + appId + '\'' +
+                ", regDate='" + regDate + '\'' +
+                ", lastLoginDate='" + lastLoginDate + '\'' +
+                ", authList=" + authList +
+                '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "AuthenticationResponse{" +
+            "header=" + header +
+            ", member=" + member +
+            '}';
     }
 }

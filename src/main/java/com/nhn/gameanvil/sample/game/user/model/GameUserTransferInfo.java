@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- *  유저 트랜스퍼용 객체
+ *  유저 트랜스퍼용 클래스
  */
 public class GameUserTransferInfo implements Serializable {
     private GameUserInfo gameUserInfo;
@@ -25,5 +25,13 @@ public class GameUserTransferInfo implements Serializable {
 
     public void setGetSnakePositionInfoList(List<SnakePositionInfo> getSnakePositionInfoList) {
         this.getSnakePositionInfoList = getSnakePositionInfoList;
+    }
+
+    @Override
+    public String toString() {
+        return "GameUserTransferInfo{" +
+            "gameUserInfo=" + gameUserInfo +
+            ", getSnakePositionInfoList=" + getSnakePositionInfoList +
+            '}';
     }
 }

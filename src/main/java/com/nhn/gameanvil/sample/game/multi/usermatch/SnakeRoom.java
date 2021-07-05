@@ -1,10 +1,14 @@
 package com.nhn.gameanvil.sample.game.multi.usermatch;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.nhn.gameanvil.annotation.RoomType;
+import com.nhn.gameanvil.annotation.ServiceName;
+import com.nhn.gameanvil.exceptions.GameAnvilException;
 import com.nhn.gameanvil.node.game.BaseRoom;
 import com.nhn.gameanvil.node.game.RoomPacketDispatcher;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.Payload;
+import com.nhn.gameanvil.sample.common.GameConstants;
 import com.nhn.gameanvil.sample.game.multi.usermatch._handler._SnakeRemoveFoodMsg;
 import com.nhn.gameanvil.sample.game.multi.usermatch._handler._SnakeUserMsg;
 import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakePositionInfo;
@@ -14,10 +18,8 @@ import com.nhn.gameanvil.sample.protocol.GameMulti;
 import com.nhn.gameanvil.sample.protocol.GameMulti.SnakeFoodMsg;
 import com.nhn.gameanvil.sample.protocol.GameMulti.SnakePositionData;
 import com.nhn.gameanvil.sample.protocol.GameMulti.SnakeUserData;
-import com.nhn.gameanvil.sample.protocol.User.RoomType;
+import com.nhn.gameanvil.sample.protocol.User.RoomGameType;
 import com.nhn.gameanvil.serializer.TransferPack;
-import com.nhn.gameanvil.timer.Timer;
-import com.nhn.gameanvil.timer.TimerHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +33,8 @@ import org.slf4j.LoggerFactory;
 /**
  * 유저 매치 snake 게임, 2인 플레이
  */
+@ServiceName(GameConstants.GAME_NAME)
+@RoomType(GameConstants.GAME_ROOM_TYPE_MULTI_USER_MATCH)
 public class SnakeRoom extends BaseRoom<GameUser> {
     private static final int FOOD_MAX_COUNT = 200;
 
@@ -85,13 +89,13 @@ public class SnakeRoom extends BaseRoom<GameUser> {
     }
 
     /**
-     * 룸 생성및 입장, 첫번째 유저
+     * 방 생성및 입장, 첫번째 유저
      *
-     * @param gameUser   : 룸생성 하는 유저 객체
-     * @param inPayload  : Room 생성 요청시 client 에서 보낸 data
-     * @param outPayload : Room 생성 요청시 client 로 전달할 data
-     * @return 성공 여부
-     * @throws SuspendExecution
+     * @param gameUser   방생성 하는 유저 객체
+     * @param inPayload  방생성 요청시 받은 정보
+     * @param outPayload 방생성 요청에 응답을 보낼 정보
+     * @return 성공 여부 반환
+     * @throws SuspendExecution 이 메서드는 파이버를 suspend할 수 있음을 의미
      */
     @Override
     public boolean onCreateRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
@@ -105,22 +109,21 @@ public class SnakeRoom extends BaseRoom<GameUser> {
 
             gameUserMap.put(gameUser.getUserId(), gameUser);
             gameUserScoreMap.put(gameUser.getGameUserInfo().getUuid(), 0);
-            outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_SNAKE)));
+            outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_SNAKE)));
             return true;
         } catch (Exception e) {
-            logger.error("onCreateRoom()", e);
+            logger.error("SnakeRoom::onCreateRoom()", e);
             return false;
         }
     }
 
     /**
-     * 두번쨰 유저 입장
+     * 유저 입장, 두번째 유저
      *
-     * @param gameUser   : 입장하는 유저 객체
-     * @param inPayload  : Room 입장 요청시 client에서 보낸 data
-     * @param outPayload :  Room 생성 요청을 한  client 에게 전달할 data
-     * @return 성공여부
-     * @throws SuspendExecution
+     * @param gameUser   입장하는 유저 객체
+     * @param inPayload  방입장 요청시 받은 정보
+     * @param outPayload 방입장 요청에 응답을 보낼 정보
+     * @return 성공여부 반환
      */
     @Override
     public boolean onJoinRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
@@ -138,7 +141,7 @@ public class SnakeRoom extends BaseRoom<GameUser> {
                 gameUserScoreMap.put(gameUser.getGameUserInfo().getUuid(), 0);
                 if (gameUserMap.size() == 2) {  // 두명이들어왔을때 게임 시작
                     for (GameUser user : gameUserMap.values()) {
-                        logger.info("onJoinRoom - UserId : {}, SnakeGamInfo : {}", getId(), getSnakeGameInfoMsgByProto());
+                        logger.info("onJoinRoom - UserId : {}, SnakeGamInfo : {}", gameUser.getUserId(), getSnakeGameInfoMsgByProto());
                         user.send(new Packet(getSnakeGameInfoMsgByProto()));    // 두병 모두 들어왔을때 두유저에게 게임 정보 전송
                     }
 
@@ -146,12 +149,12 @@ public class SnakeRoom extends BaseRoom<GameUser> {
                     addTimer(1, TimeUnit.SECONDS, 0, "SnakeGameTimerHandler", false);
                 }
                 isSuccess = true;
-                outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_SNAKE)));
+                outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_SNAKE)));
             }
         } catch (Exception e) {
             gameUserMap.remove(gameUser.getUserId());
             gameUserScoreMap.remove(gameUser.getGameUserInfo().getUuid());
-            logger.error("onJoinRoom()", e);
+            logger.error("SnakeRoom::onJoinRoom()", e);
         }
         return isSuccess;
     }
@@ -166,7 +169,7 @@ public class SnakeRoom extends BaseRoom<GameUser> {
      * 유저가 방을 떠나고 나서 처리
      *
      * @param gameUser 방을 나가는 유저 객체
-     * @throws SuspendExecution
+     * @throws SuspendExecution 이 메서드는 파이버를 suspend할 수 있음을 의미
      */
     @Override
     public void onPostLeaveRoom(GameUser gameUser) throws SuspendExecution {
@@ -181,7 +184,11 @@ public class SnakeRoom extends BaseRoom<GameUser> {
         for (GameUser user : gameUserMap.values()) {    // 방에 있는 모두를 방에서 내보낸다.
             if (user.isJoinedRoom()) {
                 logger.info("kickoutRoom - RoomId : {}, UserId : {}", getId(), user.getUserId());
-                user.kickoutRoom();
+                try {
+                    user.kickoutRoom();
+                } catch (GameAnvilException e) {
+                    logger.error("SnakeRoom::onPostLeaveRoom()", e);
+                }
             }
         }
     }
@@ -190,7 +197,7 @@ public class SnakeRoom extends BaseRoom<GameUser> {
     public void onRejoinRoom(GameUser gameUser, Payload outPayload) throws SuspendExecution {
         logger.info("onRejoinRoom - RoomId : {}, UserId : {}", getId(),
             gameUser.getUserId());
-        outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomType.ROOM_SNAKE)));
+        outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_SNAKE)));
     }
 
     @Override

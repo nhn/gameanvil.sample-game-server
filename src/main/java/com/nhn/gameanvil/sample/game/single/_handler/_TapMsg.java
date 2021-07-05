@@ -1,16 +1,17 @@
 package com.nhn.gameanvil.sample.game.single._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.nhn.gameanvil.node.game.RoomPacketHandler;
+import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.sample.game.single.SingleGameRoom;
 import com.nhn.gameanvil.sample.game.user.GameUser;
 import com.nhn.gameanvil.sample.protocol.GameSingle;
-import com.nhn.gameanvil.node.game.RoomPacketHandler;
-import com.nhn.gameanvil.packet.Packet;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 유저가 점수를 얻었을때 서버로 전송 하는 프로토콜, send 형태로 서버로 수신되어 별도의 응답 처리가 없다.
+ * 유저가 점수를 얻었을때 서버로 전송 하는 프로토콜, send 형태로 서버로 수신되어 별도의 응답 처리 없음
  */
 public class _TapMsg implements RoomPacketHandler<SingleGameRoom, GameUser> {
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -25,10 +26,10 @@ public class _TapMsg implements RoomPacketHandler<SingleGameRoom, GameUser> {
                 singleRoom.getSingleGameData().addScore();
                 logger.info("TapMsg  : {}, score {}", tapMsg, singleRoom.getSingleGameData().getScore());
             } else {
-                logger.error("TapMsg tapMsg is null!!!");
+                logger.error("_TapMsg::execute() tapMsg is null");
             }
-        } catch (Exception e) {
-            logger.error("execute()", e);
+        } catch (IOException e) {
+            logger.error("_TapMsg::execute()", e);
         }
     }
 }

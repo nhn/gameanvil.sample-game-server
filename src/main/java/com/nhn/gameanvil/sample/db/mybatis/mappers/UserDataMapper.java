@@ -1,6 +1,6 @@
-package com.nhn.gameanvil.sample.mybatis.mappers;
+package com.nhn.gameanvil.sample.db.mybatis.mappers;
 
-import com.nhn.gameanvil.sample.mybatis.dto.UserDto;
+import com.nhn.gameanvil.sample.db.mybatis.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

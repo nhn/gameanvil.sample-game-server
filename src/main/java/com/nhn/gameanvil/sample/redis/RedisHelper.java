@@ -25,12 +25,14 @@ import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 
 /**
- * 레디스 처리 하는 서비스
+ * 레디스 처리 하는 helper 클래스
  */
 public class RedisHelper {
     private static final Logger logger = getLogger(RedisHelper.class);
 
+    // 싱글 점수 키
     public static final String REDIS_SINGLE_SCORE_KEY = "taptap_single_score";
+    // 유저 데이터 키
     public static final String REDIS_USER_DATA_KEY = "taptap_user_data";
 
     private RedisClusterClient clusterClient;
@@ -38,15 +40,18 @@ public class RedisHelper {
     private RedisAdvancedClusterAsyncCommands<String, String> clusterAsyncCommands;
 
     /**
-     * 레디스 연결, 사용하기전에 최초에 한번 호출해서 연결 해야 한다.
+     * 레디스 연결 처리, 사용하기 전에 최초에 한번 호출해서 연결 필요
      *
      * @param url  접속 url
      * @param port 점속 port
-     * @throws SuspendExecution
+     * @throws SuspendExecution 이 메서드는 파이버를 suspend할 수 있음을 의미
      */
     public void connect(String url, int port) throws SuspendExecution {
         // 레디스 연결 처리
         RedisURI clusterURI = RedisURI.Builder.redis(url, port).build();
+
+        // 패스워드가 필요한 경우 에는 패스워드 설청을 추가해서 RedisURI를 생성한다. 
+//        RedisURI clusterURI = RedisURI.Builder.redis(url, port).withPassword("password").build();
         this.clusterClient = RedisClusterClient.create(Collections.singletonList(clusterURI));
         this.clusterConnection = Lettuce.connect(GameConstants.REDIS_THREAD_POOL, clusterClient);
 
@@ -58,9 +63,9 @@ public class RedisHelper {
     }
 
     /**
-     * 접속 종료 서버가 내려가기전에 호출되어야 한다,
+     * 서버가 종료될 때 내려가기전에 호출 처리 필요
      */
-    public void shutdown() {
+    public void shutdown() throws SuspendExecution {
         clusterConnection.close();
         clusterClient.shutdown();
 
@@ -70,11 +75,11 @@ public class RedisHelper {
     }
 
     /**
-     * 유저 데이터 레디스에 저장
+     * 유저 데이터 저장, 유저의 uuid 키로 데이터 저장
      *
      * @param gameUserInfo 유저 정보
-     * @return 저장 성고 여부
-     * @throws SuspendExecution
+     * @return 저장 성고 여부 반환
+     * @throws SuspendExecution 이 메서드는 파이버를 suspend할 수 있음을 의미
      */
     public boolean setUserData(GameUserInfo gameUserInfo) throws SuspendExecution {
         String value = GameAnvilUtil.Gson().toJson(gameUserInfo);
@@ -84,7 +89,7 @@ public class RedisHelper {
             Lettuce.awaitFuture(clusterAsyncCommands.hset(REDIS_USER_DATA_KEY, gameUserInfo.getUuid(), value)); // 해당 리턴값은 최초에 set 할때만 true 이고 있는값갱신시에는 false 응답
             isSuccess = true;
         } catch (TimeoutException e) {
-            logger.error("setUserData - timeout", e);
+            logger.error("RedisHelper::setUserData()", e);
         }
         return isSuccess;
     }
@@ -93,7 +98,8 @@ public class RedisHelper {
      * 유저 리스트 정보 얻기
      *
      * @param uuidList 검색할 유저의 유니크 식별자 리스트
-     * @return 검색된 유저 리스스     * @throws SuspendExecution
+     * @return 검색된 유저 리스트 반환
+     * @throws SuspendExecution 이 메서드는 파이버를 suspend할 수 있음을 의미
      */
     public List<GameUserInfo> getUserData(List<String> uuidList) throws SuspendExecution {
         logger.info("getUserData - uuidList : {}", uuidList);
@@ -113,7 +119,7 @@ public class RedisHelper {
             }
             return userDataList;
         } catch (TimeoutException e) {
-            logger.error("getUserData - timeout", e);
+            logger.error("RedisHelper::getUserData()", e);
             return null;
         }
     }
@@ -123,8 +129,8 @@ public class RedisHelper {
      *
      * @param key   랭킹에 사용할 키
      * @param value 저장할 점수
-     * @return
-     * @throws SuspendExecution
+     * @return 싱글 점수 저장 성공 여부 반환
+     * @throws SuspendExecution 이 메서드는 파이버를 suspend할 수 있음을 의미
      */
     public boolean setSingleScore(String key, double value) throws SuspendExecution {
         logger.info("setSingleScore - key : {}, value1 : {}, value2 : {}", REDIS_SINGLE_SCORE_KEY, value, key);
@@ -133,7 +139,7 @@ public class RedisHelper {
             Lettuce.awaitFuture(clusterAsyncCommands.zadd(REDIS_SINGLE_SCORE_KEY, value, key));
             isSuccess = true;
         } catch (TimeoutException e) {
-            logger.error("setSingleScore - timeout", e);
+            logger.error("RedisHelper::setSingleScore()", e);
         }
         return isSuccess;
     }
@@ -143,8 +149,8 @@ public class RedisHelper {
      *
      * @param start 시작 등수
      * @param end   마지막 등수
-     * @return
-     * @throws SuspendExecution
+     * @return 맵 형태로 싱글 랭키 정보 반환
+     * @throws SuspendExecution 이 메서드는 파이버를 suspend할 수 있음을 의미
      */
     public Map<String, SingleRankingInfo> getSingleRanking(int start, int end) throws SuspendExecution {
         RedisFuture<List<ScoredValue<String>>> future = clusterAsyncCommands.zrevrangeWithScores(REDIS_SINGLE_SCORE_KEY, start, end);
@@ -164,7 +170,7 @@ public class RedisHelper {
         try {
             return Lettuce.awaitFuture(cs);
         } catch (TimeoutException e) {
-            logger.error("getSingleRanking ", e);
+            logger.error("RedisHelper::getSingleRanking()", e);
             return null;
         }
     }

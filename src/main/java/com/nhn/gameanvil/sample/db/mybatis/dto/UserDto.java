@@ -1,10 +1,10 @@
-package com.nhn.gameanvil.sample.mybatis.dto;
+package com.nhn.gameanvil.sample.db.mybatis.dto;
 
 import com.nhn.gameanvil.sample.game.user.model.GameUserInfo;
 import java.util.Date;
 
 /**
- * 유저 DB에 사용되는 객체
+ * 유저 DB에 사용되는 클래스
  */
 public class UserDto {
     private String uuid;
@@ -179,5 +179,28 @@ public class UserDto {
         gameUserInfo.setHighScore(this.getHighScore());
         gameUserInfo.setCurrentDeck(this.getCurrentDeck());
         return gameUserInfo;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+            "uuid='" + uuid + '\'' +
+            ", loginType=" + loginType +
+            ", appVersion='" + appVersion + '\'' +
+            ", appStore='" + appStore + '\'' +
+            ", deviceModel='" + deviceModel + '\'' +
+            ", deviceCountry='" + deviceCountry + '\'' +
+            ", deviceLanguage='" + deviceLanguage + '\'' +
+            ", nickname='" + nickname + '\'' +
+            ", heart=" + heart +
+            ", coin=" + coin +
+            ", ruby=" + ruby +
+            ", level=" + level +
+            ", exp=" + exp +
+            ", highScore=" + highScore +
+            ", currentDeck='" + currentDeck + '\'' +
+            ", createDate=" + createDate +
+            ", updateDate=" + updateDate +
+            '}';
     }
 }

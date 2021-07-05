@@ -2,8 +2,8 @@ package com.nhn.gameanvil.sample.gateway;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.nhn.gameanvil.GameAnvilUtil;
+import com.nhn.gameanvil.annotation.Connection;
 import com.nhn.gameanvil.async.http.HttpRequest;
 import com.nhn.gameanvil.async.http.HttpResponse;
 import com.nhn.gameanvil.node.gateway.BaseConnection;
@@ -15,12 +15,15 @@ import com.nhn.gameanvil.sample.gamebase.rest.AuthenticationResponse;
 import com.nhn.gameanvil.sample.protocol.Authentication;
 import com.nhn.gameanvil.sample.protocol.Result;
 import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
+import java.io.IOException;
+import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 인증 처리
+ * 게임 커넥션
  */
+@Connection()
 public class GameConnection extends BaseConnection<GameSession> {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private static PacketDispatcher packetDispatcher = new PacketDispatcher();
@@ -29,6 +32,16 @@ public class GameConnection extends BaseConnection<GameSession> {
         // 패킷 핸들러 등록 위치
     }
 
+    /**
+     * 인증 처리 요청
+     * @param accountId 계정 아이디
+     * @param password 패스워드
+     * @param deviceId 디바이스 아이디
+     * @param payload 인증 요청시 전달된 정보
+     * @param outPayload 인증 요청 응답시 전달 할 정보
+     * @return 인증 성공여부 반환
+     * @throws SuspendExecution 이 메서드는 파이버를 suspend할 수 있음을 의미
+     */
     @Override
     public boolean onAuthenticate(String accountId, String password, String deviceId,
         Payload payload, Payload outPayload) throws SuspendExecution {
@@ -47,17 +60,17 @@ public class GameConnection extends BaseConnection<GameSession> {
             Packet authenticatePacket = payload.getPacket(Authentication.AuthenticationReq.getDescriptor());
             if (authenticatePacket == null) { // 인증을 검증하기 위한 패킷이 없는경우
                 resultCode = ErrorCode.PARAMETER_IS_EMPTY;
-                logger.error("onAuthenticate fail!! authenticatePacket is null!!");
+                logger.error("GameConnection::onAuthenticate() fail!! authenticatePacket is null!!");
             } else {
                 try {
                     // 인증 검증할 토큰을 가지고 검증처리
                     Authentication.AuthenticationReq authenticationReq = Authentication.AuthenticationReq.parseFrom(authenticatePacket.getStream());
                     if (authenticationReq == null) {
                         resultCode = ErrorCode.PARAMETER_IS_EMPTY;
-                        logger.error("onAuthenticate fail!! authenticationReq is null!!");
+                        logger.error("GameConnection::onAuthenticate() fail!! authenticationReq is null!!");
                     } else if (authenticationReq.getAccessToken() == null) {
                         resultCode = ErrorCode.TOKEN_IS_EMPTY;
-                        logger.error("onAuthenticate fail!! authenticationReq.getAccessToken() is empty!!");
+                        logger.error("GameConnection::onAuthenticate() fail!! authenticationReq.getAccessToken() is empty!!");
                     } else {
                         logger.info("onAuthenticate Success. token:{}", authenticationReq.getAccessToken());
 
@@ -99,14 +112,12 @@ public class GameConnection extends BaseConnection<GameSession> {
                             //------------------------------------
                         }
                     }
-                } catch (Exception e) {
-                    logger.error("onAuthenticate fail!! AuthenticationReq.parseFrom ERROR {}", e);
-                    e.printStackTrace();
+                } catch (IOException | TimeoutException e) {
+                    logger.error("GameConnection::onAuthenticate() fail!! AuthenticationReq.parseFrom ERROR", e);
                 }
             }
         } else {
-            logger.error(
-                "onAuthenticate fail. password must be same as accountId. id:{}, pw:{}, device:{}",
+            logger.error("GameConnection::onAuthenticate() fail. password must be same as accountId. id:{}, pw:{}, device:{}",
                 accountId, password, deviceId);
             resultCode = ErrorCode.PASSWORD_NOT_MATCHED;
         }
@@ -126,21 +137,6 @@ public class GameConnection extends BaseConnection<GameSession> {
     public void onDispatch(Packet packet) throws SuspendExecution {
         logger.info("onDispatch : {}", packet.getMsgName());
         packetDispatcher.dispatch(this, packet);
-    }
-
-    @Override
-    public void onPreLogin(Payload outPayload) throws SuspendExecution {
-        logger.info("onPreLogin");
-    }
-
-    @Override
-    public void onPostLogin(GameSession session) throws SuspendExecution {
-        logger.info("onPostLogin : {}", session.getUserId());
-    }
-
-    @Override
-    public void onPostLogout(GameSession session) throws SuspendExecution {
-        logger.info("onPostLogout : {}", session.getUserId());
     }
 
     @Override

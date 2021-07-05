@@ -122,9 +122,9 @@ public final class User {
   }
 
   /**
-   * Protobuf enum {@code com.nhn.gameanvil.sample.protocol.RoomType}
+   * Protobuf enum {@code com.nhn.gameanvil.sample.protocol.RoomGameType}
    */
-  public enum RoomType
+  public enum RoomGameType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <code>ROOM_SINGLE = 0;</code>
@@ -167,11 +167,11 @@ public final class User {
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
-    public static RoomType valueOf(int value) {
+    public static RoomGameType valueOf(int value) {
       return forNumber(value);
     }
 
-    public static RoomType forNumber(int value) {
+    public static RoomGameType forNumber(int value) {
       switch (value) {
         case 0: return ROOM_SINGLE;
         case 1: return ROOM_TAP;
@@ -180,15 +180,15 @@ public final class User {
       }
     }
 
-    public static com.google.protobuf.Internal.EnumLiteMap<RoomType>
+    public static com.google.protobuf.Internal.EnumLiteMap<RoomGameType>
         internalGetValueMap() {
       return internalValueMap;
     }
     private static final com.google.protobuf.Internal.EnumLiteMap<
-        RoomType> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<RoomType>() {
-            public RoomType findValueByNumber(int number) {
-              return RoomType.forNumber(number);
+        RoomGameType> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<RoomGameType>() {
+            public RoomGameType findValueByNumber(int number) {
+              return RoomGameType.forNumber(number);
             }
           };
 
@@ -205,9 +205,9 @@ public final class User {
       return com.nhn.gameanvil.sample.protocol.User.getDescriptor().getEnumTypes().get(1);
     }
 
-    private static final RoomType[] VALUES = values();
+    private static final RoomGameType[] VALUES = values();
 
-    public static RoomType valueOf(
+    public static RoomGameType valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
         throw new java.lang.IllegalArgumentException(
@@ -221,11 +221,11 @@ public final class User {
 
     private final int value;
 
-    private RoomType(int value) {
+    private RoomGameType(int value) {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:com.nhn.gameanvil.sample.protocol.RoomType)
+    // @@protoc_insertion_point(enum_scope:com.nhn.gameanvil.sample.protocol.RoomGameType)
   }
 
   public interface UserDataOrBuilder extends
@@ -3904,13 +3904,13 @@ public final class User {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.com.nhn.gameanvil.sample.protocol.RoomType roomType = 1;</code>
+     * <code>.com.nhn.gameanvil.sample.protocol.RoomGameType roomGameType = 1;</code>
      */
-    int getRoomTypeValue();
+    int getRoomGameTypeValue();
     /**
-     * <code>.com.nhn.gameanvil.sample.protocol.RoomType roomType = 1;</code>
+     * <code>.com.nhn.gameanvil.sample.protocol.RoomGameType roomGameType = 1;</code>
      */
-    com.nhn.gameanvil.sample.protocol.User.RoomType getRoomType();
+    com.nhn.gameanvil.sample.protocol.User.RoomGameType getRoomGameType();
   }
   /**
    * Protobuf type {@code com.nhn.gameanvil.sample.protocol.RoomInfoMsg}
@@ -3925,7 +3925,7 @@ public final class User {
       super(builder);
     }
     private RoomInfoMsg() {
-      roomType_ = 0;
+      roomGameType_ = 0;
     }
 
     @java.lang.Override
@@ -3955,7 +3955,7 @@ public final class User {
             case 8: {
               int rawValue = input.readEnum();
 
-              roomType_ = rawValue;
+              roomGameType_ = rawValue;
               break;
             }
             default: {
@@ -3990,21 +3990,21 @@ public final class User {
               com.nhn.gameanvil.sample.protocol.User.RoomInfoMsg.class, com.nhn.gameanvil.sample.protocol.User.RoomInfoMsg.Builder.class);
     }
 
-    public static final int ROOMTYPE_FIELD_NUMBER = 1;
-    private int roomType_;
+    public static final int ROOMGAMETYPE_FIELD_NUMBER = 1;
+    private int roomGameType_;
     /**
-     * <code>.com.nhn.gameanvil.sample.protocol.RoomType roomType = 1;</code>
+     * <code>.com.nhn.gameanvil.sample.protocol.RoomGameType roomGameType = 1;</code>
      */
-    public int getRoomTypeValue() {
-      return roomType_;
+    public int getRoomGameTypeValue() {
+      return roomGameType_;
     }
     /**
-     * <code>.com.nhn.gameanvil.sample.protocol.RoomType roomType = 1;</code>
+     * <code>.com.nhn.gameanvil.sample.protocol.RoomGameType roomGameType = 1;</code>
      */
-    public com.nhn.gameanvil.sample.protocol.User.RoomType getRoomType() {
+    public com.nhn.gameanvil.sample.protocol.User.RoomGameType getRoomGameType() {
       @SuppressWarnings("deprecation")
-      com.nhn.gameanvil.sample.protocol.User.RoomType result = com.nhn.gameanvil.sample.protocol.User.RoomType.valueOf(roomType_);
-      return result == null ? com.nhn.gameanvil.sample.protocol.User.RoomType.UNRECOGNIZED : result;
+      com.nhn.gameanvil.sample.protocol.User.RoomGameType result = com.nhn.gameanvil.sample.protocol.User.RoomGameType.valueOf(roomGameType_);
+      return result == null ? com.nhn.gameanvil.sample.protocol.User.RoomGameType.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -4021,8 +4021,8 @@ public final class User {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (roomType_ != com.nhn.gameanvil.sample.protocol.User.RoomType.ROOM_SINGLE.getNumber()) {
-        output.writeEnum(1, roomType_);
+      if (roomGameType_ != com.nhn.gameanvil.sample.protocol.User.RoomGameType.ROOM_SINGLE.getNumber()) {
+        output.writeEnum(1, roomGameType_);
       }
       unknownFields.writeTo(output);
     }
@@ -4033,9 +4033,9 @@ public final class User {
       if (size != -1) return size;
 
       size = 0;
-      if (roomType_ != com.nhn.gameanvil.sample.protocol.User.RoomType.ROOM_SINGLE.getNumber()) {
+      if (roomGameType_ != com.nhn.gameanvil.sample.protocol.User.RoomGameType.ROOM_SINGLE.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, roomType_);
+          .computeEnumSize(1, roomGameType_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -4053,7 +4053,7 @@ public final class User {
       com.nhn.gameanvil.sample.protocol.User.RoomInfoMsg other = (com.nhn.gameanvil.sample.protocol.User.RoomInfoMsg) obj;
 
       boolean result = true;
-      result = result && roomType_ == other.roomType_;
+      result = result && roomGameType_ == other.roomGameType_;
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -4065,8 +4065,8 @@ public final class User {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + ROOMTYPE_FIELD_NUMBER;
-      hash = (53 * hash) + roomType_;
+      hash = (37 * hash) + ROOMGAMETYPE_FIELD_NUMBER;
+      hash = (53 * hash) + roomGameType_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4200,7 +4200,7 @@ public final class User {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        roomType_ = 0;
+        roomGameType_ = 0;
 
         return this;
       }
@@ -4228,7 +4228,7 @@ public final class User {
       @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.User.RoomInfoMsg buildPartial() {
         com.nhn.gameanvil.sample.protocol.User.RoomInfoMsg result = new com.nhn.gameanvil.sample.protocol.User.RoomInfoMsg(this);
-        result.roomType_ = roomType_;
+        result.roomGameType_ = roomGameType_;
         onBuilt();
         return result;
       }
@@ -4277,8 +4277,8 @@ public final class User {
 
       public Builder mergeFrom(com.nhn.gameanvil.sample.protocol.User.RoomInfoMsg other) {
         if (other == com.nhn.gameanvil.sample.protocol.User.RoomInfoMsg.getDefaultInstance()) return this;
-        if (other.roomType_ != 0) {
-          setRoomTypeValue(other.getRoomTypeValue());
+        if (other.roomGameType_ != 0) {
+          setRoomGameTypeValue(other.getRoomGameTypeValue());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -4309,47 +4309,47 @@ public final class User {
         return this;
       }
 
-      private int roomType_ = 0;
+      private int roomGameType_ = 0;
       /**
-       * <code>.com.nhn.gameanvil.sample.protocol.RoomType roomType = 1;</code>
+       * <code>.com.nhn.gameanvil.sample.protocol.RoomGameType roomGameType = 1;</code>
        */
-      public int getRoomTypeValue() {
-        return roomType_;
+      public int getRoomGameTypeValue() {
+        return roomGameType_;
       }
       /**
-       * <code>.com.nhn.gameanvil.sample.protocol.RoomType roomType = 1;</code>
+       * <code>.com.nhn.gameanvil.sample.protocol.RoomGameType roomGameType = 1;</code>
        */
-      public Builder setRoomTypeValue(int value) {
-        roomType_ = value;
+      public Builder setRoomGameTypeValue(int value) {
+        roomGameType_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>.com.nhn.gameanvil.sample.protocol.RoomType roomType = 1;</code>
+       * <code>.com.nhn.gameanvil.sample.protocol.RoomGameType roomGameType = 1;</code>
        */
-      public com.nhn.gameanvil.sample.protocol.User.RoomType getRoomType() {
+      public com.nhn.gameanvil.sample.protocol.User.RoomGameType getRoomGameType() {
         @SuppressWarnings("deprecation")
-        com.nhn.gameanvil.sample.protocol.User.RoomType result = com.nhn.gameanvil.sample.protocol.User.RoomType.valueOf(roomType_);
-        return result == null ? com.nhn.gameanvil.sample.protocol.User.RoomType.UNRECOGNIZED : result;
+        com.nhn.gameanvil.sample.protocol.User.RoomGameType result = com.nhn.gameanvil.sample.protocol.User.RoomGameType.valueOf(roomGameType_);
+        return result == null ? com.nhn.gameanvil.sample.protocol.User.RoomGameType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.com.nhn.gameanvil.sample.protocol.RoomType roomType = 1;</code>
+       * <code>.com.nhn.gameanvil.sample.protocol.RoomGameType roomGameType = 1;</code>
        */
-      public Builder setRoomType(com.nhn.gameanvil.sample.protocol.User.RoomType value) {
+      public Builder setRoomGameType(com.nhn.gameanvil.sample.protocol.User.RoomGameType value) {
         if (value == null) {
           throw new NullPointerException();
         }
         
-        roomType_ = value.getNumber();
+        roomGameType_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
-       * <code>.com.nhn.gameanvil.sample.protocol.RoomType roomType = 1;</code>
+       * <code>.com.nhn.gameanvil.sample.protocol.RoomGameType roomGameType = 1;</code>
        */
-      public Builder clearRoomType() {
+      public Builder clearRoomGameType() {
         
-        roomType_ = 0;
+        roomGameType_ = 0;
         onChanged();
         return this;
       }
@@ -4460,13 +4460,13 @@ public final class User {
       "e\030\001 \001(\t\"\224\001\n\021ChangeNicknameRes\022@\n\nresultC" +
       "ode\030\001 \001(\0162,.com.nhn.gameanvil.sample.pro" +
       "tocol.ErrorCode\022=\n\010userData\030\002 \001(\0132+.com." +
-      "nhn.gameanvil.sample.protocol.UserData\"L" +
-      "\n\013RoomInfoMsg\022=\n\010roomType\030\001 \001(\0162+.com.nh" +
-      "n.gameanvil.sample.protocol.RoomType*G\n\014" +
-      "CurrencyType\022\021\n\rCURRENCY_NONE\020\000\022\021\n\rCURRE" +
-      "NCY_COIN\020\001\022\021\n\rCURRENCY_RUBY\020\002*9\n\010RoomTyp" +
-      "e\022\017\n\013ROOM_SINGLE\020\000\022\014\n\010ROOM_TAP\020\001\022\016\n\nROOM" +
-      "_SNAKE\020\002b\006proto3"
+      "nhn.gameanvil.sample.protocol.UserData\"T" +
+      "\n\013RoomInfoMsg\022E\n\014roomGameType\030\001 \001(\0162/.co" +
+      "m.nhn.gameanvil.sample.protocol.RoomGame" +
+      "Type*G\n\014CurrencyType\022\021\n\rCURRENCY_NONE\020\000\022" +
+      "\021\n\rCURRENCY_COIN\020\001\022\021\n\rCURRENCY_RUBY\020\002*=\n" +
+      "\014RoomGameType\022\017\n\013ROOM_SINGLE\020\000\022\014\n\010ROOM_T" +
+      "AP\020\001\022\016\n\nROOM_SNAKE\020\002b\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4516,7 +4516,7 @@ public final class User {
     internal_static_com_nhn_gameanvil_sample_protocol_RoomInfoMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_nhn_gameanvil_sample_protocol_RoomInfoMsg_descriptor,
-        new java.lang.String[] { "RoomType", });
+        new java.lang.String[] { "RoomGameType", });
     com.nhn.gameanvil.sample.protocol.Result.getDescriptor();
   }
 

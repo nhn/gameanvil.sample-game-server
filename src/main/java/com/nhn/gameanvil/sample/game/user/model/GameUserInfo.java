@@ -1,10 +1,10 @@
 package com.nhn.gameanvil.sample.game.user.model;
 
-import com.nhn.gameanvil.sample.mybatis.dto.UserDto;
+import com.nhn.gameanvil.sample.db.mybatis.dto.UserDto;
 import java.io.Serializable;
 
 /**
- * 유저 데이터 객체
+ * 유저 데이터 클래스
  */
 public class GameUserInfo implements Serializable {
     private String uuid;

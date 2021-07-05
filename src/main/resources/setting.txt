@@ -1,11 +1,43 @@
-# VM Options
+# VM Options JDK8
 -Dco.paralleluniverse.fibers.detectRunawayFibers=false
 -Dco.paralleluniverse.fibers.verifyInstrumentation=false
--Xms6g
--Xmx6g
+-Xms4g
+-Xmx4g
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=100
+-XX:+UseStringDeduplication
+-XX:+PrintGCDetails
+-XX:+PrintGCApplicationStoppedTime
+-XX:+PrintGCDateStamps
+-XX:+PrintGCTimeStamps
+-XX:+PrintHeapAtGC
+-XX:+PrintReferenceGC
+-XX:+UseGCLogFileRotation
+-XX:NumberOfGCLogFiles=100
+-XX:GCLogFileSize=10M
+-Xloggc:gc.log
+
+# VM Options JDK11
+-Dco.paralleluniverse.fibers.detectRunawayFibers=false
+-Dco.paralleluniverse.fibers.verifyInstrumentation=false
+-Xms4g
+-Xmx4g
+--add-opens=java.base/java.lang=ALL-UNNAMED
+--illegal-access=deny
+
+-Xms4g
+-Xmx4g
 -XX:+UseG1GC
 -XX:MaxGCPauseMillis=100
 -XX:+UseStringDeduplication
 
+-Xlog:gc*,safepoint:/gc.log:time,level,tags,uptime:filecount=100,filesize=10M
+
 # Program Arguments
 src/main/resources/
+
+# JIT option JDK8
+-javaagent:.\src\main\resources\META-INF\quasar-core-0.7.10-jdk8.jar=bm
+
+# JIT option JDK11
+-javaagent:.\src\main\resources\META-INF\quasar-core-0.7.10-jdk11.jar=bm

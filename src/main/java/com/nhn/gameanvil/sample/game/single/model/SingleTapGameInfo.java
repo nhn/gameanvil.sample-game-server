@@ -3,7 +3,7 @@ package com.nhn.gameanvil.sample.game.single.model;
 import java.io.Serializable;
 
 /**
- * 싱글 룸에서 사용 하는 데이터 객체
+ * 싱글 룸에서 사용 하는 데이터 클래스
  */
 public class SingleTapGameInfo implements Serializable {
     private String deck;

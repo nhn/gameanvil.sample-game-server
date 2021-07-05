@@ -1,6 +1,7 @@
 package com.nhn.gameanvil.sample.gateway;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.nhn.gameanvil.annotation.GatewayNode;
 import com.nhn.gameanvil.node.gateway.BaseGatewayNode;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.Payload;
@@ -10,8 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 세션과 세션 유저 관리 처리
+ * 게임 게이트웨이 노드
  */
+@GatewayNode()
 public class GameGatewayNode extends BaseGatewayNode implements TimerHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -23,7 +25,6 @@ public class GameGatewayNode extends BaseGatewayNode implements TimerHandler {
     @Override
     public void onPrepare() throws SuspendExecution {
         logger.info("onPrepare");
-        setReady();
     }
 
     @Override

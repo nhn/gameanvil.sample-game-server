@@ -3,7 +3,7 @@ package com.nhn.gameanvil.sample.game.multi.usermatch.model;
 import java.io.Serializable;
 
 /**
- * 위치 정보 객체
+ * 위치 정보 클래스
  */
 public class SnakePositionInfo implements Serializable {
     private int idx;

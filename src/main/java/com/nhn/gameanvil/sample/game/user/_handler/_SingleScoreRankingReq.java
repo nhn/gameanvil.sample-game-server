@@ -1,16 +1,17 @@
 package com.nhn.gameanvil.sample.game.user._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.gameanvil.sample.redis.RedisHelper;
+import com.nhn.gameanvil.packet.Packet;
+import com.nhn.gameanvil.packet.PacketHandler;
 import com.nhn.gameanvil.sample.game.GameNode;
+import com.nhn.gameanvil.sample.game.user.GameUser;
 import com.nhn.gameanvil.sample.game.user.model.GameUserInfo;
 import com.nhn.gameanvil.sample.game.user.model.SingleRankingInfo;
 import com.nhn.gameanvil.sample.protocol.GameSingle;
 import com.nhn.gameanvil.sample.protocol.Result;
 import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
-import com.nhn.gameanvil.sample.game.user.GameUser;
-import com.nhn.gameanvil.packet.Packet;
-import com.nhn.gameanvil.packet.PacketHandler;
+import com.nhn.gameanvil.sample.redis.RedisHelper;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -69,12 +70,11 @@ public class _SingleScoreRankingReq implements PacketHandler<GameUser> {
                 }
                 resultCode = ErrorCode.NONE;
             } else {
-                logger.error("TapMsg tapMsg is null!!!");
+                logger.error("_SingleScoreRankingReq::execute() tapMsg is null!!!");
                 resultCode = ErrorCode.PARAMETER_IS_EMPTY;
             }
-        } catch (
-            Exception e) {
-            logger.error("execute()", e);
+        } catch (IOException e) {
+            logger.error("_SingleScoreRankingReq::execute()", e);
         }
 
         scoreRankingRes.setResultCode(resultCode);

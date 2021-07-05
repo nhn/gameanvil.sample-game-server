@@ -1,21 +1,25 @@
 package com.nhn.gameanvil.sample.game.user;
 
 import co.paralleluniverse.fibers.SuspendExecution;
+import com.nhn.gameanvil.annotation.ServiceName;
+import com.nhn.gameanvil.annotation.UserType;
+import com.nhn.gameanvil.exceptions.GameAnvilException;
 import com.nhn.gameanvil.node.game.BaseUser;
-import com.nhn.gameanvil.node.game.data.MatchRoomResult;
+import com.nhn.gameanvil.node.game.data.RoomMatchResult;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.PacketDispatcher;
 import com.nhn.gameanvil.packet.Payload;
+import com.nhn.gameanvil.sample.common.GameConstants;
+import com.nhn.gameanvil.sample.db.mybatis.UserDbHelperService;
 import com.nhn.gameanvil.sample.game.GameNode;
-import com.nhn.gameanvil.sample.game.multi.roommatch.model.UnlimitedTapRoomInfo;
+import com.nhn.gameanvil.sample.game.multi.roommatch.model.UnlimitedTapRoomMatchForm;
 import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakePositionInfo;
-import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakeRoomInfo;
+import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakeUserMatchInfo;
 import com.nhn.gameanvil.sample.game.user._handler._ChangeNicknameReq;
 import com.nhn.gameanvil.sample.game.user._handler._ShuffleDeckReq;
 import com.nhn.gameanvil.sample.game.user._handler._SingleScoreRankingReq;
 import com.nhn.gameanvil.sample.game.user.model.GameUserInfo;
 import com.nhn.gameanvil.sample.game.user.model.GameUserTransferInfo;
-import com.nhn.gameanvil.sample.mybatis.UserDbHelperService;
 import com.nhn.gameanvil.sample.protocol.Authentication;
 import com.nhn.gameanvil.sample.protocol.GameMulti;
 import com.nhn.gameanvil.sample.protocol.GameMulti.RoomUserData;
@@ -23,7 +27,7 @@ import com.nhn.gameanvil.sample.protocol.GameSingle;
 import com.nhn.gameanvil.sample.protocol.Result;
 import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
 import com.nhn.gameanvil.sample.protocol.User;
-import com.nhn.gameanvil.sample.protocol.User.RoomType;
+import com.nhn.gameanvil.sample.protocol.User.RoomGameType;
 import com.nhn.gameanvil.serializer.TransferPack;
 import com.nhn.gameanvil.timer.Timer;
 import com.nhn.gameanvil.timer.TimerHandler;
@@ -33,8 +37,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 게임에서 사용 하는 게임 유저 객체
+ * 게임에서 사용 하는 게임 유저
  */
+@ServiceName(GameConstants.GAME_NAME)
+@UserType(GameConstants.GAME_USER_TYPE)
 public class GameUser extends BaseUser implements TimerHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -55,11 +61,11 @@ public class GameUser extends BaseUser implements TimerHandler {
     /**
      * 유저 로그인 처리
      *
-     * @param payload        : client 에서 전달된 data
-     * @param accountPayload : gateway 의 onPreLogin 함수에서 전달된 data 값이다.
-     * @param outPayload     : client 로 전달되는 data
-     * @return 로그인 성공 실패
-     * @throws SuspendExecution 이 메서드는 파이버가 suspend될 수 있다
+     * @param payload        로그인요청시 전달된 정보
+     * @param accountPayload 게이트웨이의 전달된 정보
+     * @param outPayload     로그인요청 완료시 응답으로 전달되는 정보
+     * @return 로그인 성공 실패 반환
+     * @throws SuspendExecution 이 메서드는 파이버를 suspend할 수 있음을 의미
      */
     @Override
     public boolean onLogin(Payload payload, Payload accountPayload, Payload outPayload) throws SuspendExecution {
@@ -73,7 +79,7 @@ public class GameUser extends BaseUser implements TimerHandler {
 
         if (loginPacket == null) {
             resultCode = ErrorCode.PARAMETER_IS_EMPTY;
-            logger.error("onLogin fail!! loginPacket is null!!");
+            logger.error("GameUser::onLogin() onLogin fail!! loginPacket is null!!");
         } else {
             try {
                 // 로그인 패킷
@@ -82,7 +88,7 @@ public class GameUser extends BaseUser implements TimerHandler {
 
                 if (loginReq == null || loginReq.getUuid().isEmpty()) {
                     resultCode = ErrorCode.PARAMETER_IS_EMPTY;
-                    logger.error("onLogin fail!! loginReq is null!!");
+                    logger.error("GameUser::onLogin() onLogin fail!! loginReq is null!!");
                 } else {
                     // 유저 고유 번호 설정
                     gameUserInfo.setUuid(loginReq.getUuid());
@@ -95,8 +101,16 @@ public class GameUser extends BaseUser implements TimerHandler {
                     gameUserInfo.setDeviceCountry(loginReq.getDeviceCountry());
                     gameUserInfo.setDeviceLanguage(loginReq.getDeviceLanguage());
 
+                    GameUserInfo dbGameUserInfo = null;
+
                     // DB에서 유저 데이터 검색
-                    GameUserInfo dbGameUserInfo = UserDbHelperService.getInstance().selectUserByUuid(gameUserInfo.getUuid());
+                    if (GameConstants.USE_DB_JASYNC_SQL) {
+                        // JAsyncSql
+                        dbGameUserInfo = ((GameNode)getBaseGameNode()).getJAsyncSqlManager().selectUserByUuid(gameUserInfo.getUuid());
+                    } else {
+                        // Mybatis
+                        dbGameUserInfo = UserDbHelperService.getInstance().selectUserByUuid(gameUserInfo.getUuid());
+                    }
 
                     if (dbGameUserInfo == null) {   // DB에 데이터가 없으므로 신규
                         // 게임 데이터 설정
@@ -109,8 +123,16 @@ public class GameUser extends BaseUser implements TimerHandler {
                         gameUserInfo.setHighScore(0);
                         gameUserInfo.setCurrentDeck("sushi");
 
+                        int dbResultCount = -1;
                         // 신규 DB 저장
-                        int dbResultCount = UserDbHelperService.getInstance().insertUser(gameUserInfo);
+                        if (GameConstants.USE_DB_JASYNC_SQL) {
+                            // JAsyncSql
+                            dbResultCount = ((GameNode)getBaseGameNode()).getJAsyncSqlManager().insertUser(gameUserInfo);
+                        } else {
+                            // Mybatis
+                            dbResultCount = UserDbHelperService.getInstance().insertUser(gameUserInfo);
+                        }
+
                         logger.info("DB User Insert {} ", dbResultCount);
                     } else {
                         // DB에서 가져온 유저 데이터 설정
@@ -176,7 +198,11 @@ public class GameUser extends BaseUser implements TimerHandler {
         // 사용자가 접속이 끊길때 유저가 방안에 있다면 방에서 나오기
         if (isJoinedRoom()) {
             logger.info("kickoutRoom - UserId : {}", getUserType());
-            kickoutRoom();
+            try {
+                kickoutRoom();
+            } catch (GameAnvilException e) {
+                logger.error("GameUser::onDisconnect()", e);
+            }
         }
     }
 
@@ -192,7 +218,11 @@ public class GameUser extends BaseUser implements TimerHandler {
         }
 
         if (!isJoinedRoom()) {
-            kickout();
+            try {
+                kickout();
+            } catch (GameAnvilException e) {
+                logger.error("GameUser::onPause()", e);
+            }
         }
     }
 
@@ -241,51 +271,43 @@ public class GameUser extends BaseUser implements TimerHandler {
     }
 
     /**
-     * client 에서 MatchRoom 을 요청했을 경우 발생하는 callback
+     * 클라이언트 에서 룸매치 요청했을 경우 발생하는 경우 처리
      *
-     * @param roomType : 매칭되는 roommatch 의 type
-     * @param payload  : client 의 요청시 추가적으로 전달되는 data
-     * @return matching 된 roommatch 의 정보 , null 을 반환 할시  client 요청 옵션에 따라서 새로운 방이 생성되거나,요청 실패 처리 된다.
-     * @throws SuspendExecution
+     * @param roomType 매칭되는 룸매치의 타입
+     * @param payload  룸매치 요청시 전달되는 정보
+     * @return 굴매치의 결과 정보 반환, null 을 반환 할시 클라이언트 요청 옵션에 따라서 새로운 방이 생성되거나 요청 실패 처리
+     * @throws SuspendExecution 이 메서드는 파이버를 suspend할 수 있음을 의미
      */
     @Override
-    public MatchRoomResult onMatchRoom(String roomType, Payload payload) throws SuspendExecution {
+    public final RoomMatchResult onMatchRoom(final String roomType, final String matchingGroup, final String matchingUserCategory, final Payload payload) throws SuspendExecution {
         logger.info("onMatchRoom - UserId : {}, RoomIdBeforeMove : {}", getUserId(), getRoomIdBeforeMove());
         try {
-            UnlimitedTapRoomInfo terms = new UnlimitedTapRoomInfo();
-            // moveRoom 옵션이 true일 경우 room에 참여중인 상태에서도 matchRoom 이 가능하다.
-            // 이 경우 지금 참여중인 room에서 나간 후 다시 매칭 프로세스를 거치게 되며
-            // 참여 가능한 game 목록을 요청할 때 방금 나온 room도 목록에 포함된다.
-            // 따라서 이동하기 전 방금 나온 game 을 구분하기 위해 getRoomIdBeforeMove()로 roomId를 얻어와 terms 에 넣어준다.
-            // 원래 있던 room에 다시 join 하는것을 허용하거나, moveRoom 옵션이 false 일 경우에는 하지 않아도 된다.
-            //terms.setRoomId(getRoomIdBeforeMove());
-            String matchingGroup = getChannelId();
+            UnlimitedTapRoomMatchForm unlimitedTapRoomForm = new UnlimitedTapRoomMatchForm();
 
-            return matchRoom(matchingGroup, roomType, terms);
+            return matchRoom(matchingGroup, roomType, unlimitedTapRoomForm);
         } catch (Exception e) {
             logger.error("GameUser::onMatchRoom()", e);
-            return MatchRoomResult.createFailure();
+            return RoomMatchResult.FAILED;
         }
     }
 
     /**
-     * client 에서 MatchUserStart 를 요청했을 경우 호출되는 callback server에서는 UserMatchInfo를 저장하고 주기적으로 UserMatchMaker의 match() 함수를 호출함 UserMatchMaker의 match()함수에서는 getMatchRequests()를 호출하여 저장된 UserMatchInfo 목록을 가져오고 이 목록중에 조건에 맞는 UserMatchInfo를 찾아 매칭를 완료하게 됨. 여기에서 성공은 매칭의 성공 여부가 아닌 매칭 요청의 성공여부를 의미함.
+     * 클라이언트에서 우저 매치를 요청했을 경우 호출되는 처리
      *
-     * @param roomType   : 매칭되는 roommatch 의 type
-     * @param payload    : client 의 요청시 추가적으로 전달되는 data
-     * @param outPayload : 서버에서 client 로 전달되는 data
-     * @return : true: usermatch matching 요청 성공,false: usermatch matching 요청 실패
-     * @throws SuspendExecution
+     * @param roomType   유저 매치의 타입
+     * @param payload    유저매치 요청시 전달되는 정보
+     * @param outPayload 유저매치 요청 응답시에 전달되는 정보
+     * @return 유저매치 요청의 성공여부 반환
+     * @throws SuspendExecution 이 메서드는 파이버를 suspend할 수 있음을 의미
      */
     @Override
-    public boolean onMatchUser(final String roomType, final Payload payload, Payload outPayload) throws SuspendExecution {
+    public boolean onMatchUser(final String roomType, final String matchingGroup, final Payload payload, Payload outPayload) throws SuspendExecution {
         logger.info("onMatchUser - UserId : {}", getUserId());
         try {
-            String matchingGroup = getChannelId();
-            SnakeRoomInfo term = new SnakeRoomInfo(getUserId(), 100);
+            SnakeUserMatchInfo term = new SnakeUserMatchInfo(getUserId(), 100);
             return matchUser(matchingGroup, roomType, term, payload);
         } catch (Exception e) {
-            logger.error("onMatchUser()", e);
+            logger.error("GameUser::onMatchUser()", e);
         }
         return false;
     }
@@ -322,9 +344,9 @@ public class GameUser extends BaseUser implements TimerHandler {
         return snakePositionInfoList;
     }
 
-    public User.RoomInfoMsg getRoomInfoMsgByProto(RoomType roomType) {
+    public User.RoomInfoMsg getRoomInfoMsgByProto(RoomGameType roomType) {
         User.RoomInfoMsg.Builder roomInfoMsg = User.RoomInfoMsg.newBuilder();
-        roomInfoMsg.setRoomType(roomType);
+        roomInfoMsg.setRoomGameType(roomType);
         return roomInfoMsg.build();
     }
 }

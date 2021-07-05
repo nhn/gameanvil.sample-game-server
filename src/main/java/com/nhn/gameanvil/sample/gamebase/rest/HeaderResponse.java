@@ -1,7 +1,7 @@
 package com.nhn.gameanvil.sample.gamebase.rest;
 
 /**
- * Gamebase 기본 응답 객체
+ * Gamebase 기본 헤더 응답 클래스
  */
 public class HeaderResponse {
     private String transactionId;
@@ -39,5 +39,15 @@ public class HeaderResponse {
 
     public void setResultMessage(String resultMessage) {
         this.resultMessage = resultMessage;
+    }
+
+    @Override
+    public String toString() {
+        return "HeaderResponse{" +
+            "transactionId='" + transactionId + '\'' +
+            ", isSuccessful=" + isSuccessful +
+            ", resultCode=" + resultCode +
+            ", resultMessage='" + resultMessage + '\'' +
+            '}';
     }
 }
