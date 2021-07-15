@@ -1,1 +1,1 @@
-(Official) [Type A] Reference GameAnvil server
+# (Official) [Type A] Reference GameAnvil server
