@@ -27,14 +27,14 @@
 
   <groupId>com.nhn.gameanvil</groupId>
   <artifactId>sample_game_server</artifactId>
-  <version>1.2.0</version>
+  <version>1.2.1</version>
 
   <dependencies>
     <!-- gameanvil -->
     <dependency>
       <groupId>com.nhn.gameanvil</groupId>
       <artifactId>gameanvil</artifactId>
-      <version>DEV-1.2.0-jdk8</version>
+      <version>1.2.0-jdk8</version>
     </dependency>
 
     <!-- query -->

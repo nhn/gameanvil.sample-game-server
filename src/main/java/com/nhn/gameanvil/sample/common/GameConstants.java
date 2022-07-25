@@ -26,19 +26,19 @@ public class GameConstants {
     public static final String REDIS_THREAD_POOL = "REDIS_THREAD_POOL";
 
     // 레디스 접속 정보
-    public static final String REDIS_URL = "10.77.14.22"; // GameAnvil 팀 서버
-    public static final int REDIS_PORT = 7500;
-    public static final String REDIS_PASSWORD = "password";
+    public static final String REDIS_URL = "레디스 아이피 정보";        // TODO 레디스 접속 IP나 URL 정보 변경 설정
+    public static final int REDIS_PORT = 0000;                       // TODO 레디스 접속 포트 변경 설정
+    public static final String REDIS_PASSWORD = "레디스 패스워드 정보"; // TODO 레디스 접속 패스워드 변경 설정
 
     // 디비 쓰레드 풀
     public static final String DB_THREAD_POOL = "DB_THREAD_POOL";
 
     // DB 접속 정보
     public static final String DB_USERNAME = "taptap";
-    public static final String DB_HOST = "10.77.14.22"; // GameAnvil 팀 서버
-    public static final int DB_PORT = 3306;
-    public static final String DB_PASSWORD = "nhn!@#123";
-    public static final String DB_DATABASE = "taptap";
+    public static final String DB_HOST = "127.0.0.1";           // TODO 구축한 DB 접속 정보 변경 필요
+    public static final int DB_PORT = 3306;                     // 구축한 DB 접속 포트
+    public static final String DB_PASSWORD = "DB 접속 패스워드";  // TODO 구축한 DB 의 패스워드 정보 변경 필요
+    public static final String DB_DATABASE = "taptap";          // 구축한 DB 의 이름 정보
     public static final int MAX_ACTIVE_CONNECTION = 30;
 
     // 게임베이스 기본 url
