@@ -172,8 +172,8 @@ public class SnakeRoom extends BaseRoom<GameUser> {
      * @throws SuspendExecution 이 메서드는 파이버를 suspend할 수 있음을 의미
      */
     @Override
-    public void onPostLeaveRoom(GameUser gameUser) throws SuspendExecution {
-        logger.info("onPostLeaveRoom - RoomId : {}, UserId : {}", getId(),
+    public void onLeaveRoom(GameUser gameUser) throws SuspendExecution {
+        logger.info("onLeaveRoom - RoomId : {}, UserId : {}", getId(),
             gameUser.getUserId());
 
         gameUserMap.remove(gameUser.getUserId());
@@ -191,6 +191,11 @@ public class SnakeRoom extends BaseRoom<GameUser> {
                 }
             }
         }
+    }
+
+    @Override
+    public void onPostLeaveRoom() throws SuspendExecution {
+        logger.info("onPostLeaveRoom - RoomId : {}", getId());
     }
 
     @Override

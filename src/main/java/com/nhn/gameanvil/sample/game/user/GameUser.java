@@ -243,6 +243,11 @@ public class GameUser extends BaseUser implements TimerHandler {
     }
 
     @Override
+    public void onPostLeaveRoom() throws SuspendExecution {
+        logger.debug("onPostLeaveRoom - UserId: {}", getUserId());
+    }
+
+    @Override
     public boolean canTransfer() throws SuspendExecution {
         logger.debug("canTransfer - UserId : {}", getUserId());
         return false;

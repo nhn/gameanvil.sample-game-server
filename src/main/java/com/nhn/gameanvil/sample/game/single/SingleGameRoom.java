@@ -229,9 +229,14 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
     }
 
     @Override
-    public void onPostLeaveRoom(GameUser gameUser) throws SuspendExecution {
-        logger.info("onPostLeaveRoom - RoomId : {}, UserId : {}", getId(),
+    public void onLeaveRoom(GameUser gameUser) throws SuspendExecution {
+        logger.info("onLeaveRoom - RoomId : {}, UserId : {}", getId(),
             gameUser.getUserId());
+    }
+
+    @Override
+    public void onPostLeaveRoom() throws SuspendExecution {
+        logger.info("onPostLeaveRoom - RoomId : {}", getId());
     }
 
     @Override

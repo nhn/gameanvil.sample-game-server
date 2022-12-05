@@ -14,14 +14,14 @@
 
   <repositories>
     <repository>
-      <id>releases</id>
-      <name>Nhnent Maven Release Repository</name>
-      <url>http://nexus.nhnent.com/content/repositories/releases/</url>
+      <id>ossrh-release</id>
+      <name>Maven Central Release Repository</name>
+      <url>https://s01.oss.sonatype.org/content/repositories/releases/</url>
     </repository>
     <repository>
-      <id>snapshots</id>
-      <name>Nhnent Maven Snapshot Repository</name>
-      <url>http://nexus.nhnent.com/content/repositories/snapshots/</url>
+      <id>ossrh-snapshot</id>
+      <name>Maven Central Snapshot Repository</name>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
     </repository>
   </repositories>
 
@@ -34,7 +34,7 @@
     <dependency>
       <groupId>com.nhn.gameanvil</groupId>
       <artifactId>gameanvil</artifactId>
-      <version>1.2.0-jdk8</version>
+      <version>1.2.1-jdk8-SNAPSHOT</version>
     </dependency>
 
     <!-- query -->
