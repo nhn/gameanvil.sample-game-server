@@ -1,3 +1,5 @@
 .idea/
 target/
 log/
+/gc.log*
+sample_game_server.iml

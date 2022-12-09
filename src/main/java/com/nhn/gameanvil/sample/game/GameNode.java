@@ -9,7 +9,7 @@ import com.nhn.gameanvil.node.game.data.ChannelUpdateType;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.Payload;
 import com.nhn.gameanvil.sample.common.GameConstants;
-import com.nhn.gameanvil.sample.db.jasyncsql.JAsyncSqlManager;
+import com.nhn.gameanvil.sample.db.xdevapi.UserDbHelper;
 import com.nhn.gameanvil.sample.redis.RedisHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,8 @@ import org.slf4j.LoggerFactory;
 public class GameNode extends BaseGameNode {
     private Logger logger = LoggerFactory.getLogger(getClass());
     private RedisHelper redisHelper;
-    private JAsyncSqlManager jAsyncSqlManager;
+    //    private JAsyncSqlManager jAsyncSqlManager;
+    private UserDbHelper userDbHelper; // xdev api
 
     @Override
     public void onInit() throws SuspendExecution {
@@ -33,7 +34,10 @@ public class GameNode extends BaseGameNode {
         // 레디스 연결 처리
         redisHelper.connect(GameConstants.REDIS_URL, GameConstants.REDIS_PORT);
 
-        jAsyncSqlManager = new JAsyncSqlManager(GameConstants.DB_USERNAME, GameConstants.DB_HOST, GameConstants.DB_PORT, GameConstants.DB_PASSWORD, GameConstants.DB_DATABASE, GameConstants.MAX_ACTIVE_CONNECTION);
+//        jAsyncSqlManager = new JAsyncSqlManager(GameConstants.DB_USERNAME, GameConstants.DB_HOST, GameConstants.DB_PORT, GameConstants.DB_PASSWORD, GameConstants.DB_DATABASE, GameConstants.MAX_ACTIVE_CONNECTION);
+
+//        userDbHelper = new UserDbHelper("mysqlx://localhost:33060/taptap?user=kevin&password=kevin1234");  // 로컬 mysql 8.0
+        userDbHelper = new UserDbHelper(String.format("mysqlx://%s:%d/%s?user=%s&password=%s", GameConstants.DB_HOST, GameConstants.DB_PORT, GameConstants.DB_DATABASE, GameConstants.DB_USERNAME, GameConstants.DB_PASSWORD));  // 로컬 mysql 8.0
     }
 
     @Override
@@ -66,7 +70,8 @@ public class GameNode extends BaseGameNode {
         logger.info("onShutdown");
 
         redisHelper.shutdown();
-        jAsyncSqlManager.close();
+//        jAsyncSqlManager.close();
+        userDbHelper.closeClient();
     }
 
     @Override
@@ -118,7 +123,11 @@ public class GameNode extends BaseGameNode {
         return redisHelper;
     }
 
-    public JAsyncSqlManager getJAsyncSqlManager() {
-        return jAsyncSqlManager;
+//    public JAsyncSqlManager getJAsyncSqlManager() {
+//        return jAsyncSqlManager;
+//    }
+
+    public UserDbHelper getUserDbHelper() {
+        return userDbHelper;
     }
 }

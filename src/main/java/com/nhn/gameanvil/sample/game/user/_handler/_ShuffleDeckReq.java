@@ -3,8 +3,6 @@ package com.nhn.gameanvil.sample.game.user._handler;
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.PacketHandler;
-import com.nhn.gameanvil.sample.common.GameConstants;
-import com.nhn.gameanvil.sample.db.mybatis.UserDbHelperService;
 import com.nhn.gameanvil.sample.game.GameNode;
 import com.nhn.gameanvil.sample.game.user.GameUser;
 import com.nhn.gameanvil.sample.protocol.Result;
@@ -69,13 +67,16 @@ public class _ShuffleDeckReq implements PacketHandler<GameUser> {
 
                 // 유저 덱 변경 저장
                 int dbResultCount = -1;
-                if (GameConstants.USE_DB_JASYNC_SQL) {
-                    // JAsyncSql
-                    dbResultCount = ((GameNode)gameUser.getBaseGameNode()).getJAsyncSqlManager().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
-                } else {
-                    // Mybatis
-                    dbResultCount = UserDbHelperService.getInstance().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
-                }
+//                if (GameConstants.USE_DB_JASYNC_SQL) {
+//                    // JAsyncSql
+//                    dbResultCount = ((GameNode)gameUser.getBaseGameNode()).getJAsyncSqlManager().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
+//                } else {
+//                    // Mybatis
+//                    dbResultCount = UserDbHelperService.getInstance().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
+//                }
+
+                // xdev api
+                dbResultCount = ((GameNode)gameUser.getBaseGameNode()).getUserDbHelper().updateUserCurrentDeck(gameUser.getGameUserInfo().getUuid(), nextDeck);
 
                 if (dbResultCount == 1) {   // 정상 저장되었을 경우에 응답 데이터 설정
                     gameUser.getGameUserInfo().setCurrentDeck(nextDeck);

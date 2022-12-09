@@ -34,11 +34,11 @@ public class GameConstants {
     public static final String DB_THREAD_POOL = "DB_THREAD_POOL";
 
     // DB 접속 정보
-    public static final String DB_USERNAME = "taptap";
-    public static final String DB_HOST = "127.0.0.1";           // TODO 구축한 DB 접속 정보 변경 필요
+    public static final String DB_HOST = "localhost";           // TODO 구축한 DB 접속 정보 변경 필요
     public static final int DB_PORT = 3306;                     // 구축한 DB 접속 포트
-    public static final String DB_PASSWORD = "DB 접속 패스워드";  // TODO 구축한 DB 의 패스워드 정보 변경 필요
     public static final String DB_DATABASE = "taptap";          // 구축한 DB 의 이름 정보
+    public static final String DB_USERNAME = "계정이름";         // TODO 구축한 DB 의 계정 정보 변경 필요
+    public static final String DB_PASSWORD = "패스워드";         // TODO 구축한 DB 의 패스워드 정보 변경 필요
     public static final int MAX_ACTIVE_CONNECTION = 30;
 
     // 게임베이스 기본 url

@@ -8,7 +8,6 @@ import com.nhn.gameanvil.node.game.RoomPacketDispatcher;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.Payload;
 import com.nhn.gameanvil.sample.common.GameConstants;
-import com.nhn.gameanvil.sample.db.mybatis.UserDbHelperService;
 import com.nhn.gameanvil.sample.game.GameNode;
 import com.nhn.gameanvil.sample.game.single._handler._TapMsg;
 import com.nhn.gameanvil.sample.game.single.model.SingleTapGameInfo;
@@ -22,7 +21,6 @@ import com.nhn.gameanvil.timer.Timer;
 import com.nhn.gameanvil.timer.TimerHandler;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -160,17 +158,20 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
             gameUser.getGameUserInfo().setHighScore(singleGameData.getScore());
             boolean isSuccess = false;
             int dbSuccessCount = -1;
-            try {
-                if (GameConstants.USE_DB_JASYNC_SQL) {
-                    // JAsyncSql
-                    dbSuccessCount = ((GameNode)getBaseGameNode()).getJAsyncSqlManager().updateUserHigScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
-                } else {
-                    // Mybatis
-                    dbSuccessCount = UserDbHelperService.getInstance().updateUserHigScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
-                }
-            } catch (TimeoutException e) {
-                logger.error("SingleGameRoom::onLeaveRoom()", e);
-            }
+//            try {
+//                if (GameConstants.USE_DB_JASYNC_SQL) {
+//                    // JAsyncSql
+//                    dbSuccessCount = ((GameNode)getBaseGameNode()).getJAsyncSqlManager().updateUserHigScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
+//                } else {
+//                    // Mybatis
+//                    dbSuccessCount = UserDbHelperService.getInstance().updateUserHigScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
+//                }
+//            } catch (TimeoutException e) {
+//                logger.error("SingleGameRoom::onLeaveRoom()", e);
+//            }
+            // xdev api
+            dbSuccessCount = ((GameNode)getBaseGameNode()).getUserDbHelper().updateUserHigScore(gameUser.getGameUserInfo().getUuid(), singleGameData.getScore());
+
             logger.info("DB update Result : {}", dbSuccessCount);
             if (dbSuccessCount == 1) {
                 isSuccess = true;

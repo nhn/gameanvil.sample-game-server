@@ -10,7 +10,6 @@ import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.PacketDispatcher;
 import com.nhn.gameanvil.packet.Payload;
 import com.nhn.gameanvil.sample.common.GameConstants;
-import com.nhn.gameanvil.sample.db.mybatis.UserDbHelperService;
 import com.nhn.gameanvil.sample.game.GameNode;
 import com.nhn.gameanvil.sample.game.multi.roommatch.model.UnlimitedTapRoomMatchForm;
 import com.nhn.gameanvil.sample.game.multi.usermatch.model.SnakePositionInfo;
@@ -104,13 +103,15 @@ public class GameUser extends BaseUser implements TimerHandler {
                     GameUserInfo dbGameUserInfo = null;
 
                     // DB에서 유저 데이터 검색
-                    if (GameConstants.USE_DB_JASYNC_SQL) {
-                        // JAsyncSql
-                        dbGameUserInfo = ((GameNode)getBaseGameNode()).getJAsyncSqlManager().selectUserByUuid(gameUserInfo.getUuid());
-                    } else {
-                        // Mybatis
-                        dbGameUserInfo = UserDbHelperService.getInstance().selectUserByUuid(gameUserInfo.getUuid());
-                    }
+//                    if (GameConstants.USE_DB_JASYNC_SQL) {
+//                        // JAsyncSql
+//                        dbGameUserInfo = ((GameNode)getBaseGameNode()).getJAsyncSqlManager().selectUserByUuid(gameUserInfo.getUuid());
+//                    } else {
+//                        // Mybatis
+//                        dbGameUserInfo = UserDbHelperService.getInstance().selectUserByUuid(gameUserInfo.getUuid());
+//                    }
+                    // xdev api
+                    dbGameUserInfo = ((GameNode)getBaseGameNode()).getUserDbHelper().selectUserByUuid(gameUserInfo.getUuid());
 
                     if (dbGameUserInfo == null) {   // DB에 데이터가 없으므로 신규
                         // 게임 데이터 설정
@@ -125,13 +126,15 @@ public class GameUser extends BaseUser implements TimerHandler {
 
                         int dbResultCount = -1;
                         // 신규 DB 저장
-                        if (GameConstants.USE_DB_JASYNC_SQL) {
-                            // JAsyncSql
-                            dbResultCount = ((GameNode)getBaseGameNode()).getJAsyncSqlManager().insertUser(gameUserInfo);
-                        } else {
-                            // Mybatis
-                            dbResultCount = UserDbHelperService.getInstance().insertUser(gameUserInfo);
-                        }
+//                        if (GameConstants.USE_DB_JASYNC_SQL) {
+//                            // JAsyncSql
+//                            dbResultCount = ((GameNode)getBaseGameNode()).getJAsyncSqlManager().insertUser(gameUserInfo);
+//                        } else {
+//                            // Mybatis
+//                            dbResultCount = UserDbHelperService.getInstance().insertUser(gameUserInfo);
+//                        }
+                        // xdev api
+                        dbResultCount = ((GameNode)getBaseGameNode()).getUserDbHelper().insertUser(gameUserInfo);
 
                         logger.info("DB User Insert {} ", dbResultCount);
                     } else {
