@@ -4,8 +4,7 @@ import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhn.gameanvil.annotation.RoomType;
 import com.nhn.gameanvil.annotation.ServiceName;
 import com.nhn.gameanvil.node.game.BaseRoom;
-import com.nhn.gameanvil.node.game.RoomPacketDispatcher;
-import com.nhn.gameanvil.packet.Packet;
+import com.nhn.gameanvil.node.game.RoomMessageDispatcher;
 import com.nhn.gameanvil.packet.Payload;
 import com.nhn.gameanvil.sample.common.GameConstants;
 import com.nhn.gameanvil.sample.db.mybatis.UserDbHelperService;
@@ -20,11 +19,12 @@ import com.nhn.gameanvil.sample.protocol.User.RoomGameType;
 import com.nhn.gameanvil.serializer.TransferPack;
 import com.nhn.gameanvil.timer.Timer;
 import com.nhn.gameanvil.timer.TimerHandler;
-import java.io.IOException;
+import org.slf4j.Logger;
+
 import java.util.List;
 import java.util.concurrent.TimeoutException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * 게임 혼자 하는 싱글룸 처리
@@ -32,15 +32,21 @@ import org.slf4j.LoggerFactory;
 @ServiceName(GameConstants.GAME_NAME)
 @RoomType(GameConstants.GAME_ROOM_TYPE_SINGLE)
 public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private static RoomPacketDispatcher dispatcher = new RoomPacketDispatcher();
+    private static final Logger logger = getLogger(SingleGameRoom.class);
+
+    private static final RoomMessageDispatcher<SingleGameRoom, GameUser> dispatcher = new RoomMessageDispatcher<>();
 
     // 게임에서 사용 할 데이터
     private SingleTapGameInfo singleGameData = new SingleTapGameInfo();
 
     static {
-        dispatcher.registerMsg(GameSingle.TapMsg.getDescriptor(), _TapMsg.class);
+        dispatcher.registerMsg(GameSingle.TapMsg.class, _TapMsg.class);
+    }
+
+    @Override
+    public RoomMessageDispatcher<SingleGameRoom, GameUser> getMessageDispatcher() {
+        return dispatcher;
     }
 
     @Override
@@ -51,15 +57,6 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
     @Override
     public void onDestroy() throws SuspendExecution {
         logger.info("onDestroy - RoomId : {}", getId());
-    }
-
-    @Override
-    public void onDispatch(GameUser gameUser, Packet packet) throws SuspendExecution {
-        logger.info("onDispatch : RoomId : {}, UserId : {}, {}",
-            getId(),
-            gameUser.getUserId(),
-            packet.getMsgName());
-        dispatcher.dispatch(this, gameUser, packet);
     }
 
     /**
@@ -81,37 +78,32 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
         Result.ErrorCode resultCode = Result.ErrorCode.UNKNOWN;
 
         // 게임시작 패킷 확인
-        Packet startGamePacket = inPayload.getPacket(GameSingle.StartGameReq.getDescriptor());
+        GameSingle.StartGameReq startGameReq = inPayload.getProtoBuffer(GameSingle.StartGameReq.getDescriptor());
 
-        if (startGamePacket == null) {
+        if (startGameReq == null) {
             resultCode = Result.ErrorCode.PARAMETER_IS_EMPTY;
             logger.error("SingleGameRoom::onCreateRoom() fail!! startGamePacket is null!!");
         } else {
-            try {
-                // 게임시작 데이터 확인
-                GameSingle.StartGameReq startGameReq = GameSingle.StartGameReq.parseFrom(startGamePacket.getStream());
-                logger.debug("onCreateRoom - startGameReq : {}", startGameReq);
+            // 게임시작 데이터 확인
+            logger.debug("onCreateRoom - startGameReq : {}", startGameReq);
 
-                if (startGameReq == null || startGameReq.getDeck().isEmpty()) {
-                    resultCode = Result.ErrorCode.PARAMETER_IS_EMPTY;
-                    logger.error("SingleGameRoom::onCreateRoom() fail!! startGameReq is null!!");
-                } else if (gameUser.getGameUserInfo().getHeart() < 1) {
-                    resultCode = Result.ErrorCode.NOT_ENOUGH_HEART;
-                    logger.info("onCreateRoom fail!! NOT_ENOUGH_HEART is null!! : {}", gameUser.getGameUserInfo().getHeart());
-                } else {
-                    //--------------------------------- 게임 입장 로직 처리
+            if (startGameReq.getDeck().isEmpty()) {
+                resultCode = Result.ErrorCode.PARAMETER_IS_EMPTY;
+                logger.error("SingleGameRoom::onCreateRoom() fail!! startGameReq is null!!");
+            } else if (gameUser.getGameUserInfo().getHeart() < 1) {
+                resultCode = Result.ErrorCode.NOT_ENOUGH_HEART;
+                logger.info("onCreateRoom fail!! NOT_ENOUGH_HEART is null!! : {}", gameUser.getGameUserInfo().getHeart());
+            } else {
+                //--------------------------------- 게임 입장 로직 처리
 
-                    gameUser.getGameUserInfo().useHeart();
+                gameUser.getGameUserInfo().useHeart();
 
-                    // 게임에서 사용할 데이터 설정
-                    singleGameData.setDeck(startGameReq.getDeck());
-                    singleGameData.setDifficulty(startGameReq.getDifficultyValue());
+                // 게임에서 사용할 데이터 설정
+                singleGameData.setDeck(startGameReq.getDeck());
+                singleGameData.setDifficulty(startGameReq.getDifficultyValue());
 
-                    logger.info("onCreateRoom Success. singleGameData:{}", singleGameData);
-                    resultCode = Result.ErrorCode.NONE;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+                logger.info("onCreateRoom Success. singleGameData:{}", singleGameData);
+                resultCode = Result.ErrorCode.NONE;
             }
         }
 
@@ -120,7 +112,7 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
         startGameRes.setErrorCode(resultCode);
 
         if (resultCode == Result.ErrorCode.NONE) {
-            outPayload.add(new Packet(startGameRes));
+            outPayload.add(startGameRes);
             return true;
         } else {
             return false;
@@ -132,7 +124,7 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
     public boolean onJoinRoom(GameUser gameUser, Payload inPayload, Payload outPayload) throws SuspendExecution {
         logger.info("onJoinRoom - RoomId : {}, UserId : {}", getId(),
             gameUser.getUserId());
-        outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_SINGLE)));
+        outPayload.add(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_SINGLE));
         return true;
     }
 
@@ -184,35 +176,23 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
             if (!isSuccess) {
                 resultCode = ErrorCode.DB_ERROR;
                 endGameRes.setErrorCode(resultCode);
-                outPayload.add(new Packet(endGameRes));
+                outPayload.add(endGameRes);
                 return false;
             }
         }
 
         // 게임 종료 패킷 확인
-        Packet endGamePacket = inPayload.getPacket(GameSingle.EndGameReq.getDescriptor());
+        GameSingle.EndGameReq endGameReq = inPayload.getProtoBuffer(GameSingle.EndGameReq.getDescriptor());
 
-        if (endGamePacket == null) {
+        if (endGameReq == null) {
             resultCode = Result.ErrorCode.PARAMETER_IS_EMPTY;
             logger.error("SingleGameRoom::onLeaveRoom() fail!! endGamePacket is null!!");
         } else {
-            try {
-                // 게임 종료 데이터 확인
-                GameSingle.EndGameReq endGameReq = GameSingle.EndGameReq.parseFrom(endGamePacket.getStream());
-                logger.debug("onLeaveRoom - endGameReq : {}", endGameReq);
-
-                if (endGameReq == null) {
-                    resultCode = Result.ErrorCode.PARAMETER_IS_EMPTY;
-                    logger.error("SingleGameRoom::onLeaveRoom()  fail!! endGameReq is null!!");
-                } else {
-                    //--------------------------------- 게임 종료 로직 처리
-
-                    logger.info("onLeaveRoom Success. singleGameData:{}", singleGameData);
-                    resultCode = Result.ErrorCode.NONE;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            // 게임 종료 데이터 확인
+            //--------------------------------- 게임 종료 로직 처리
+            logger.debug("onLeaveRoom - endGameReq : {}", endGameReq);
+            logger.info("onLeaveRoom Success. singleGameData:{}", singleGameData);
+            resultCode = Result.ErrorCode.NONE;
         }
 
         endGameRes.setErrorCode(resultCode);
@@ -221,7 +201,7 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
             endGameRes.setTotalScore(singleGameData.getTotalScore());
             logger.info("onLeaveRoom endGameRes:{}", endGameRes);
 
-            outPayload.add(new Packet(endGameRes));
+            outPayload.add(endGameRes);
             return true;
         } else {
             return false;
@@ -243,7 +223,7 @@ public class SingleGameRoom extends BaseRoom<GameUser> implements TimerHandler {
     public void onRejoinRoom(GameUser gameUser, Payload outPayload) throws SuspendExecution {
         logger.info("onRejoinRoom - RoomId : {}, UserId : {}", getId(),
             gameUser.getUserId());
-        outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_SINGLE)));
+        outPayload.add(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_SINGLE));
     }
 
     @Override

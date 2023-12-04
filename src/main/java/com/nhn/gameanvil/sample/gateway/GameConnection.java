@@ -7,29 +7,36 @@ import com.nhn.gameanvil.annotation.Connection;
 import com.nhn.gameanvil.async.http.HttpRequest;
 import com.nhn.gameanvil.async.http.HttpResponse;
 import com.nhn.gameanvil.node.gateway.BaseConnection;
-import com.nhn.gameanvil.packet.Packet;
-import com.nhn.gameanvil.packet.PacketDispatcher;
 import com.nhn.gameanvil.packet.Payload;
+import com.nhn.gameanvil.packet.message.MessageDispatcher;
 import com.nhn.gameanvil.sample.common.GameConstants;
 import com.nhn.gameanvil.sample.gamebase.rest.AuthenticationResponse;
 import com.nhn.gameanvil.sample.protocol.Authentication;
 import com.nhn.gameanvil.sample.protocol.Result;
 import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
+import org.slf4j.Logger;
+
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * 게임 커넥션
  */
 @Connection()
 public class GameConnection extends BaseConnection<GameSession> {
-    private Logger logger = LoggerFactory.getLogger(getClass());
-    private static PacketDispatcher packetDispatcher = new PacketDispatcher();
+
+    private static final Logger logger = getLogger(GameConnection.class);
+    private static final MessageDispatcher<GameConnection> packetDispatcher = new MessageDispatcher<>();
 
     static {
         // 패킷 핸들러 등록 위치
+    }
+
+    @Override
+    public MessageDispatcher<GameConnection> getMessageDispatcher() {
+        return packetDispatcher;
     }
 
     /**
@@ -57,18 +64,14 @@ public class GameConnection extends BaseConnection<GameSession> {
         if (accountId.equals(password)) {
 
             // payload 로부터 인증요청 Packet 가져오기.
-            Packet authenticatePacket = payload.getPacket(Authentication.AuthenticationReq.getDescriptor());
-            if (authenticatePacket == null) { // 인증을 검증하기 위한 패킷이 없는경우
+            Authentication.AuthenticationReq authenticationReq = payload.getProtoBuffer(Authentication.AuthenticationReq.getDescriptor());
+            if (authenticationReq == null) { // 인증을 검증하기 위한 패킷이 없는경우
                 resultCode = ErrorCode.PARAMETER_IS_EMPTY;
                 logger.error("GameConnection::onAuthenticate() fail!! authenticatePacket is null!!");
             } else {
                 try {
                     // 인증 검증할 토큰을 가지고 검증처리
-                    Authentication.AuthenticationReq authenticationReq = Authentication.AuthenticationReq.parseFrom(authenticatePacket.getStream());
-                    if (authenticationReq == null) {
-                        resultCode = ErrorCode.PARAMETER_IS_EMPTY;
-                        logger.error("GameConnection::onAuthenticate() fail!! authenticationReq is null!!");
-                    } else if (authenticationReq.getAccessToken() == null) {
+                    if (authenticationReq.getAccessToken() == null) {
                         resultCode = ErrorCode.TOKEN_IS_EMPTY;
                         logger.error("GameConnection::onAuthenticate() fail!! authenticationReq.getAccessToken() is empty!!");
                     } else {
@@ -125,18 +128,12 @@ public class GameConnection extends BaseConnection<GameSession> {
         // 클라이언트로 응답 패킷 전달
         Authentication.AuthenticationRes.Builder authenticationRes = Authentication.AuthenticationRes.newBuilder();
         authenticationRes.setErrorCode(resultCode);
-        outPayload.add(new Packet(authenticationRes));
+        outPayload.add(authenticationRes);
         if (resultCode == ErrorCode.NONE) {
             return true;
         } else {
             return false;
         }
-    }
-
-    @Override
-    public void onDispatch(Packet packet) throws SuspendExecution {
-        logger.info("onDispatch : {}", packet.getMsgName());
-        packetDispatcher.dispatch(this, packet);
     }
 
     @Override

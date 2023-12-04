@@ -1,8 +1,7 @@
 package com.nhn.gameanvil.sample.game.user._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.gameanvil.packet.Packet;
-import com.nhn.gameanvil.packet.PacketHandler;
+import com.nhn.gameanvil.packet.message.MessageHandler;
 import com.nhn.gameanvil.sample.common.GameConstants;
 import com.nhn.gameanvil.sample.db.mybatis.UserDbHelperService;
 import com.nhn.gameanvil.sample.game.GameNode;
@@ -11,32 +10,32 @@ import com.nhn.gameanvil.sample.protocol.Result;
 import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
 import com.nhn.gameanvil.sample.protocol.User;
 import com.nhn.gameanvil.sample.protocol.User.CurrencyType;
-import java.io.IOException;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.TimeoutException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * 유저가 가지고 있는 현제 덱정보 서버갱신 저장, request 형식으로 전달되어 서버에서 처리후 reply 처리가 되어야 한다.
  */
-public class _ShuffleDeckReq implements PacketHandler<GameUser> {
+public class _ShuffleDeckReq implements MessageHandler<GameUser, User.ShuffleDeckReq> {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger logger = getLogger(_ShuffleDeckReq.class);
 
     private static final String[] DECK_LIST = {"africa", "alpha", "america", "animal", "asia", "candy", "dessert", "europe", "sushi", "tamastory", "western"};
 
     @Override
-    public void execute(GameUser gameUser, Packet packet) throws SuspendExecution {
+    public void execute(GameUser gameUser, User.ShuffleDeckReq shuffleDeckReq) throws SuspendExecution {
         Result.ErrorCode resultCode = ErrorCode.UNKNOWN;
         User.ShuffleDeckRes.Builder shuffleDeckRes = User.ShuffleDeckRes.newBuilder();
         try {
             logger.info("_ShuffleDeckReq - userId : {}", gameUser.getUserId());
 
             // 덱 셔플 처리
-            User.ShuffleDeckReq shuffleDeckReq = User.ShuffleDeckReq.parseFrom(packet.getStream());
             if (shuffleDeckReq == null || shuffleDeckReq.getCurrencyType() == CurrencyType.CURRENCY_NONE || shuffleDeckReq.getUsage() == 0) {
                 resultCode = ErrorCode.PARAMETER_IS_EMPTY;
                 logger.error("_ShuffleDeckReq::execute() fail!! shuffleDeckReq is null!!");
@@ -87,13 +86,13 @@ public class _ShuffleDeckReq implements PacketHandler<GameUser> {
                     resultCode = ErrorCode.DB_ERROR;
                 }
             }
-        } catch (IOException | TimeoutException e) {
+        } catch (TimeoutException e) {
             logger.error("_ShuffleDeckReq::execute()", e);
             resultCode = ErrorCode.UNKNOWN;
         }
 
         shuffleDeckRes.setResultCode(resultCode);
         logger.info("shuffleDeckRes - {}", shuffleDeckRes);
-        gameUser.reply(new Packet(shuffleDeckRes.build()));
+        gameUser.reply(shuffleDeckRes);
     }
 }
