@@ -41,12 +41,6 @@ public class GameConstants {
     public static final String DB_DATABASE = "taptap";          // 구축한 DB 의 이름 정보
     public static final int MAX_ACTIVE_CONNECTION = 30;
 
-    // 게임베이스 기본 url
-    public static final String GAMEBASE_DEFAULT_URL = "https://api-gamebase.cloud.toast.com";
-
-    // 게임베이스 시크릿키
-    public static final String GAMEBASE_SECRET_KEY = "oNQMhNXW";
-
     public static final boolean USE_DB_JASYNC_SQL = true;
 
 }

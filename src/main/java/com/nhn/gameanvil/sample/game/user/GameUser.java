@@ -7,8 +7,8 @@ import com.nhn.gameanvil.exceptions.GameAnvilException;
 import com.nhn.gameanvil.node.game.BaseUser;
 import com.nhn.gameanvil.node.game.data.RoomMatchResult;
 import com.nhn.gameanvil.packet.Packet;
-import com.nhn.gameanvil.packet.PacketDispatcher;
 import com.nhn.gameanvil.packet.Payload;
+import com.nhn.gameanvil.packet.message.MessageDispatcher;
 import com.nhn.gameanvil.sample.common.GameConstants;
 import com.nhn.gameanvil.sample.db.mybatis.UserDbHelperService;
 import com.nhn.gameanvil.sample.game.GameNode;
@@ -20,21 +20,19 @@ import com.nhn.gameanvil.sample.game.user._handler._ShuffleDeckReq;
 import com.nhn.gameanvil.sample.game.user._handler._SingleScoreRankingReq;
 import com.nhn.gameanvil.sample.game.user.model.GameUserInfo;
 import com.nhn.gameanvil.sample.game.user.model.GameUserTransferInfo;
-import com.nhn.gameanvil.sample.protocol.Authentication;
-import com.nhn.gameanvil.sample.protocol.GameMulti;
+import com.nhn.gameanvil.sample.protocol.*;
 import com.nhn.gameanvil.sample.protocol.GameMulti.RoomUserData;
-import com.nhn.gameanvil.sample.protocol.GameSingle;
-import com.nhn.gameanvil.sample.protocol.Result;
 import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
-import com.nhn.gameanvil.sample.protocol.User;
 import com.nhn.gameanvil.sample.protocol.User.RoomGameType;
 import com.nhn.gameanvil.serializer.TransferPack;
 import com.nhn.gameanvil.timer.Timer;
 import com.nhn.gameanvil.timer.TimerHandler;
+import org.slf4j.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * 게임에서 사용 하는 게임 유저
@@ -42,9 +40,9 @@ import org.slf4j.LoggerFactory;
 @ServiceName(GameConstants.GAME_NAME)
 @UserType(GameConstants.GAME_USER_TYPE)
 public class GameUser extends BaseUser implements TimerHandler {
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger logger = getLogger(GameUser.class);
 
-    static private PacketDispatcher packetDispatcher = new PacketDispatcher();
+    private static final MessageDispatcher<GameUser> packetDispatcher = new MessageDispatcher<>();
 
     // 유저 필요한 데이터 객체
     private GameUserInfo gameUserInfo = new GameUserInfo();
@@ -53,9 +51,14 @@ public class GameUser extends BaseUser implements TimerHandler {
     private List<SnakePositionInfo> snakePositionInfoList = new ArrayList<>();
 
     static {
-        packetDispatcher.registerMsg(User.ChangeNicknameReq.getDescriptor(), _ChangeNicknameReq.class);           // 닉네임 변경 프로토콜
-        packetDispatcher.registerMsg(User.ShuffleDeckReq.getDescriptor(), _ShuffleDeckReq.class);                 // 덱 셔플 프로토콜
-        packetDispatcher.registerMsg(GameSingle.ScoreRankingReq.getDescriptor(), _SingleScoreRankingReq.class);   // 싱글 점수 랭킹
+        packetDispatcher.registerMsg(User.ChangeNicknameReq.class, _ChangeNicknameReq.class);           // 닉네임 변경 프로토콜
+        packetDispatcher.registerMsg(User.ShuffleDeckReq.class, _ShuffleDeckReq.class);                 // 덱 셔플 프로토콜
+        packetDispatcher.registerMsg(GameSingle.ScoreRankingReq.class, _SingleScoreRankingReq.class);   // 싱글 점수 랭킹
+    }
+
+    @Override
+    public MessageDispatcher<GameUser> getMessageDispatcher() {
+        return packetDispatcher;
     }
 
     /**
@@ -83,7 +86,7 @@ public class GameUser extends BaseUser implements TimerHandler {
         } else {
             try {
                 // 로그인 패킷
-                Authentication.LoginReq loginReq = Authentication.LoginReq.parseFrom(loginPacket.getStream());
+                Authentication.LoginReq loginReq = loginPacket.toProtoBufferMessage();
                 logger.debug("onLogin - loginReq : {}", loginReq);
 
                 if (loginReq == null || loginReq.getUuid().isEmpty()) {
@@ -170,7 +173,7 @@ public class GameUser extends BaseUser implements TimerHandler {
             loginRes.setUserdata(getUserDataByProto()); // 유저 데이터
         }
 
-        outPayload.add(new Packet(loginRes));
+        outPayload.add(loginRes);
         return isSuccess;
     }
 
@@ -187,7 +190,7 @@ public class GameUser extends BaseUser implements TimerHandler {
         Authentication.LoginRes.Builder loginRes = Authentication.LoginRes.newBuilder();
         loginRes.setUserdata(getUserDataByProto()); // 유저 데이터
 
-        outPayload.add(new Packet(loginRes));
+        outPayload.add(loginRes);
         return true;
     }
 
@@ -204,11 +207,6 @@ public class GameUser extends BaseUser implements TimerHandler {
                 logger.error("GameUser::onDisconnect()", e);
             }
         }
-    }
-
-    @Override
-    public void onDispatch(Packet packet) throws SuspendExecution {
-        packetDispatcher.dispatch(this, packet);
     }
 
     @Override
@@ -310,7 +308,7 @@ public class GameUser extends BaseUser implements TimerHandler {
         logger.info("onMatchUser - UserId : {}", getUserId());
         try {
             SnakeUserMatchInfo term = new SnakeUserMatchInfo(getUserId(), 100);
-            return matchUser(matchingGroup, roomType, term, payload);
+            return matchUser(matchingGroup, roomType, term);
         } catch (Exception e) {
             logger.error("GameUser::onMatchUser()", e);
         }

@@ -2,24 +2,26 @@ package com.nhn.gameanvil.sample.game;
 
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhn.gameanvil.annotation.ServiceName;
+import com.nhn.gameanvil.node.BaseObject;
 import com.nhn.gameanvil.node.game.BaseGameNode;
 import com.nhn.gameanvil.node.game.data.BaseChannelRoomInfo;
 import com.nhn.gameanvil.node.game.data.BaseChannelUserInfo;
 import com.nhn.gameanvil.node.game.data.ChannelUpdateType;
-import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.Payload;
+import com.nhn.gameanvil.packet.message.MessageDispatcher;
 import com.nhn.gameanvil.sample.common.GameConstants;
 import com.nhn.gameanvil.sample.db.jasyncsql.JAsyncSqlManager;
 import com.nhn.gameanvil.sample.redis.RedisHelper;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * 게임 노드
  */
 @ServiceName(GameConstants.GAME_NAME)
 public class GameNode extends BaseGameNode {
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger logger = getLogger(GameNode.class);
     private RedisHelper redisHelper;
     private JAsyncSqlManager jAsyncSqlManager;
 
@@ -44,11 +46,6 @@ public class GameNode extends BaseGameNode {
     @Override
     public void onReady() throws SuspendExecution {
         logger.info("onReady");
-    }
-
-    @Override
-    public void onDispatch(Packet packet) throws SuspendExecution {
-        logger.info("onDispatch");
     }
 
     @Override
@@ -120,5 +117,10 @@ public class GameNode extends BaseGameNode {
 
     public JAsyncSqlManager getJAsyncSqlManager() {
         return jAsyncSqlManager;
+    }
+
+    @Override
+    public MessageDispatcher<? extends BaseObject> getMessageDispatcher() {
+        return null;
     }
 }

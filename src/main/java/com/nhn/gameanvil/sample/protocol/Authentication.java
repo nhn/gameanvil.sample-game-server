@@ -53,6 +53,8 @@ public final class Authentication {
     }
 
     /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -60,6 +62,10 @@ public final class Authentication {
       return forNumber(value);
     }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
     public static LoginType forNumber(int value) {
       switch (value) {
         case 0: return LOGIN_NONE;
@@ -82,6 +88,10 @@ public final class Authentication {
 
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
       return getDescriptor().getValues().get(ordinal());
     }
     public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -122,10 +132,12 @@ public final class Authentication {
 
     /**
      * <code>string accessToken = 1;</code>
+     * @return The accessToken.
      */
     java.lang.String getAccessToken();
     /**
      * <code>string accessToken = 1;</code>
+     * @return The bytes for accessToken.
      */
     com.google.protobuf.ByteString
         getAccessTokenBytes();
@@ -137,7 +149,7 @@ public final class Authentication {
    *
    * Protobuf type {@code com.nhn.gameanvil.sample.protocol.AuthenticationReq}
    */
-  public  static final class AuthenticationReq extends
+  public static final class AuthenticationReq extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.nhn.gameanvil.sample.protocol.AuthenticationReq)
       AuthenticationReqOrBuilder {
@@ -151,54 +163,12 @@ public final class Authentication {
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AuthenticationReq();
     }
-    private AuthenticationReq(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
 
-              accessToken_ = s;
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.nhn.gameanvil.sample.protocol.Authentication.internal_static_com_nhn_gameanvil_sample_protocol_AuthenticationReq_descriptor;
@@ -213,10 +183,13 @@ public final class Authentication {
     }
 
     public static final int ACCESSTOKEN_FIELD_NUMBER = 1;
-    private volatile java.lang.Object accessToken_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object accessToken_ = "";
     /**
      * <code>string accessToken = 1;</code>
+     * @return The accessToken.
      */
+    @java.lang.Override
     public java.lang.String getAccessToken() {
       java.lang.Object ref = accessToken_;
       if (ref instanceof java.lang.String) {
@@ -231,7 +204,9 @@ public final class Authentication {
     }
     /**
      * <code>string accessToken = 1;</code>
+     * @return The bytes for accessToken.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getAccessTokenBytes() {
       java.lang.Object ref = accessToken_;
@@ -260,10 +235,10 @@ public final class Authentication {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getAccessTokenBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(accessToken_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, accessToken_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -272,10 +247,10 @@ public final class Authentication {
       if (size != -1) return size;
 
       size = 0;
-      if (!getAccessTokenBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(accessToken_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, accessToken_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -290,11 +265,10 @@ public final class Authentication {
       }
       com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationReq other = (com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationReq) obj;
 
-      boolean result = true;
-      result = result && getAccessToken()
-          .equals(other.getAccessToken());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getAccessToken()
+          .equals(other.getAccessToken())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -306,7 +280,7 @@ public final class Authentication {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ACCESSTOKEN_FIELD_NUMBER;
       hash = (53 * hash) + getAccessToken().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -355,11 +329,13 @@ public final class Authentication {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationReq parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationReq parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -427,24 +403,19 @@ public final class Authentication {
 
       // Construct using com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationReq.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         accessToken_ = "";
-
         return this;
       }
 
@@ -471,42 +442,49 @@ public final class Authentication {
       @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationReq buildPartial() {
         com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationReq result = new com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationReq(this);
-        result.accessToken_ = accessToken_;
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
+      private void buildPartial0(com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationReq result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.accessToken_ = accessToken_;
+        }
+      }
+
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -522,9 +500,10 @@ public final class Authentication {
         if (other == com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationReq.getDefaultInstance()) return this;
         if (!other.getAccessToken().isEmpty()) {
           accessToken_ = other.accessToken_;
+          bitField0_ |= 0x00000001;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -539,23 +518,43 @@ public final class Authentication {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationReq parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                accessToken_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationReq) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object accessToken_ = "";
       /**
        * <code>string accessToken = 1;</code>
+       * @return The accessToken.
        */
       public java.lang.String getAccessToken() {
         java.lang.Object ref = accessToken_;
@@ -571,6 +570,7 @@ public final class Authentication {
       }
       /**
        * <code>string accessToken = 1;</code>
+       * @return The bytes for accessToken.
        */
       public com.google.protobuf.ByteString
           getAccessTokenBytes() {
@@ -587,44 +587,45 @@ public final class Authentication {
       }
       /**
        * <code>string accessToken = 1;</code>
+       * @param value The accessToken to set.
+       * @return This builder for chaining.
        */
       public Builder setAccessToken(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         accessToken_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <code>string accessToken = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAccessToken() {
-        
         accessToken_ = getDefaultInstance().getAccessToken();
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>string accessToken = 1;</code>
+       * @param value The bytes for accessToken to set.
+       * @return This builder for chaining.
        */
       public Builder setAccessTokenBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         accessToken_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -654,7 +655,18 @@ public final class Authentication {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AuthenticationReq(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -680,17 +692,19 @@ public final class Authentication {
 
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The enum numeric value on the wire for errorCode.
      */
     int getErrorCodeValue();
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The errorCode.
      */
     com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode();
   }
   /**
    * Protobuf type {@code com.nhn.gameanvil.sample.protocol.AuthenticationRes}
    */
-  public  static final class AuthenticationRes extends
+  public static final class AuthenticationRes extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.nhn.gameanvil.sample.protocol.AuthenticationRes)
       AuthenticationResOrBuilder {
@@ -704,54 +718,12 @@ public final class Authentication {
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new AuthenticationRes();
     }
-    private AuthenticationRes(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-              int rawValue = input.readEnum();
 
-              errorCode_ = rawValue;
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.nhn.gameanvil.sample.protocol.Authentication.internal_static_com_nhn_gameanvil_sample_protocol_AuthenticationRes_descriptor;
@@ -766,19 +738,20 @@ public final class Authentication {
     }
 
     public static final int ERRORCODE_FIELD_NUMBER = 1;
-    private int errorCode_;
+    private int errorCode_ = 0;
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The enum numeric value on the wire for errorCode.
      */
-    public int getErrorCodeValue() {
+    @java.lang.Override public int getErrorCodeValue() {
       return errorCode_;
     }
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The errorCode.
      */
-    public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode() {
-      @SuppressWarnings("deprecation")
-      com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.valueOf(errorCode_);
+    @java.lang.Override public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode() {
+      com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.forNumber(errorCode_);
       return result == null ? com.nhn.gameanvil.sample.protocol.Result.ErrorCode.UNRECOGNIZED : result;
     }
 
@@ -799,7 +772,7 @@ public final class Authentication {
       if (errorCode_ != com.nhn.gameanvil.sample.protocol.Result.ErrorCode.NONE.getNumber()) {
         output.writeEnum(1, errorCode_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -812,7 +785,7 @@ public final class Authentication {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, errorCode_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -827,10 +800,9 @@ public final class Authentication {
       }
       com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationRes other = (com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationRes) obj;
 
-      boolean result = true;
-      result = result && errorCode_ == other.errorCode_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (errorCode_ != other.errorCode_) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -842,7 +814,7 @@ public final class Authentication {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ERRORCODE_FIELD_NUMBER;
       hash = (53 * hash) + errorCode_;
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -891,11 +863,13 @@ public final class Authentication {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationRes parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationRes parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -959,24 +933,19 @@ public final class Authentication {
 
       // Construct using com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationRes.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         errorCode_ = 0;
-
         return this;
       }
 
@@ -1003,42 +972,49 @@ public final class Authentication {
       @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationRes buildPartial() {
         com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationRes result = new com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationRes(this);
-        result.errorCode_ = errorCode_;
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
+      private void buildPartial0(com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationRes result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.errorCode_ = errorCode_;
+        }
+      }
+
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1055,7 +1031,7 @@ public final class Authentication {
         if (other.errorCode_ != 0) {
           setErrorCodeValue(other.getErrorCodeValue());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -1070,60 +1046,87 @@ public final class Authentication {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationRes parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                errorCode_ = input.readEnum();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.nhn.gameanvil.sample.protocol.Authentication.AuthenticationRes) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
+      private int bitField0_;
 
       private int errorCode_ = 0;
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @return The enum numeric value on the wire for errorCode.
        */
-      public int getErrorCodeValue() {
+      @java.lang.Override public int getErrorCodeValue() {
         return errorCode_;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @param value The enum numeric value on the wire for errorCode to set.
+       * @return This builder for chaining.
        */
       public Builder setErrorCodeValue(int value) {
         errorCode_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @return The errorCode.
        */
+      @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode() {
-        @SuppressWarnings("deprecation")
-        com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.valueOf(errorCode_);
+        com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.forNumber(errorCode_);
         return result == null ? com.nhn.gameanvil.sample.protocol.Result.ErrorCode.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @param value The errorCode to set.
+       * @return This builder for chaining.
        */
       public Builder setErrorCode(com.nhn.gameanvil.sample.protocol.Result.ErrorCode value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+        bitField0_ |= 0x00000001;
         errorCode_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearErrorCode() {
-        
+        bitField0_ = (bitField0_ & ~0x00000001);
         errorCode_ = 0;
         onChanged();
         return this;
@@ -1131,7 +1134,7 @@ public final class Authentication {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -1161,7 +1164,18 @@ public final class Authentication {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AuthenticationRes(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -1187,69 +1201,83 @@ public final class Authentication {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
 
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.LoginType loginType = 2;</code>
+     * @return The enum numeric value on the wire for loginType.
      */
     int getLoginTypeValue();
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.LoginType loginType = 2;</code>
+     * @return The loginType.
      */
     com.nhn.gameanvil.sample.protocol.Authentication.LoginType getLoginType();
 
     /**
      * <code>string appVersion = 3;</code>
+     * @return The appVersion.
      */
     java.lang.String getAppVersion();
     /**
      * <code>string appVersion = 3;</code>
+     * @return The bytes for appVersion.
      */
     com.google.protobuf.ByteString
         getAppVersionBytes();
 
     /**
      * <code>string appStore = 4;</code>
+     * @return The appStore.
      */
     java.lang.String getAppStore();
     /**
      * <code>string appStore = 4;</code>
+     * @return The bytes for appStore.
      */
     com.google.protobuf.ByteString
         getAppStoreBytes();
 
     /**
      * <code>string deviceModel = 5;</code>
+     * @return The deviceModel.
      */
     java.lang.String getDeviceModel();
     /**
      * <code>string deviceModel = 5;</code>
+     * @return The bytes for deviceModel.
      */
     com.google.protobuf.ByteString
         getDeviceModelBytes();
 
     /**
      * <code>string deviceCountry = 6;</code>
+     * @return The deviceCountry.
      */
     java.lang.String getDeviceCountry();
     /**
      * <code>string deviceCountry = 6;</code>
+     * @return The bytes for deviceCountry.
      */
     com.google.protobuf.ByteString
         getDeviceCountryBytes();
 
     /**
      * <code>string deviceLanguage = 7;</code>
+     * @return The deviceLanguage.
      */
     java.lang.String getDeviceLanguage();
     /**
      * <code>string deviceLanguage = 7;</code>
+     * @return The bytes for deviceLanguage.
      */
     com.google.protobuf.ByteString
         getDeviceLanguageBytes();
@@ -1261,7 +1289,7 @@ public final class Authentication {
    *
    * Protobuf type {@code com.nhn.gameanvil.sample.protocol.LoginReq}
    */
-  public  static final class LoginReq extends
+  public static final class LoginReq extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.nhn.gameanvil.sample.protocol.LoginReq)
       LoginReqOrBuilder {
@@ -1281,90 +1309,12 @@ public final class Authentication {
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LoginReq();
     }
-    private LoginReq(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
 
-              uuid_ = s;
-              break;
-            }
-            case 16: {
-              int rawValue = input.readEnum();
-
-              loginType_ = rawValue;
-              break;
-            }
-            case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              appVersion_ = s;
-              break;
-            }
-            case 34: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              appStore_ = s;
-              break;
-            }
-            case 42: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              deviceModel_ = s;
-              break;
-            }
-            case 50: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              deviceCountry_ = s;
-              break;
-            }
-            case 58: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              deviceLanguage_ = s;
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.nhn.gameanvil.sample.protocol.Authentication.internal_static_com_nhn_gameanvil_sample_protocol_LoginReq_descriptor;
@@ -1379,10 +1329,13 @@ public final class Authentication {
     }
 
     public static final int UUID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object uuid_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object uuid_ = "";
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
+    @java.lang.Override
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
       if (ref instanceof java.lang.String) {
@@ -1397,7 +1350,9 @@ public final class Authentication {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getUuidBytes() {
       java.lang.Object ref = uuid_;
@@ -1413,27 +1368,31 @@ public final class Authentication {
     }
 
     public static final int LOGINTYPE_FIELD_NUMBER = 2;
-    private int loginType_;
+    private int loginType_ = 0;
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.LoginType loginType = 2;</code>
+     * @return The enum numeric value on the wire for loginType.
      */
-    public int getLoginTypeValue() {
+    @java.lang.Override public int getLoginTypeValue() {
       return loginType_;
     }
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.LoginType loginType = 2;</code>
+     * @return The loginType.
      */
-    public com.nhn.gameanvil.sample.protocol.Authentication.LoginType getLoginType() {
-      @SuppressWarnings("deprecation")
-      com.nhn.gameanvil.sample.protocol.Authentication.LoginType result = com.nhn.gameanvil.sample.protocol.Authentication.LoginType.valueOf(loginType_);
+    @java.lang.Override public com.nhn.gameanvil.sample.protocol.Authentication.LoginType getLoginType() {
+      com.nhn.gameanvil.sample.protocol.Authentication.LoginType result = com.nhn.gameanvil.sample.protocol.Authentication.LoginType.forNumber(loginType_);
       return result == null ? com.nhn.gameanvil.sample.protocol.Authentication.LoginType.UNRECOGNIZED : result;
     }
 
     public static final int APPVERSION_FIELD_NUMBER = 3;
-    private volatile java.lang.Object appVersion_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object appVersion_ = "";
     /**
      * <code>string appVersion = 3;</code>
+     * @return The appVersion.
      */
+    @java.lang.Override
     public java.lang.String getAppVersion() {
       java.lang.Object ref = appVersion_;
       if (ref instanceof java.lang.String) {
@@ -1448,7 +1407,9 @@ public final class Authentication {
     }
     /**
      * <code>string appVersion = 3;</code>
+     * @return The bytes for appVersion.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getAppVersionBytes() {
       java.lang.Object ref = appVersion_;
@@ -1464,10 +1425,13 @@ public final class Authentication {
     }
 
     public static final int APPSTORE_FIELD_NUMBER = 4;
-    private volatile java.lang.Object appStore_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object appStore_ = "";
     /**
      * <code>string appStore = 4;</code>
+     * @return The appStore.
      */
+    @java.lang.Override
     public java.lang.String getAppStore() {
       java.lang.Object ref = appStore_;
       if (ref instanceof java.lang.String) {
@@ -1482,7 +1446,9 @@ public final class Authentication {
     }
     /**
      * <code>string appStore = 4;</code>
+     * @return The bytes for appStore.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getAppStoreBytes() {
       java.lang.Object ref = appStore_;
@@ -1498,10 +1464,13 @@ public final class Authentication {
     }
 
     public static final int DEVICEMODEL_FIELD_NUMBER = 5;
-    private volatile java.lang.Object deviceModel_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object deviceModel_ = "";
     /**
      * <code>string deviceModel = 5;</code>
+     * @return The deviceModel.
      */
+    @java.lang.Override
     public java.lang.String getDeviceModel() {
       java.lang.Object ref = deviceModel_;
       if (ref instanceof java.lang.String) {
@@ -1516,7 +1485,9 @@ public final class Authentication {
     }
     /**
      * <code>string deviceModel = 5;</code>
+     * @return The bytes for deviceModel.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDeviceModelBytes() {
       java.lang.Object ref = deviceModel_;
@@ -1532,10 +1503,13 @@ public final class Authentication {
     }
 
     public static final int DEVICECOUNTRY_FIELD_NUMBER = 6;
-    private volatile java.lang.Object deviceCountry_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object deviceCountry_ = "";
     /**
      * <code>string deviceCountry = 6;</code>
+     * @return The deviceCountry.
      */
+    @java.lang.Override
     public java.lang.String getDeviceCountry() {
       java.lang.Object ref = deviceCountry_;
       if (ref instanceof java.lang.String) {
@@ -1550,7 +1524,9 @@ public final class Authentication {
     }
     /**
      * <code>string deviceCountry = 6;</code>
+     * @return The bytes for deviceCountry.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDeviceCountryBytes() {
       java.lang.Object ref = deviceCountry_;
@@ -1566,10 +1542,13 @@ public final class Authentication {
     }
 
     public static final int DEVICELANGUAGE_FIELD_NUMBER = 7;
-    private volatile java.lang.Object deviceLanguage_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object deviceLanguage_ = "";
     /**
      * <code>string deviceLanguage = 7;</code>
+     * @return The deviceLanguage.
      */
+    @java.lang.Override
     public java.lang.String getDeviceLanguage() {
       java.lang.Object ref = deviceLanguage_;
       if (ref instanceof java.lang.String) {
@@ -1584,7 +1563,9 @@ public final class Authentication {
     }
     /**
      * <code>string deviceLanguage = 7;</code>
+     * @return The bytes for deviceLanguage.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDeviceLanguageBytes() {
       java.lang.Object ref = deviceLanguage_;
@@ -1613,28 +1594,28 @@ public final class Authentication {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getUuidBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(uuid_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, uuid_);
       }
       if (loginType_ != com.nhn.gameanvil.sample.protocol.Authentication.LoginType.LOGIN_NONE.getNumber()) {
         output.writeEnum(2, loginType_);
       }
-      if (!getAppVersionBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(appVersion_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, appVersion_);
       }
-      if (!getAppStoreBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(appStore_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, appStore_);
       }
-      if (!getDeviceModelBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(deviceModel_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, deviceModel_);
       }
-      if (!getDeviceCountryBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(deviceCountry_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, deviceCountry_);
       }
-      if (!getDeviceLanguageBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(deviceLanguage_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 7, deviceLanguage_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -1643,29 +1624,29 @@ public final class Authentication {
       if (size != -1) return size;
 
       size = 0;
-      if (!getUuidBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(uuid_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, uuid_);
       }
       if (loginType_ != com.nhn.gameanvil.sample.protocol.Authentication.LoginType.LOGIN_NONE.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, loginType_);
       }
-      if (!getAppVersionBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(appVersion_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, appVersion_);
       }
-      if (!getAppStoreBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(appStore_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, appStore_);
       }
-      if (!getDeviceModelBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(deviceModel_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, deviceModel_);
       }
-      if (!getDeviceCountryBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(deviceCountry_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, deviceCountry_);
       }
-      if (!getDeviceLanguageBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(deviceLanguage_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, deviceLanguage_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -1680,22 +1661,21 @@ public final class Authentication {
       }
       com.nhn.gameanvil.sample.protocol.Authentication.LoginReq other = (com.nhn.gameanvil.sample.protocol.Authentication.LoginReq) obj;
 
-      boolean result = true;
-      result = result && getUuid()
-          .equals(other.getUuid());
-      result = result && loginType_ == other.loginType_;
-      result = result && getAppVersion()
-          .equals(other.getAppVersion());
-      result = result && getAppStore()
-          .equals(other.getAppStore());
-      result = result && getDeviceModel()
-          .equals(other.getDeviceModel());
-      result = result && getDeviceCountry()
-          .equals(other.getDeviceCountry());
-      result = result && getDeviceLanguage()
-          .equals(other.getDeviceLanguage());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getUuid()
+          .equals(other.getUuid())) return false;
+      if (loginType_ != other.loginType_) return false;
+      if (!getAppVersion()
+          .equals(other.getAppVersion())) return false;
+      if (!getAppStore()
+          .equals(other.getAppStore())) return false;
+      if (!getDeviceModel()
+          .equals(other.getDeviceModel())) return false;
+      if (!getDeviceCountry()
+          .equals(other.getDeviceCountry())) return false;
+      if (!getDeviceLanguage()
+          .equals(other.getDeviceLanguage())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1719,7 +1699,7 @@ public final class Authentication {
       hash = (53 * hash) + getDeviceCountry().hashCode();
       hash = (37 * hash) + DEVICELANGUAGE_FIELD_NUMBER;
       hash = (53 * hash) + getDeviceLanguage().hashCode();
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -1768,11 +1748,13 @@ public final class Authentication {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.nhn.gameanvil.sample.protocol.Authentication.LoginReq parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.nhn.gameanvil.sample.protocol.Authentication.LoginReq parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1840,36 +1822,25 @@ public final class Authentication {
 
       // Construct using com.nhn.gameanvil.sample.protocol.Authentication.LoginReq.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         uuid_ = "";
-
         loginType_ = 0;
-
         appVersion_ = "";
-
         appStore_ = "";
-
         deviceModel_ = "";
-
         deviceCountry_ = "";
-
         deviceLanguage_ = "";
-
         return this;
       }
 
@@ -1896,48 +1867,67 @@ public final class Authentication {
       @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.Authentication.LoginReq buildPartial() {
         com.nhn.gameanvil.sample.protocol.Authentication.LoginReq result = new com.nhn.gameanvil.sample.protocol.Authentication.LoginReq(this);
-        result.uuid_ = uuid_;
-        result.loginType_ = loginType_;
-        result.appVersion_ = appVersion_;
-        result.appStore_ = appStore_;
-        result.deviceModel_ = deviceModel_;
-        result.deviceCountry_ = deviceCountry_;
-        result.deviceLanguage_ = deviceLanguage_;
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
+      private void buildPartial0(com.nhn.gameanvil.sample.protocol.Authentication.LoginReq result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.uuid_ = uuid_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.loginType_ = loginType_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.appVersion_ = appVersion_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.appStore_ = appStore_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.deviceModel_ = deviceModel_;
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.deviceCountry_ = deviceCountry_;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.deviceLanguage_ = deviceLanguage_;
+        }
+      }
+
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1953,6 +1943,7 @@ public final class Authentication {
         if (other == com.nhn.gameanvil.sample.protocol.Authentication.LoginReq.getDefaultInstance()) return this;
         if (!other.getUuid().isEmpty()) {
           uuid_ = other.uuid_;
+          bitField0_ |= 0x00000001;
           onChanged();
         }
         if (other.loginType_ != 0) {
@@ -1960,25 +1951,30 @@ public final class Authentication {
         }
         if (!other.getAppVersion().isEmpty()) {
           appVersion_ = other.appVersion_;
+          bitField0_ |= 0x00000004;
           onChanged();
         }
         if (!other.getAppStore().isEmpty()) {
           appStore_ = other.appStore_;
+          bitField0_ |= 0x00000008;
           onChanged();
         }
         if (!other.getDeviceModel().isEmpty()) {
           deviceModel_ = other.deviceModel_;
+          bitField0_ |= 0x00000010;
           onChanged();
         }
         if (!other.getDeviceCountry().isEmpty()) {
           deviceCountry_ = other.deviceCountry_;
+          bitField0_ |= 0x00000020;
           onChanged();
         }
         if (!other.getDeviceLanguage().isEmpty()) {
           deviceLanguage_ = other.deviceLanguage_;
+          bitField0_ |= 0x00000040;
           onChanged();
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -1993,23 +1989,73 @@ public final class Authentication {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.nhn.gameanvil.sample.protocol.Authentication.LoginReq parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                uuid_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 16: {
+                loginType_ = input.readEnum();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 26: {
+                appVersion_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 26
+              case 34: {
+                appStore_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 34
+              case 42: {
+                deviceModel_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 42
+              case 50: {
+                deviceCountry_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 50
+              case 58: {
+                deviceLanguage_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000040;
+                break;
+              } // case 58
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.nhn.gameanvil.sample.protocol.Authentication.LoginReq) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -2025,6 +2071,7 @@ public final class Authentication {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -2041,37 +2088,38 @@ public final class Authentication {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         uuid_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
-        
         uuid_ = getDefaultInstance().getUuid();
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         uuid_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -2079,43 +2127,51 @@ public final class Authentication {
       private int loginType_ = 0;
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.LoginType loginType = 2;</code>
+       * @return The enum numeric value on the wire for loginType.
        */
-      public int getLoginTypeValue() {
+      @java.lang.Override public int getLoginTypeValue() {
         return loginType_;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.LoginType loginType = 2;</code>
+       * @param value The enum numeric value on the wire for loginType to set.
+       * @return This builder for chaining.
        */
       public Builder setLoginTypeValue(int value) {
         loginType_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.LoginType loginType = 2;</code>
+       * @return The loginType.
        */
+      @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.Authentication.LoginType getLoginType() {
-        @SuppressWarnings("deprecation")
-        com.nhn.gameanvil.sample.protocol.Authentication.LoginType result = com.nhn.gameanvil.sample.protocol.Authentication.LoginType.valueOf(loginType_);
+        com.nhn.gameanvil.sample.protocol.Authentication.LoginType result = com.nhn.gameanvil.sample.protocol.Authentication.LoginType.forNumber(loginType_);
         return result == null ? com.nhn.gameanvil.sample.protocol.Authentication.LoginType.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.LoginType loginType = 2;</code>
+       * @param value The loginType to set.
+       * @return This builder for chaining.
        */
       public Builder setLoginType(com.nhn.gameanvil.sample.protocol.Authentication.LoginType value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+        bitField0_ |= 0x00000002;
         loginType_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.LoginType loginType = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearLoginType() {
-        
+        bitField0_ = (bitField0_ & ~0x00000002);
         loginType_ = 0;
         onChanged();
         return this;
@@ -2124,6 +2180,7 @@ public final class Authentication {
       private java.lang.Object appVersion_ = "";
       /**
        * <code>string appVersion = 3;</code>
+       * @return The appVersion.
        */
       public java.lang.String getAppVersion() {
         java.lang.Object ref = appVersion_;
@@ -2139,6 +2196,7 @@ public final class Authentication {
       }
       /**
        * <code>string appVersion = 3;</code>
+       * @return The bytes for appVersion.
        */
       public com.google.protobuf.ByteString
           getAppVersionBytes() {
@@ -2155,37 +2213,38 @@ public final class Authentication {
       }
       /**
        * <code>string appVersion = 3;</code>
+       * @param value The appVersion to set.
+       * @return This builder for chaining.
        */
       public Builder setAppVersion(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         appVersion_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
       /**
        * <code>string appVersion = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAppVersion() {
-        
         appVersion_ = getDefaultInstance().getAppVersion();
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
       /**
        * <code>string appVersion = 3;</code>
+       * @param value The bytes for appVersion to set.
+       * @return This builder for chaining.
        */
       public Builder setAppVersionBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         appVersion_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -2193,6 +2252,7 @@ public final class Authentication {
       private java.lang.Object appStore_ = "";
       /**
        * <code>string appStore = 4;</code>
+       * @return The appStore.
        */
       public java.lang.String getAppStore() {
         java.lang.Object ref = appStore_;
@@ -2208,6 +2268,7 @@ public final class Authentication {
       }
       /**
        * <code>string appStore = 4;</code>
+       * @return The bytes for appStore.
        */
       public com.google.protobuf.ByteString
           getAppStoreBytes() {
@@ -2224,37 +2285,38 @@ public final class Authentication {
       }
       /**
        * <code>string appStore = 4;</code>
+       * @param value The appStore to set.
+       * @return This builder for chaining.
        */
       public Builder setAppStore(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         appStore_ = value;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
       /**
        * <code>string appStore = 4;</code>
+       * @return This builder for chaining.
        */
       public Builder clearAppStore() {
-        
         appStore_ = getDefaultInstance().getAppStore();
+        bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
         return this;
       }
       /**
        * <code>string appStore = 4;</code>
+       * @param value The bytes for appStore to set.
+       * @return This builder for chaining.
        */
       public Builder setAppStoreBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         appStore_ = value;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -2262,6 +2324,7 @@ public final class Authentication {
       private java.lang.Object deviceModel_ = "";
       /**
        * <code>string deviceModel = 5;</code>
+       * @return The deviceModel.
        */
       public java.lang.String getDeviceModel() {
         java.lang.Object ref = deviceModel_;
@@ -2277,6 +2340,7 @@ public final class Authentication {
       }
       /**
        * <code>string deviceModel = 5;</code>
+       * @return The bytes for deviceModel.
        */
       public com.google.protobuf.ByteString
           getDeviceModelBytes() {
@@ -2293,37 +2357,38 @@ public final class Authentication {
       }
       /**
        * <code>string deviceModel = 5;</code>
+       * @param value The deviceModel to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceModel(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         deviceModel_ = value;
+        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
       /**
        * <code>string deviceModel = 5;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeviceModel() {
-        
         deviceModel_ = getDefaultInstance().getDeviceModel();
+        bitField0_ = (bitField0_ & ~0x00000010);
         onChanged();
         return this;
       }
       /**
        * <code>string deviceModel = 5;</code>
+       * @param value The bytes for deviceModel to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceModelBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         deviceModel_ = value;
+        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
@@ -2331,6 +2396,7 @@ public final class Authentication {
       private java.lang.Object deviceCountry_ = "";
       /**
        * <code>string deviceCountry = 6;</code>
+       * @return The deviceCountry.
        */
       public java.lang.String getDeviceCountry() {
         java.lang.Object ref = deviceCountry_;
@@ -2346,6 +2412,7 @@ public final class Authentication {
       }
       /**
        * <code>string deviceCountry = 6;</code>
+       * @return The bytes for deviceCountry.
        */
       public com.google.protobuf.ByteString
           getDeviceCountryBytes() {
@@ -2362,37 +2429,38 @@ public final class Authentication {
       }
       /**
        * <code>string deviceCountry = 6;</code>
+       * @param value The deviceCountry to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceCountry(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         deviceCountry_ = value;
+        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
       /**
        * <code>string deviceCountry = 6;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeviceCountry() {
-        
         deviceCountry_ = getDefaultInstance().getDeviceCountry();
+        bitField0_ = (bitField0_ & ~0x00000020);
         onChanged();
         return this;
       }
       /**
        * <code>string deviceCountry = 6;</code>
+       * @param value The bytes for deviceCountry to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceCountryBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         deviceCountry_ = value;
+        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -2400,6 +2468,7 @@ public final class Authentication {
       private java.lang.Object deviceLanguage_ = "";
       /**
        * <code>string deviceLanguage = 7;</code>
+       * @return The deviceLanguage.
        */
       public java.lang.String getDeviceLanguage() {
         java.lang.Object ref = deviceLanguage_;
@@ -2415,6 +2484,7 @@ public final class Authentication {
       }
       /**
        * <code>string deviceLanguage = 7;</code>
+       * @return The bytes for deviceLanguage.
        */
       public com.google.protobuf.ByteString
           getDeviceLanguageBytes() {
@@ -2431,44 +2501,45 @@ public final class Authentication {
       }
       /**
        * <code>string deviceLanguage = 7;</code>
+       * @param value The deviceLanguage to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceLanguage(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         deviceLanguage_ = value;
+        bitField0_ |= 0x00000040;
         onChanged();
         return this;
       }
       /**
        * <code>string deviceLanguage = 7;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeviceLanguage() {
-        
         deviceLanguage_ = getDefaultInstance().getDeviceLanguage();
+        bitField0_ = (bitField0_ & ~0x00000040);
         onChanged();
         return this;
       }
       /**
        * <code>string deviceLanguage = 7;</code>
+       * @param value The bytes for deviceLanguage to set.
+       * @return This builder for chaining.
        */
       public Builder setDeviceLanguageBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         deviceLanguage_ = value;
+        bitField0_ |= 0x00000040;
         onChanged();
         return this;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -2498,7 +2569,18 @@ public final class Authentication {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new LoginReq(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -2524,19 +2606,23 @@ public final class Authentication {
 
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The enum numeric value on the wire for errorCode.
      */
     int getErrorCodeValue();
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The errorCode.
      */
     com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode();
 
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.UserData userdata = 2;</code>
+     * @return Whether the userdata field is set.
      */
     boolean hasUserdata();
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.UserData userdata = 2;</code>
+     * @return The userdata.
      */
     com.nhn.gameanvil.sample.protocol.User.UserData getUserdata();
     /**
@@ -2551,7 +2637,7 @@ public final class Authentication {
    *
    * Protobuf type {@code com.nhn.gameanvil.sample.protocol.LoginRes}
    */
-  public  static final class LoginRes extends
+  public static final class LoginRes extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.nhn.gameanvil.sample.protocol.LoginRes)
       LoginResOrBuilder {
@@ -2565,67 +2651,12 @@ public final class Authentication {
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new LoginRes();
     }
-    private LoginRes(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-              int rawValue = input.readEnum();
 
-              errorCode_ = rawValue;
-              break;
-            }
-            case 18: {
-              com.nhn.gameanvil.sample.protocol.User.UserData.Builder subBuilder = null;
-              if (userdata_ != null) {
-                subBuilder = userdata_.toBuilder();
-              }
-              userdata_ = input.readMessage(com.nhn.gameanvil.sample.protocol.User.UserData.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(userdata_);
-                userdata_ = subBuilder.buildPartial();
-              }
-
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.nhn.gameanvil.sample.protocol.Authentication.internal_static_com_nhn_gameanvil_sample_protocol_LoginRes_descriptor;
@@ -2639,20 +2670,22 @@ public final class Authentication {
               com.nhn.gameanvil.sample.protocol.Authentication.LoginRes.class, com.nhn.gameanvil.sample.protocol.Authentication.LoginRes.Builder.class);
     }
 
+    private int bitField0_;
     public static final int ERRORCODE_FIELD_NUMBER = 1;
-    private int errorCode_;
+    private int errorCode_ = 0;
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The enum numeric value on the wire for errorCode.
      */
-    public int getErrorCodeValue() {
+    @java.lang.Override public int getErrorCodeValue() {
       return errorCode_;
     }
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The errorCode.
      */
-    public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode() {
-      @SuppressWarnings("deprecation")
-      com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.valueOf(errorCode_);
+    @java.lang.Override public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode() {
+      com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.forNumber(errorCode_);
       return result == null ? com.nhn.gameanvil.sample.protocol.Result.ErrorCode.UNRECOGNIZED : result;
     }
 
@@ -2660,21 +2693,26 @@ public final class Authentication {
     private com.nhn.gameanvil.sample.protocol.User.UserData userdata_;
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.UserData userdata = 2;</code>
+     * @return Whether the userdata field is set.
      */
+    @java.lang.Override
     public boolean hasUserdata() {
-      return userdata_ != null;
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.UserData userdata = 2;</code>
+     * @return The userdata.
      */
+    @java.lang.Override
     public com.nhn.gameanvil.sample.protocol.User.UserData getUserdata() {
       return userdata_ == null ? com.nhn.gameanvil.sample.protocol.User.UserData.getDefaultInstance() : userdata_;
     }
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.UserData userdata = 2;</code>
      */
+    @java.lang.Override
     public com.nhn.gameanvil.sample.protocol.User.UserDataOrBuilder getUserdataOrBuilder() {
-      return getUserdata();
+      return userdata_ == null ? com.nhn.gameanvil.sample.protocol.User.UserData.getDefaultInstance() : userdata_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -2694,10 +2732,10 @@ public final class Authentication {
       if (errorCode_ != com.nhn.gameanvil.sample.protocol.Result.ErrorCode.NONE.getNumber()) {
         output.writeEnum(1, errorCode_);
       }
-      if (userdata_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(2, getUserdata());
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -2710,11 +2748,11 @@ public final class Authentication {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, errorCode_);
       }
-      if (userdata_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getUserdata());
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -2729,15 +2767,14 @@ public final class Authentication {
       }
       com.nhn.gameanvil.sample.protocol.Authentication.LoginRes other = (com.nhn.gameanvil.sample.protocol.Authentication.LoginRes) obj;
 
-      boolean result = true;
-      result = result && errorCode_ == other.errorCode_;
-      result = result && (hasUserdata() == other.hasUserdata());
+      if (errorCode_ != other.errorCode_) return false;
+      if (hasUserdata() != other.hasUserdata()) return false;
       if (hasUserdata()) {
-        result = result && getUserdata()
-            .equals(other.getUserdata());
+        if (!getUserdata()
+            .equals(other.getUserdata())) return false;
       }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2753,7 +2790,7 @@ public final class Authentication {
         hash = (37 * hash) + USERDATA_FIELD_NUMBER;
         hash = (53 * hash) + getUserdata().hashCode();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -2802,11 +2839,13 @@ public final class Authentication {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.nhn.gameanvil.sample.protocol.Authentication.LoginRes parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.nhn.gameanvil.sample.protocol.Authentication.LoginRes parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2885,17 +2924,17 @@ public final class Authentication {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getUserdataFieldBuilder();
         }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         errorCode_ = 0;
-
-        if (userdataBuilder_ == null) {
-          userdata_ = null;
-        } else {
-          userdata_ = null;
+        userdata_ = null;
+        if (userdataBuilder_ != null) {
+          userdataBuilder_.dispose();
           userdataBuilder_ = null;
         }
         return this;
@@ -2924,47 +2963,57 @@ public final class Authentication {
       @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.Authentication.LoginRes buildPartial() {
         com.nhn.gameanvil.sample.protocol.Authentication.LoginRes result = new com.nhn.gameanvil.sample.protocol.Authentication.LoginRes(this);
-        result.errorCode_ = errorCode_;
-        if (userdataBuilder_ == null) {
-          result.userdata_ = userdata_;
-        } else {
-          result.userdata_ = userdataBuilder_.build();
-        }
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
+      private void buildPartial0(com.nhn.gameanvil.sample.protocol.Authentication.LoginRes result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.errorCode_ = errorCode_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.userdata_ = userdataBuilder_ == null
+              ? userdata_
+              : userdataBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -2984,7 +3033,7 @@ public final class Authentication {
         if (other.hasUserdata()) {
           mergeUserdata(other.getUserdata());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -2999,76 +3048,112 @@ public final class Authentication {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.nhn.gameanvil.sample.protocol.Authentication.LoginRes parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                errorCode_ = input.readEnum();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                input.readMessage(
+                    getUserdataFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.nhn.gameanvil.sample.protocol.Authentication.LoginRes) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
+      private int bitField0_;
 
       private int errorCode_ = 0;
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @return The enum numeric value on the wire for errorCode.
        */
-      public int getErrorCodeValue() {
+      @java.lang.Override public int getErrorCodeValue() {
         return errorCode_;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @param value The enum numeric value on the wire for errorCode to set.
+       * @return This builder for chaining.
        */
       public Builder setErrorCodeValue(int value) {
         errorCode_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @return The errorCode.
        */
+      @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode() {
-        @SuppressWarnings("deprecation")
-        com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.valueOf(errorCode_);
+        com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.forNumber(errorCode_);
         return result == null ? com.nhn.gameanvil.sample.protocol.Result.ErrorCode.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @param value The errorCode to set.
+       * @return This builder for chaining.
        */
       public Builder setErrorCode(com.nhn.gameanvil.sample.protocol.Result.ErrorCode value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+        bitField0_ |= 0x00000001;
         errorCode_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearErrorCode() {
-        
+        bitField0_ = (bitField0_ & ~0x00000001);
         errorCode_ = 0;
         onChanged();
         return this;
       }
 
-      private com.nhn.gameanvil.sample.protocol.User.UserData userdata_ = null;
+      private com.nhn.gameanvil.sample.protocol.User.UserData userdata_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.nhn.gameanvil.sample.protocol.User.UserData, com.nhn.gameanvil.sample.protocol.User.UserData.Builder, com.nhn.gameanvil.sample.protocol.User.UserDataOrBuilder> userdataBuilder_;
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.UserData userdata = 2;</code>
+       * @return Whether the userdata field is set.
        */
       public boolean hasUserdata() {
-        return userdataBuilder_ != null || userdata_ != null;
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.UserData userdata = 2;</code>
+       * @return The userdata.
        */
       public com.nhn.gameanvil.sample.protocol.User.UserData getUserdata() {
         if (userdataBuilder_ == null) {
@@ -3086,11 +3171,11 @@ public final class Authentication {
             throw new NullPointerException();
           }
           userdata_ = value;
-          onChanged();
         } else {
           userdataBuilder_.setMessage(value);
         }
-
+        bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
@@ -3100,11 +3185,11 @@ public final class Authentication {
           com.nhn.gameanvil.sample.protocol.User.UserData.Builder builderForValue) {
         if (userdataBuilder_ == null) {
           userdata_ = builderForValue.build();
-          onChanged();
         } else {
           userdataBuilder_.setMessage(builderForValue.build());
         }
-
+        bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
@@ -3112,38 +3197,40 @@ public final class Authentication {
        */
       public Builder mergeUserdata(com.nhn.gameanvil.sample.protocol.User.UserData value) {
         if (userdataBuilder_ == null) {
-          if (userdata_ != null) {
-            userdata_ =
-              com.nhn.gameanvil.sample.protocol.User.UserData.newBuilder(userdata_).mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000002) != 0) &&
+            userdata_ != null &&
+            userdata_ != com.nhn.gameanvil.sample.protocol.User.UserData.getDefaultInstance()) {
+            getUserdataBuilder().mergeFrom(value);
           } else {
             userdata_ = value;
           }
-          onChanged();
         } else {
           userdataBuilder_.mergeFrom(value);
         }
-
+        if (userdata_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.UserData userdata = 2;</code>
        */
       public Builder clearUserdata() {
-        if (userdataBuilder_ == null) {
-          userdata_ = null;
-          onChanged();
-        } else {
-          userdata_ = null;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        userdata_ = null;
+        if (userdataBuilder_ != null) {
+          userdataBuilder_.dispose();
           userdataBuilder_ = null;
         }
-
+        onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.UserData userdata = 2;</code>
        */
       public com.nhn.gameanvil.sample.protocol.User.UserData.Builder getUserdataBuilder() {
-        
+        bitField0_ |= 0x00000002;
         onChanged();
         return getUserdataFieldBuilder().getBuilder();
       }
@@ -3177,7 +3264,7 @@ public final class Authentication {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -3207,7 +3294,18 @@ public final class Authentication {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new LoginRes(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -3273,20 +3371,12 @@ public final class Authentication {
       "ype\022\016\n\nLOGIN_NONE\020\000\022\017\n\013LOGIN_GUEST\020\001b\006pr" +
       "oto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.nhn.gameanvil.sample.protocol.Result.getDescriptor(),
           com.nhn.gameanvil.sample.protocol.User.getDescriptor(),
-        }, assigner);
+        });
     internal_static_com_nhn_gameanvil_sample_protocol_AuthenticationReq_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_com_nhn_gameanvil_sample_protocol_AuthenticationReq_fieldAccessorTable = new

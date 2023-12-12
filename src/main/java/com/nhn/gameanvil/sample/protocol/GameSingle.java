@@ -61,6 +61,8 @@ public final class GameSingle {
     }
 
     /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -68,6 +70,10 @@ public final class GameSingle {
       return forNumber(value);
     }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
     public static EndType forNumber(int value) {
       switch (value) {
         case 0: return GAME_END_NONE;
@@ -91,6 +97,10 @@ public final class GameSingle {
 
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
       return getDescriptor().getValues().get(ordinal());
     }
     public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -172,6 +182,8 @@ public final class GameSingle {
     }
 
     /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
      * @deprecated Use {@link #forNumber(int)} instead.
      */
     @java.lang.Deprecated
@@ -179,6 +191,10 @@ public final class GameSingle {
       return forNumber(value);
     }
 
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
     public static DifficultyType forNumber(int value) {
       switch (value) {
         case 0: return DIFFICULTY_NORMAL;
@@ -202,6 +218,10 @@ public final class GameSingle {
 
     public final com.google.protobuf.Descriptors.EnumValueDescriptor
         getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
       return getDescriptor().getValues().get(ordinal());
     }
     public final com.google.protobuf.Descriptors.EnumDescriptor
@@ -242,20 +262,24 @@ public final class GameSingle {
 
     /**
      * <code>string deck = 1;</code>
+     * @return The deck.
      */
     java.lang.String getDeck();
     /**
      * <code>string deck = 1;</code>
+     * @return The bytes for deck.
      */
     com.google.protobuf.ByteString
         getDeckBytes();
 
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.DifficultyType difficulty = 2;</code>
+     * @return The enum numeric value on the wire for difficulty.
      */
     int getDifficultyValue();
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.DifficultyType difficulty = 2;</code>
+     * @return The difficulty.
      */
     com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType getDifficulty();
   }
@@ -266,7 +290,7 @@ public final class GameSingle {
    *
    * Protobuf type {@code com.nhn.gameanvil.sample.protocol.StartGameReq}
    */
-  public  static final class StartGameReq extends
+  public static final class StartGameReq extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.nhn.gameanvil.sample.protocol.StartGameReq)
       StartGameReqOrBuilder {
@@ -281,60 +305,12 @@ public final class GameSingle {
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StartGameReq();
     }
-    private StartGameReq(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
 
-              deck_ = s;
-              break;
-            }
-            case 16: {
-              int rawValue = input.readEnum();
-
-              difficulty_ = rawValue;
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.nhn.gameanvil.sample.protocol.GameSingle.internal_static_com_nhn_gameanvil_sample_protocol_StartGameReq_descriptor;
@@ -349,10 +325,13 @@ public final class GameSingle {
     }
 
     public static final int DECK_FIELD_NUMBER = 1;
-    private volatile java.lang.Object deck_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object deck_ = "";
     /**
      * <code>string deck = 1;</code>
+     * @return The deck.
      */
+    @java.lang.Override
     public java.lang.String getDeck() {
       java.lang.Object ref = deck_;
       if (ref instanceof java.lang.String) {
@@ -367,7 +346,9 @@ public final class GameSingle {
     }
     /**
      * <code>string deck = 1;</code>
+     * @return The bytes for deck.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getDeckBytes() {
       java.lang.Object ref = deck_;
@@ -383,19 +364,20 @@ public final class GameSingle {
     }
 
     public static final int DIFFICULTY_FIELD_NUMBER = 2;
-    private int difficulty_;
+    private int difficulty_ = 0;
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.DifficultyType difficulty = 2;</code>
+     * @return The enum numeric value on the wire for difficulty.
      */
-    public int getDifficultyValue() {
+    @java.lang.Override public int getDifficultyValue() {
       return difficulty_;
     }
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.DifficultyType difficulty = 2;</code>
+     * @return The difficulty.
      */
-    public com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType getDifficulty() {
-      @SuppressWarnings("deprecation")
-      com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType result = com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType.valueOf(difficulty_);
+    @java.lang.Override public com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType getDifficulty() {
+      com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType result = com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType.forNumber(difficulty_);
       return result == null ? com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType.UNRECOGNIZED : result;
     }
 
@@ -413,13 +395,13 @@ public final class GameSingle {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getDeckBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(deck_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, deck_);
       }
       if (difficulty_ != com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType.DIFFICULTY_NORMAL.getNumber()) {
         output.writeEnum(2, difficulty_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -428,14 +410,14 @@ public final class GameSingle {
       if (size != -1) return size;
 
       size = 0;
-      if (!getDeckBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(deck_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, deck_);
       }
       if (difficulty_ != com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType.DIFFICULTY_NORMAL.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, difficulty_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -450,12 +432,11 @@ public final class GameSingle {
       }
       com.nhn.gameanvil.sample.protocol.GameSingle.StartGameReq other = (com.nhn.gameanvil.sample.protocol.GameSingle.StartGameReq) obj;
 
-      boolean result = true;
-      result = result && getDeck()
-          .equals(other.getDeck());
-      result = result && difficulty_ == other.difficulty_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getDeck()
+          .equals(other.getDeck())) return false;
+      if (difficulty_ != other.difficulty_) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -469,7 +450,7 @@ public final class GameSingle {
       hash = (53 * hash) + getDeck().hashCode();
       hash = (37 * hash) + DIFFICULTY_FIELD_NUMBER;
       hash = (53 * hash) + difficulty_;
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -518,11 +499,13 @@ public final class GameSingle {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.StartGameReq parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.StartGameReq parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -590,26 +573,20 @@ public final class GameSingle {
 
       // Construct using com.nhn.gameanvil.sample.protocol.GameSingle.StartGameReq.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         deck_ = "";
-
         difficulty_ = 0;
-
         return this;
       }
 
@@ -636,43 +613,52 @@ public final class GameSingle {
       @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.GameSingle.StartGameReq buildPartial() {
         com.nhn.gameanvil.sample.protocol.GameSingle.StartGameReq result = new com.nhn.gameanvil.sample.protocol.GameSingle.StartGameReq(this);
-        result.deck_ = deck_;
-        result.difficulty_ = difficulty_;
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
+      private void buildPartial0(com.nhn.gameanvil.sample.protocol.GameSingle.StartGameReq result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.deck_ = deck_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.difficulty_ = difficulty_;
+        }
+      }
+
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -688,12 +674,13 @@ public final class GameSingle {
         if (other == com.nhn.gameanvil.sample.protocol.GameSingle.StartGameReq.getDefaultInstance()) return this;
         if (!other.getDeck().isEmpty()) {
           deck_ = other.deck_;
+          bitField0_ |= 0x00000001;
           onChanged();
         }
         if (other.difficulty_ != 0) {
           setDifficultyValue(other.getDifficultyValue());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -708,23 +695,48 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.nhn.gameanvil.sample.protocol.GameSingle.StartGameReq parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                deck_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 16: {
+                difficulty_ = input.readEnum();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.nhn.gameanvil.sample.protocol.GameSingle.StartGameReq) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object deck_ = "";
       /**
        * <code>string deck = 1;</code>
+       * @return The deck.
        */
       public java.lang.String getDeck() {
         java.lang.Object ref = deck_;
@@ -740,6 +752,7 @@ public final class GameSingle {
       }
       /**
        * <code>string deck = 1;</code>
+       * @return The bytes for deck.
        */
       public com.google.protobuf.ByteString
           getDeckBytes() {
@@ -756,37 +769,38 @@ public final class GameSingle {
       }
       /**
        * <code>string deck = 1;</code>
+       * @param value The deck to set.
+       * @return This builder for chaining.
        */
       public Builder setDeck(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         deck_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <code>string deck = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDeck() {
-        
         deck_ = getDefaultInstance().getDeck();
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>string deck = 1;</code>
+       * @param value The bytes for deck to set.
+       * @return This builder for chaining.
        */
       public Builder setDeckBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         deck_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -794,43 +808,51 @@ public final class GameSingle {
       private int difficulty_ = 0;
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.DifficultyType difficulty = 2;</code>
+       * @return The enum numeric value on the wire for difficulty.
        */
-      public int getDifficultyValue() {
+      @java.lang.Override public int getDifficultyValue() {
         return difficulty_;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.DifficultyType difficulty = 2;</code>
+       * @param value The enum numeric value on the wire for difficulty to set.
+       * @return This builder for chaining.
        */
       public Builder setDifficultyValue(int value) {
         difficulty_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.DifficultyType difficulty = 2;</code>
+       * @return The difficulty.
        */
+      @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType getDifficulty() {
-        @SuppressWarnings("deprecation")
-        com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType result = com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType.valueOf(difficulty_);
+        com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType result = com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType.forNumber(difficulty_);
         return result == null ? com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.DifficultyType difficulty = 2;</code>
+       * @param value The difficulty to set.
+       * @return This builder for chaining.
        */
       public Builder setDifficulty(com.nhn.gameanvil.sample.protocol.GameSingle.DifficultyType value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+        bitField0_ |= 0x00000002;
         difficulty_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.DifficultyType difficulty = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearDifficulty() {
-        
+        bitField0_ = (bitField0_ & ~0x00000002);
         difficulty_ = 0;
         onChanged();
         return this;
@@ -838,7 +860,7 @@ public final class GameSingle {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -868,7 +890,18 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new StartGameReq(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -894,22 +927,25 @@ public final class GameSingle {
 
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The enum numeric value on the wire for errorCode.
      */
     int getErrorCodeValue();
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The errorCode.
      */
     com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode();
 
     /**
      * <code>int32 balanceHeart = 2;</code>
+     * @return The balanceHeart.
      */
     int getBalanceHeart();
   }
   /**
    * Protobuf type {@code com.nhn.gameanvil.sample.protocol.StartGameRes}
    */
-  public  static final class StartGameRes extends
+  public static final class StartGameRes extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.nhn.gameanvil.sample.protocol.StartGameRes)
       StartGameResOrBuilder {
@@ -920,63 +956,15 @@ public final class GameSingle {
     }
     private StartGameRes() {
       errorCode_ = 0;
-      balanceHeart_ = 0;
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new StartGameRes();
     }
-    private StartGameRes(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-              int rawValue = input.readEnum();
 
-              errorCode_ = rawValue;
-              break;
-            }
-            case 16: {
-
-              balanceHeart_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.nhn.gameanvil.sample.protocol.GameSingle.internal_static_com_nhn_gameanvil_sample_protocol_StartGameRes_descriptor;
@@ -991,27 +979,30 @@ public final class GameSingle {
     }
 
     public static final int ERRORCODE_FIELD_NUMBER = 1;
-    private int errorCode_;
+    private int errorCode_ = 0;
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The enum numeric value on the wire for errorCode.
      */
-    public int getErrorCodeValue() {
+    @java.lang.Override public int getErrorCodeValue() {
       return errorCode_;
     }
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The errorCode.
      */
-    public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode() {
-      @SuppressWarnings("deprecation")
-      com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.valueOf(errorCode_);
+    @java.lang.Override public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode() {
+      com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.forNumber(errorCode_);
       return result == null ? com.nhn.gameanvil.sample.protocol.Result.ErrorCode.UNRECOGNIZED : result;
     }
 
     public static final int BALANCEHEART_FIELD_NUMBER = 2;
-    private int balanceHeart_;
+    private int balanceHeart_ = 0;
     /**
      * <code>int32 balanceHeart = 2;</code>
+     * @return The balanceHeart.
      */
+    @java.lang.Override
     public int getBalanceHeart() {
       return balanceHeart_;
     }
@@ -1036,7 +1027,7 @@ public final class GameSingle {
       if (balanceHeart_ != 0) {
         output.writeInt32(2, balanceHeart_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -1053,7 +1044,7 @@ public final class GameSingle {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, balanceHeart_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -1068,12 +1059,11 @@ public final class GameSingle {
       }
       com.nhn.gameanvil.sample.protocol.GameSingle.StartGameRes other = (com.nhn.gameanvil.sample.protocol.GameSingle.StartGameRes) obj;
 
-      boolean result = true;
-      result = result && errorCode_ == other.errorCode_;
-      result = result && (getBalanceHeart()
-          == other.getBalanceHeart());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (errorCode_ != other.errorCode_) return false;
+      if (getBalanceHeart()
+          != other.getBalanceHeart()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1087,7 +1077,7 @@ public final class GameSingle {
       hash = (53 * hash) + errorCode_;
       hash = (37 * hash) + BALANCEHEART_FIELD_NUMBER;
       hash = (53 * hash) + getBalanceHeart();
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -1136,11 +1126,13 @@ public final class GameSingle {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.StartGameRes parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.StartGameRes parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1204,26 +1196,20 @@ public final class GameSingle {
 
       // Construct using com.nhn.gameanvil.sample.protocol.GameSingle.StartGameRes.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         errorCode_ = 0;
-
         balanceHeart_ = 0;
-
         return this;
       }
 
@@ -1250,43 +1236,52 @@ public final class GameSingle {
       @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.GameSingle.StartGameRes buildPartial() {
         com.nhn.gameanvil.sample.protocol.GameSingle.StartGameRes result = new com.nhn.gameanvil.sample.protocol.GameSingle.StartGameRes(this);
-        result.errorCode_ = errorCode_;
-        result.balanceHeart_ = balanceHeart_;
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
+      private void buildPartial0(com.nhn.gameanvil.sample.protocol.GameSingle.StartGameRes result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.errorCode_ = errorCode_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.balanceHeart_ = balanceHeart_;
+        }
+      }
+
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1306,7 +1301,7 @@ public final class GameSingle {
         if (other.getBalanceHeart() != 0) {
           setBalanceHeart(other.getBalanceHeart());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -1321,60 +1316,92 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.nhn.gameanvil.sample.protocol.GameSingle.StartGameRes parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                errorCode_ = input.readEnum();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                balanceHeart_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.nhn.gameanvil.sample.protocol.GameSingle.StartGameRes) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
+      private int bitField0_;
 
       private int errorCode_ = 0;
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @return The enum numeric value on the wire for errorCode.
        */
-      public int getErrorCodeValue() {
+      @java.lang.Override public int getErrorCodeValue() {
         return errorCode_;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @param value The enum numeric value on the wire for errorCode to set.
+       * @return This builder for chaining.
        */
       public Builder setErrorCodeValue(int value) {
         errorCode_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @return The errorCode.
        */
+      @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode() {
-        @SuppressWarnings("deprecation")
-        com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.valueOf(errorCode_);
+        com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.forNumber(errorCode_);
         return result == null ? com.nhn.gameanvil.sample.protocol.Result.ErrorCode.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @param value The errorCode to set.
+       * @return This builder for chaining.
        */
       public Builder setErrorCode(com.nhn.gameanvil.sample.protocol.Result.ErrorCode value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+        bitField0_ |= 0x00000001;
         errorCode_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearErrorCode() {
-        
+        bitField0_ = (bitField0_ & ~0x00000001);
         errorCode_ = 0;
         onChanged();
         return this;
@@ -1383,24 +1410,30 @@ public final class GameSingle {
       private int balanceHeart_ ;
       /**
        * <code>int32 balanceHeart = 2;</code>
+       * @return The balanceHeart.
        */
+      @java.lang.Override
       public int getBalanceHeart() {
         return balanceHeart_;
       }
       /**
        * <code>int32 balanceHeart = 2;</code>
+       * @param value The balanceHeart to set.
+       * @return This builder for chaining.
        */
       public Builder setBalanceHeart(int value) {
-        
+
         balanceHeart_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
       /**
        * <code>int32 balanceHeart = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearBalanceHeart() {
-        
+        bitField0_ = (bitField0_ & ~0x00000002);
         balanceHeart_ = 0;
         onChanged();
         return this;
@@ -1408,7 +1441,7 @@ public final class GameSingle {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -1438,7 +1471,18 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new StartGameRes(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -1464,33 +1508,38 @@ public final class GameSingle {
 
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
     java.lang.String getUuid();
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
     com.google.protobuf.ByteString
         getUuidBytes();
 
     /**
      * <code>string nickname = 2;</code>
+     * @return The nickname.
      */
     java.lang.String getNickname();
     /**
      * <code>string nickname = 2;</code>
+     * @return The bytes for nickname.
      */
     com.google.protobuf.ByteString
         getNicknameBytes();
 
     /**
      * <code>double score = 3;</code>
+     * @return The score.
      */
     double getScore();
   }
   /**
    * Protobuf type {@code com.nhn.gameanvil.sample.protocol.ScoreRankingData}
    */
-  public  static final class ScoreRankingData extends
+  public static final class ScoreRankingData extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.nhn.gameanvil.sample.protocol.ScoreRankingData)
       ScoreRankingDataOrBuilder {
@@ -1502,69 +1551,15 @@ public final class GameSingle {
     private ScoreRankingData() {
       uuid_ = "";
       nickname_ = "";
-      score_ = 0D;
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ScoreRankingData();
     }
-    private ScoreRankingData(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
 
-              uuid_ = s;
-              break;
-            }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              nickname_ = s;
-              break;
-            }
-            case 25: {
-
-              score_ = input.readDouble();
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.nhn.gameanvil.sample.protocol.GameSingle.internal_static_com_nhn_gameanvil_sample_protocol_ScoreRankingData_descriptor;
@@ -1579,10 +1574,13 @@ public final class GameSingle {
     }
 
     public static final int UUID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object uuid_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object uuid_ = "";
     /**
      * <code>string uuid = 1;</code>
+     * @return The uuid.
      */
+    @java.lang.Override
     public java.lang.String getUuid() {
       java.lang.Object ref = uuid_;
       if (ref instanceof java.lang.String) {
@@ -1597,7 +1595,9 @@ public final class GameSingle {
     }
     /**
      * <code>string uuid = 1;</code>
+     * @return The bytes for uuid.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getUuidBytes() {
       java.lang.Object ref = uuid_;
@@ -1613,10 +1613,13 @@ public final class GameSingle {
     }
 
     public static final int NICKNAME_FIELD_NUMBER = 2;
-    private volatile java.lang.Object nickname_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object nickname_ = "";
     /**
      * <code>string nickname = 2;</code>
+     * @return The nickname.
      */
+    @java.lang.Override
     public java.lang.String getNickname() {
       java.lang.Object ref = nickname_;
       if (ref instanceof java.lang.String) {
@@ -1631,7 +1634,9 @@ public final class GameSingle {
     }
     /**
      * <code>string nickname = 2;</code>
+     * @return The bytes for nickname.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getNicknameBytes() {
       java.lang.Object ref = nickname_;
@@ -1647,10 +1652,12 @@ public final class GameSingle {
     }
 
     public static final int SCORE_FIELD_NUMBER = 3;
-    private double score_;
+    private double score_ = 0D;
     /**
      * <code>double score = 3;</code>
+     * @return The score.
      */
+    @java.lang.Override
     public double getScore() {
       return score_;
     }
@@ -1669,16 +1676,16 @@ public final class GameSingle {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getUuidBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(uuid_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, uuid_);
       }
-      if (!getNicknameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(nickname_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, nickname_);
       }
-      if (score_ != 0D) {
+      if (java.lang.Double.doubleToRawLongBits(score_) != 0) {
         output.writeDouble(3, score_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -1687,17 +1694,17 @@ public final class GameSingle {
       if (size != -1) return size;
 
       size = 0;
-      if (!getUuidBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(uuid_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, uuid_);
       }
-      if (!getNicknameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(nickname_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, nickname_);
       }
-      if (score_ != 0D) {
+      if (java.lang.Double.doubleToRawLongBits(score_) != 0) {
         size += com.google.protobuf.CodedOutputStream
           .computeDoubleSize(3, score_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -1712,17 +1719,15 @@ public final class GameSingle {
       }
       com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData other = (com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData) obj;
 
-      boolean result = true;
-      result = result && getUuid()
-          .equals(other.getUuid());
-      result = result && getNickname()
-          .equals(other.getNickname());
-      result = result && (
-          java.lang.Double.doubleToLongBits(getScore())
-          == java.lang.Double.doubleToLongBits(
-              other.getScore()));
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getUuid()
+          .equals(other.getUuid())) return false;
+      if (!getNickname()
+          .equals(other.getNickname())) return false;
+      if (java.lang.Double.doubleToLongBits(getScore())
+          != java.lang.Double.doubleToLongBits(
+              other.getScore())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -1739,7 +1744,7 @@ public final class GameSingle {
       hash = (37 * hash) + SCORE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           java.lang.Double.doubleToLongBits(getScore()));
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -1788,11 +1793,13 @@ public final class GameSingle {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1856,28 +1863,21 @@ public final class GameSingle {
 
       // Construct using com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         uuid_ = "";
-
         nickname_ = "";
-
         score_ = 0D;
-
         return this;
       }
 
@@ -1904,44 +1904,55 @@ public final class GameSingle {
       @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData buildPartial() {
         com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData result = new com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData(this);
-        result.uuid_ = uuid_;
-        result.nickname_ = nickname_;
-        result.score_ = score_;
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
+      private void buildPartial0(com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.uuid_ = uuid_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.nickname_ = nickname_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.score_ = score_;
+        }
+      }
+
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -1957,16 +1968,18 @@ public final class GameSingle {
         if (other == com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData.getDefaultInstance()) return this;
         if (!other.getUuid().isEmpty()) {
           uuid_ = other.uuid_;
+          bitField0_ |= 0x00000001;
           onChanged();
         }
         if (!other.getNickname().isEmpty()) {
           nickname_ = other.nickname_;
+          bitField0_ |= 0x00000002;
           onChanged();
         }
         if (other.getScore() != 0D) {
           setScore(other.getScore());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -1981,23 +1994,53 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                uuid_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 18: {
+                nickname_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 25: {
+                score_ = input.readDouble();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 25
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object uuid_ = "";
       /**
        * <code>string uuid = 1;</code>
+       * @return The uuid.
        */
       public java.lang.String getUuid() {
         java.lang.Object ref = uuid_;
@@ -2013,6 +2056,7 @@ public final class GameSingle {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return The bytes for uuid.
        */
       public com.google.protobuf.ByteString
           getUuidBytes() {
@@ -2029,37 +2073,38 @@ public final class GameSingle {
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuid(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         uuid_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <code>string uuid = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearUuid() {
-        
         uuid_ = getDefaultInstance().getUuid();
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>string uuid = 1;</code>
+       * @param value The bytes for uuid to set.
+       * @return This builder for chaining.
        */
       public Builder setUuidBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         uuid_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -2067,6 +2112,7 @@ public final class GameSingle {
       private java.lang.Object nickname_ = "";
       /**
        * <code>string nickname = 2;</code>
+       * @return The nickname.
        */
       public java.lang.String getNickname() {
         java.lang.Object ref = nickname_;
@@ -2082,6 +2128,7 @@ public final class GameSingle {
       }
       /**
        * <code>string nickname = 2;</code>
+       * @return The bytes for nickname.
        */
       public com.google.protobuf.ByteString
           getNicknameBytes() {
@@ -2098,37 +2145,38 @@ public final class GameSingle {
       }
       /**
        * <code>string nickname = 2;</code>
+       * @param value The nickname to set.
+       * @return This builder for chaining.
        */
       public Builder setNickname(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         nickname_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
       /**
        * <code>string nickname = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearNickname() {
-        
         nickname_ = getDefaultInstance().getNickname();
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
       /**
        * <code>string nickname = 2;</code>
+       * @param value The bytes for nickname to set.
+       * @return This builder for chaining.
        */
       public Builder setNicknameBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         nickname_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -2136,24 +2184,30 @@ public final class GameSingle {
       private double score_ ;
       /**
        * <code>double score = 3;</code>
+       * @return The score.
        */
+      @java.lang.Override
       public double getScore() {
         return score_;
       }
       /**
        * <code>double score = 3;</code>
+       * @param value The score to set.
+       * @return This builder for chaining.
        */
       public Builder setScore(double value) {
-        
+
         score_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
       /**
        * <code>double score = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearScore() {
-        
+        bitField0_ = (bitField0_ & ~0x00000004);
         score_ = 0D;
         onChanged();
         return this;
@@ -2161,7 +2215,7 @@ public final class GameSingle {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -2191,7 +2245,18 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ScoreRankingData(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -2217,18 +2282,20 @@ public final class GameSingle {
 
     /**
      * <code>int32 start = 1;</code>
+     * @return The start.
      */
     int getStart();
 
     /**
      * <code>int32 end = 2;</code>
+     * @return The end.
      */
     int getEnd();
   }
   /**
    * Protobuf type {@code com.nhn.gameanvil.sample.protocol.ScoreRankingReq}
    */
-  public  static final class ScoreRankingReq extends
+  public static final class ScoreRankingReq extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.nhn.gameanvil.sample.protocol.ScoreRankingReq)
       ScoreRankingReqOrBuilder {
@@ -2238,63 +2305,15 @@ public final class GameSingle {
       super(builder);
     }
     private ScoreRankingReq() {
-      start_ = 0;
-      end_ = 0;
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ScoreRankingReq();
     }
-    private ScoreRankingReq(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
 
-              start_ = input.readInt32();
-              break;
-            }
-            case 16: {
-
-              end_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.nhn.gameanvil.sample.protocol.GameSingle.internal_static_com_nhn_gameanvil_sample_protocol_ScoreRankingReq_descriptor;
@@ -2309,19 +2328,23 @@ public final class GameSingle {
     }
 
     public static final int START_FIELD_NUMBER = 1;
-    private int start_;
+    private int start_ = 0;
     /**
      * <code>int32 start = 1;</code>
+     * @return The start.
      */
+    @java.lang.Override
     public int getStart() {
       return start_;
     }
 
     public static final int END_FIELD_NUMBER = 2;
-    private int end_;
+    private int end_ = 0;
     /**
      * <code>int32 end = 2;</code>
+     * @return The end.
      */
+    @java.lang.Override
     public int getEnd() {
       return end_;
     }
@@ -2346,7 +2369,7 @@ public final class GameSingle {
       if (end_ != 0) {
         output.writeInt32(2, end_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -2363,7 +2386,7 @@ public final class GameSingle {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(2, end_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -2378,13 +2401,12 @@ public final class GameSingle {
       }
       com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingReq other = (com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingReq) obj;
 
-      boolean result = true;
-      result = result && (getStart()
-          == other.getStart());
-      result = result && (getEnd()
-          == other.getEnd());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getStart()
+          != other.getStart()) return false;
+      if (getEnd()
+          != other.getEnd()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -2398,7 +2420,7 @@ public final class GameSingle {
       hash = (53 * hash) + getStart();
       hash = (37 * hash) + END_FIELD_NUMBER;
       hash = (53 * hash) + getEnd();
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -2447,11 +2469,13 @@ public final class GameSingle {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingReq parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingReq parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2515,26 +2539,20 @@ public final class GameSingle {
 
       // Construct using com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingReq.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         start_ = 0;
-
         end_ = 0;
-
         return this;
       }
 
@@ -2561,43 +2579,52 @@ public final class GameSingle {
       @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingReq buildPartial() {
         com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingReq result = new com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingReq(this);
-        result.start_ = start_;
-        result.end_ = end_;
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
+      private void buildPartial0(com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingReq result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.start_ = start_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.end_ = end_;
+        }
+      }
+
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -2617,7 +2644,7 @@ public final class GameSingle {
         if (other.getEnd() != 0) {
           setEnd(other.getEnd());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -2632,41 +2659,71 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingReq parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                start_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                end_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingReq) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
+      private int bitField0_;
 
       private int start_ ;
       /**
        * <code>int32 start = 1;</code>
+       * @return The start.
        */
+      @java.lang.Override
       public int getStart() {
         return start_;
       }
       /**
        * <code>int32 start = 1;</code>
+       * @param value The start to set.
+       * @return This builder for chaining.
        */
       public Builder setStart(int value) {
-        
+
         start_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <code>int32 start = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearStart() {
-        
+        bitField0_ = (bitField0_ & ~0x00000001);
         start_ = 0;
         onChanged();
         return this;
@@ -2675,24 +2732,30 @@ public final class GameSingle {
       private int end_ ;
       /**
        * <code>int32 end = 2;</code>
+       * @return The end.
        */
+      @java.lang.Override
       public int getEnd() {
         return end_;
       }
       /**
        * <code>int32 end = 2;</code>
+       * @param value The end to set.
+       * @return This builder for chaining.
        */
       public Builder setEnd(int value) {
-        
+
         end_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
       /**
        * <code>int32 end = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEnd() {
-        
+        bitField0_ = (bitField0_ & ~0x00000002);
         end_ = 0;
         onChanged();
         return this;
@@ -2700,7 +2763,7 @@ public final class GameSingle {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -2730,7 +2793,18 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ScoreRankingReq(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -2756,10 +2830,12 @@ public final class GameSingle {
 
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode resultCode = 1;</code>
+     * @return The enum numeric value on the wire for resultCode.
      */
     int getResultCodeValue();
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode resultCode = 1;</code>
+     * @return The resultCode.
      */
     com.nhn.gameanvil.sample.protocol.Result.ErrorCode getResultCode();
 
@@ -2790,7 +2866,7 @@ public final class GameSingle {
   /**
    * Protobuf type {@code com.nhn.gameanvil.sample.protocol.ScoreRankingRes}
    */
-  public  static final class ScoreRankingRes extends
+  public static final class ScoreRankingRes extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.nhn.gameanvil.sample.protocol.ScoreRankingRes)
       ScoreRankingResOrBuilder {
@@ -2805,66 +2881,12 @@ public final class GameSingle {
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ScoreRankingRes();
     }
-    private ScoreRankingRes(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-              int rawValue = input.readEnum();
 
-              resultCode_ = rawValue;
-              break;
-            }
-            case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                rankings_ = new java.util.ArrayList<com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              rankings_.add(
-                  input.readMessage(com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData.parser(), extensionRegistry));
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          rankings_ = java.util.Collections.unmodifiableList(rankings_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.nhn.gameanvil.sample.protocol.GameSingle.internal_static_com_nhn_gameanvil_sample_protocol_ScoreRankingRes_descriptor;
@@ -2878,35 +2900,38 @@ public final class GameSingle {
               com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes.class, com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes.Builder.class);
     }
 
-    private int bitField0_;
     public static final int RESULTCODE_FIELD_NUMBER = 1;
-    private int resultCode_;
+    private int resultCode_ = 0;
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode resultCode = 1;</code>
+     * @return The enum numeric value on the wire for resultCode.
      */
-    public int getResultCodeValue() {
+    @java.lang.Override public int getResultCodeValue() {
       return resultCode_;
     }
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode resultCode = 1;</code>
+     * @return The resultCode.
      */
-    public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getResultCode() {
-      @SuppressWarnings("deprecation")
-      com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.valueOf(resultCode_);
+    @java.lang.Override public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getResultCode() {
+      com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.forNumber(resultCode_);
       return result == null ? com.nhn.gameanvil.sample.protocol.Result.ErrorCode.UNRECOGNIZED : result;
     }
 
     public static final int RANKINGS_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
     private java.util.List<com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData> rankings_;
     /**
      * <code>repeated .com.nhn.gameanvil.sample.protocol.ScoreRankingData rankings = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData> getRankingsList() {
       return rankings_;
     }
     /**
      * <code>repeated .com.nhn.gameanvil.sample.protocol.ScoreRankingData rankings = 2;</code>
      */
+    @java.lang.Override
     public java.util.List<? extends com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingDataOrBuilder> 
         getRankingsOrBuilderList() {
       return rankings_;
@@ -2914,18 +2939,21 @@ public final class GameSingle {
     /**
      * <code>repeated .com.nhn.gameanvil.sample.protocol.ScoreRankingData rankings = 2;</code>
      */
+    @java.lang.Override
     public int getRankingsCount() {
       return rankings_.size();
     }
     /**
      * <code>repeated .com.nhn.gameanvil.sample.protocol.ScoreRankingData rankings = 2;</code>
      */
+    @java.lang.Override
     public com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData getRankings(int index) {
       return rankings_.get(index);
     }
     /**
      * <code>repeated .com.nhn.gameanvil.sample.protocol.ScoreRankingData rankings = 2;</code>
      */
+    @java.lang.Override
     public com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingDataOrBuilder getRankingsOrBuilder(
         int index) {
       return rankings_.get(index);
@@ -2951,7 +2979,7 @@ public final class GameSingle {
       for (int i = 0; i < rankings_.size(); i++) {
         output.writeMessage(2, rankings_.get(i));
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -2968,7 +2996,7 @@ public final class GameSingle {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, rankings_.get(i));
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -2983,12 +3011,11 @@ public final class GameSingle {
       }
       com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes other = (com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes) obj;
 
-      boolean result = true;
-      result = result && resultCode_ == other.resultCode_;
-      result = result && getRankingsList()
-          .equals(other.getRankingsList());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (resultCode_ != other.resultCode_) return false;
+      if (!getRankingsList()
+          .equals(other.getRankingsList())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3004,7 +3031,7 @@ public final class GameSingle {
         hash = (37 * hash) + RANKINGS_FIELD_NUMBER;
         hash = (53 * hash) + getRankingsList().hashCode();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -3053,11 +3080,13 @@ public final class GameSingle {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3121,31 +3150,26 @@ public final class GameSingle {
 
       // Construct using com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-          getRankingsFieldBuilder();
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         resultCode_ = 0;
-
         if (rankingsBuilder_ == null) {
           rankings_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
+          rankings_ = null;
           rankingsBuilder_.clear();
         }
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -3172,11 +3196,15 @@ public final class GameSingle {
       @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes buildPartial() {
         com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes result = new com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        result.resultCode_ = resultCode_;
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes result) {
         if (rankingsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             rankings_ = java.util.Collections.unmodifiableList(rankings_);
             bitField0_ = (bitField0_ & ~0x00000002);
           }
@@ -3184,42 +3212,46 @@ public final class GameSingle {
         } else {
           result.rankings_ = rankingsBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
+      }
+
+      private void buildPartial0(com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.resultCode_ = resultCode_;
+        }
       }
 
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -3262,7 +3294,7 @@ public final class GameSingle {
             }
           }
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -3277,17 +3309,48 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                resultCode_ = input.readEnum();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData m =
+                    input.readMessage(
+                        com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData.parser(),
+                        extensionRegistry);
+                if (rankingsBuilder_ == null) {
+                  ensureRankingsIsMutable();
+                  rankings_.add(m);
+                } else {
+                  rankingsBuilder_.addMessage(m);
+                }
+                break;
+              } // case 18
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingRes) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
       private int bitField0_;
@@ -3295,43 +3358,51 @@ public final class GameSingle {
       private int resultCode_ = 0;
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode resultCode = 1;</code>
+       * @return The enum numeric value on the wire for resultCode.
        */
-      public int getResultCodeValue() {
+      @java.lang.Override public int getResultCodeValue() {
         return resultCode_;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode resultCode = 1;</code>
+       * @param value The enum numeric value on the wire for resultCode to set.
+       * @return This builder for chaining.
        */
       public Builder setResultCodeValue(int value) {
         resultCode_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode resultCode = 1;</code>
+       * @return The resultCode.
        */
+      @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getResultCode() {
-        @SuppressWarnings("deprecation")
-        com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.valueOf(resultCode_);
+        com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.forNumber(resultCode_);
         return result == null ? com.nhn.gameanvil.sample.protocol.Result.ErrorCode.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode resultCode = 1;</code>
+       * @param value The resultCode to set.
+       * @return This builder for chaining.
        */
       public Builder setResultCode(com.nhn.gameanvil.sample.protocol.Result.ErrorCode value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+        bitField0_ |= 0x00000001;
         resultCode_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode resultCode = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearResultCode() {
-        
+        bitField0_ = (bitField0_ & ~0x00000001);
         resultCode_ = 0;
         onChanged();
         return this;
@@ -3340,7 +3411,7 @@ public final class GameSingle {
       private java.util.List<com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData> rankings_ =
         java.util.Collections.emptyList();
       private void ensureRankingsIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           rankings_ = new java.util.ArrayList<com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData>(rankings_);
           bitField0_ |= 0x00000002;
          }
@@ -3569,7 +3640,7 @@ public final class GameSingle {
           rankingsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData, com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingData.Builder, com.nhn.gameanvil.sample.protocol.GameSingle.ScoreRankingDataOrBuilder>(
                   rankings_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           rankings_ = null;
@@ -3579,7 +3650,7 @@ public final class GameSingle {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -3609,7 +3680,18 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ScoreRankingRes(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -3635,28 +3717,32 @@ public final class GameSingle {
 
     /**
      * <code>string selectCardName = 1;</code>
+     * @return The selectCardName.
      */
     java.lang.String getSelectCardName();
     /**
      * <code>string selectCardName = 1;</code>
+     * @return The bytes for selectCardName.
      */
     com.google.protobuf.ByteString
         getSelectCardNameBytes();
 
     /**
      * <code>int32 combo = 2;</code>
+     * @return The combo.
      */
     int getCombo();
 
     /**
      * <code>int64 tapScore = 3;</code>
+     * @return The tapScore.
      */
     long getTapScore();
   }
   /**
    * Protobuf type {@code com.nhn.gameanvil.sample.protocol.TapMsg}
    */
-  public  static final class TapMsg extends
+  public static final class TapMsg extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.nhn.gameanvil.sample.protocol.TapMsg)
       TapMsgOrBuilder {
@@ -3667,69 +3753,15 @@ public final class GameSingle {
     }
     private TapMsg() {
       selectCardName_ = "";
-      combo_ = 0;
-      tapScore_ = 0L;
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new TapMsg();
     }
-    private TapMsg(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
 
-              selectCardName_ = s;
-              break;
-            }
-            case 16: {
-
-              combo_ = input.readInt32();
-              break;
-            }
-            case 24: {
-
-              tapScore_ = input.readInt64();
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.nhn.gameanvil.sample.protocol.GameSingle.internal_static_com_nhn_gameanvil_sample_protocol_TapMsg_descriptor;
@@ -3744,10 +3776,13 @@ public final class GameSingle {
     }
 
     public static final int SELECTCARDNAME_FIELD_NUMBER = 1;
-    private volatile java.lang.Object selectCardName_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object selectCardName_ = "";
     /**
      * <code>string selectCardName = 1;</code>
+     * @return The selectCardName.
      */
+    @java.lang.Override
     public java.lang.String getSelectCardName() {
       java.lang.Object ref = selectCardName_;
       if (ref instanceof java.lang.String) {
@@ -3762,7 +3797,9 @@ public final class GameSingle {
     }
     /**
      * <code>string selectCardName = 1;</code>
+     * @return The bytes for selectCardName.
      */
+    @java.lang.Override
     public com.google.protobuf.ByteString
         getSelectCardNameBytes() {
       java.lang.Object ref = selectCardName_;
@@ -3778,19 +3815,23 @@ public final class GameSingle {
     }
 
     public static final int COMBO_FIELD_NUMBER = 2;
-    private int combo_;
+    private int combo_ = 0;
     /**
      * <code>int32 combo = 2;</code>
+     * @return The combo.
      */
+    @java.lang.Override
     public int getCombo() {
       return combo_;
     }
 
     public static final int TAPSCORE_FIELD_NUMBER = 3;
-    private long tapScore_;
+    private long tapScore_ = 0L;
     /**
      * <code>int64 tapScore = 3;</code>
+     * @return The tapScore.
      */
+    @java.lang.Override
     public long getTapScore() {
       return tapScore_;
     }
@@ -3809,7 +3850,7 @@ public final class GameSingle {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!getSelectCardNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(selectCardName_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, selectCardName_);
       }
       if (combo_ != 0) {
@@ -3818,7 +3859,7 @@ public final class GameSingle {
       if (tapScore_ != 0L) {
         output.writeInt64(3, tapScore_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -3827,7 +3868,7 @@ public final class GameSingle {
       if (size != -1) return size;
 
       size = 0;
-      if (!getSelectCardNameBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(selectCardName_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, selectCardName_);
       }
       if (combo_ != 0) {
@@ -3838,7 +3879,7 @@ public final class GameSingle {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(3, tapScore_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -3853,15 +3894,14 @@ public final class GameSingle {
       }
       com.nhn.gameanvil.sample.protocol.GameSingle.TapMsg other = (com.nhn.gameanvil.sample.protocol.GameSingle.TapMsg) obj;
 
-      boolean result = true;
-      result = result && getSelectCardName()
-          .equals(other.getSelectCardName());
-      result = result && (getCombo()
-          == other.getCombo());
-      result = result && (getTapScore()
-          == other.getTapScore());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (!getSelectCardName()
+          .equals(other.getSelectCardName())) return false;
+      if (getCombo()
+          != other.getCombo()) return false;
+      if (getTapScore()
+          != other.getTapScore()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -3878,7 +3918,7 @@ public final class GameSingle {
       hash = (37 * hash) + TAPSCORE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getTapScore());
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -3927,11 +3967,13 @@ public final class GameSingle {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.TapMsg parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.TapMsg parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3995,28 +4037,21 @@ public final class GameSingle {
 
       // Construct using com.nhn.gameanvil.sample.protocol.GameSingle.TapMsg.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         selectCardName_ = "";
-
         combo_ = 0;
-
         tapScore_ = 0L;
-
         return this;
       }
 
@@ -4043,44 +4078,55 @@ public final class GameSingle {
       @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.GameSingle.TapMsg buildPartial() {
         com.nhn.gameanvil.sample.protocol.GameSingle.TapMsg result = new com.nhn.gameanvil.sample.protocol.GameSingle.TapMsg(this);
-        result.selectCardName_ = selectCardName_;
-        result.combo_ = combo_;
-        result.tapScore_ = tapScore_;
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
+      private void buildPartial0(com.nhn.gameanvil.sample.protocol.GameSingle.TapMsg result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.selectCardName_ = selectCardName_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.combo_ = combo_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.tapScore_ = tapScore_;
+        }
+      }
+
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -4096,6 +4142,7 @@ public final class GameSingle {
         if (other == com.nhn.gameanvil.sample.protocol.GameSingle.TapMsg.getDefaultInstance()) return this;
         if (!other.getSelectCardName().isEmpty()) {
           selectCardName_ = other.selectCardName_;
+          bitField0_ |= 0x00000001;
           onChanged();
         }
         if (other.getCombo() != 0) {
@@ -4104,7 +4151,7 @@ public final class GameSingle {
         if (other.getTapScore() != 0L) {
           setTapScore(other.getTapScore());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -4119,23 +4166,53 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.nhn.gameanvil.sample.protocol.GameSingle.TapMsg parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                selectCardName_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              case 16: {
+                combo_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              case 24: {
+                tapScore_ = input.readInt64();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.nhn.gameanvil.sample.protocol.GameSingle.TapMsg) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object selectCardName_ = "";
       /**
        * <code>string selectCardName = 1;</code>
+       * @return The selectCardName.
        */
       public java.lang.String getSelectCardName() {
         java.lang.Object ref = selectCardName_;
@@ -4151,6 +4228,7 @@ public final class GameSingle {
       }
       /**
        * <code>string selectCardName = 1;</code>
+       * @return The bytes for selectCardName.
        */
       public com.google.protobuf.ByteString
           getSelectCardNameBytes() {
@@ -4167,37 +4245,38 @@ public final class GameSingle {
       }
       /**
        * <code>string selectCardName = 1;</code>
+       * @param value The selectCardName to set.
+       * @return This builder for chaining.
        */
       public Builder setSelectCardName(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         selectCardName_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <code>string selectCardName = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearSelectCardName() {
-        
         selectCardName_ = getDefaultInstance().getSelectCardName();
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
       /**
        * <code>string selectCardName = 1;</code>
+       * @param value The bytes for selectCardName to set.
+       * @return This builder for chaining.
        */
       public Builder setSelectCardNameBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         selectCardName_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -4205,24 +4284,30 @@ public final class GameSingle {
       private int combo_ ;
       /**
        * <code>int32 combo = 2;</code>
+       * @return The combo.
        */
+      @java.lang.Override
       public int getCombo() {
         return combo_;
       }
       /**
        * <code>int32 combo = 2;</code>
+       * @param value The combo to set.
+       * @return This builder for chaining.
        */
       public Builder setCombo(int value) {
-        
+
         combo_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
       /**
        * <code>int32 combo = 2;</code>
+       * @return This builder for chaining.
        */
       public Builder clearCombo() {
-        
+        bitField0_ = (bitField0_ & ~0x00000002);
         combo_ = 0;
         onChanged();
         return this;
@@ -4231,24 +4316,30 @@ public final class GameSingle {
       private long tapScore_ ;
       /**
        * <code>int64 tapScore = 3;</code>
+       * @return The tapScore.
        */
+      @java.lang.Override
       public long getTapScore() {
         return tapScore_;
       }
       /**
        * <code>int64 tapScore = 3;</code>
+       * @param value The tapScore to set.
+       * @return This builder for chaining.
        */
       public Builder setTapScore(long value) {
-        
+
         tapScore_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
       /**
        * <code>int64 tapScore = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTapScore() {
-        
+        bitField0_ = (bitField0_ & ~0x00000004);
         tapScore_ = 0L;
         onChanged();
         return this;
@@ -4256,7 +4347,7 @@ public final class GameSingle {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -4286,7 +4377,18 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new TapMsg(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -4312,10 +4414,12 @@ public final class GameSingle {
 
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.EndType endType = 1;</code>
+     * @return The enum numeric value on the wire for endType.
      */
     int getEndTypeValue();
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.EndType endType = 1;</code>
+     * @return The endType.
      */
     com.nhn.gameanvil.sample.protocol.GameSingle.EndType getEndType();
   }
@@ -4326,7 +4430,7 @@ public final class GameSingle {
    *
    * Protobuf type {@code com.nhn.gameanvil.sample.protocol.EndGameReq}
    */
-  public  static final class EndGameReq extends
+  public static final class EndGameReq extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.nhn.gameanvil.sample.protocol.EndGameReq)
       EndGameReqOrBuilder {
@@ -4340,54 +4444,12 @@ public final class GameSingle {
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EndGameReq();
     }
-    private EndGameReq(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-              int rawValue = input.readEnum();
 
-              endType_ = rawValue;
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.nhn.gameanvil.sample.protocol.GameSingle.internal_static_com_nhn_gameanvil_sample_protocol_EndGameReq_descriptor;
@@ -4402,19 +4464,20 @@ public final class GameSingle {
     }
 
     public static final int ENDTYPE_FIELD_NUMBER = 1;
-    private int endType_;
+    private int endType_ = 0;
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.EndType endType = 1;</code>
+     * @return The enum numeric value on the wire for endType.
      */
-    public int getEndTypeValue() {
+    @java.lang.Override public int getEndTypeValue() {
       return endType_;
     }
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.EndType endType = 1;</code>
+     * @return The endType.
      */
-    public com.nhn.gameanvil.sample.protocol.GameSingle.EndType getEndType() {
-      @SuppressWarnings("deprecation")
-      com.nhn.gameanvil.sample.protocol.GameSingle.EndType result = com.nhn.gameanvil.sample.protocol.GameSingle.EndType.valueOf(endType_);
+    @java.lang.Override public com.nhn.gameanvil.sample.protocol.GameSingle.EndType getEndType() {
+      com.nhn.gameanvil.sample.protocol.GameSingle.EndType result = com.nhn.gameanvil.sample.protocol.GameSingle.EndType.forNumber(endType_);
       return result == null ? com.nhn.gameanvil.sample.protocol.GameSingle.EndType.UNRECOGNIZED : result;
     }
 
@@ -4435,7 +4498,7 @@ public final class GameSingle {
       if (endType_ != com.nhn.gameanvil.sample.protocol.GameSingle.EndType.GAME_END_NONE.getNumber()) {
         output.writeEnum(1, endType_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -4448,7 +4511,7 @@ public final class GameSingle {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, endType_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -4463,10 +4526,9 @@ public final class GameSingle {
       }
       com.nhn.gameanvil.sample.protocol.GameSingle.EndGameReq other = (com.nhn.gameanvil.sample.protocol.GameSingle.EndGameReq) obj;
 
-      boolean result = true;
-      result = result && endType_ == other.endType_;
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (endType_ != other.endType_) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -4478,7 +4540,7 @@ public final class GameSingle {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + ENDTYPE_FIELD_NUMBER;
       hash = (53 * hash) + endType_;
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -4527,11 +4589,13 @@ public final class GameSingle {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.EndGameReq parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.EndGameReq parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4599,24 +4663,19 @@ public final class GameSingle {
 
       // Construct using com.nhn.gameanvil.sample.protocol.GameSingle.EndGameReq.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         endType_ = 0;
-
         return this;
       }
 
@@ -4643,42 +4702,49 @@ public final class GameSingle {
       @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.GameSingle.EndGameReq buildPartial() {
         com.nhn.gameanvil.sample.protocol.GameSingle.EndGameReq result = new com.nhn.gameanvil.sample.protocol.GameSingle.EndGameReq(this);
-        result.endType_ = endType_;
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
+      private void buildPartial0(com.nhn.gameanvil.sample.protocol.GameSingle.EndGameReq result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.endType_ = endType_;
+        }
+      }
+
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -4695,7 +4761,7 @@ public final class GameSingle {
         if (other.endType_ != 0) {
           setEndTypeValue(other.getEndTypeValue());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -4710,60 +4776,87 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.nhn.gameanvil.sample.protocol.GameSingle.EndGameReq parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                endType_ = input.readEnum();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.nhn.gameanvil.sample.protocol.GameSingle.EndGameReq) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
+      private int bitField0_;
 
       private int endType_ = 0;
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.EndType endType = 1;</code>
+       * @return The enum numeric value on the wire for endType.
        */
-      public int getEndTypeValue() {
+      @java.lang.Override public int getEndTypeValue() {
         return endType_;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.EndType endType = 1;</code>
+       * @param value The enum numeric value on the wire for endType to set.
+       * @return This builder for chaining.
        */
       public Builder setEndTypeValue(int value) {
         endType_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.EndType endType = 1;</code>
+       * @return The endType.
        */
+      @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.GameSingle.EndType getEndType() {
-        @SuppressWarnings("deprecation")
-        com.nhn.gameanvil.sample.protocol.GameSingle.EndType result = com.nhn.gameanvil.sample.protocol.GameSingle.EndType.valueOf(endType_);
+        com.nhn.gameanvil.sample.protocol.GameSingle.EndType result = com.nhn.gameanvil.sample.protocol.GameSingle.EndType.forNumber(endType_);
         return result == null ? com.nhn.gameanvil.sample.protocol.GameSingle.EndType.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.EndType endType = 1;</code>
+       * @param value The endType to set.
+       * @return This builder for chaining.
        */
       public Builder setEndType(com.nhn.gameanvil.sample.protocol.GameSingle.EndType value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+        bitField0_ |= 0x00000001;
         endType_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.EndType endType = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearEndType() {
-        
+        bitField0_ = (bitField0_ & ~0x00000001);
         endType_ = 0;
         onChanged();
         return this;
@@ -4771,7 +4864,7 @@ public final class GameSingle {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -4801,7 +4894,18 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new EndGameReq(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -4827,19 +4931,23 @@ public final class GameSingle {
 
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The enum numeric value on the wire for errorCode.
      */
     int getErrorCodeValue();
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The errorCode.
      */
     com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode();
 
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.UserData userData = 2;</code>
+     * @return Whether the userData field is set.
      */
     boolean hasUserData();
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.UserData userData = 2;</code>
+     * @return The userData.
      */
     com.nhn.gameanvil.sample.protocol.User.UserData getUserData();
     /**
@@ -4849,13 +4957,14 @@ public final class GameSingle {
 
     /**
      * <code>int64 totalScore = 3;</code>
+     * @return The totalScore.
      */
     long getTotalScore();
   }
   /**
    * Protobuf type {@code com.nhn.gameanvil.sample.protocol.EndGameRes}
    */
-  public  static final class EndGameRes extends
+  public static final class EndGameRes extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:com.nhn.gameanvil.sample.protocol.EndGameRes)
       EndGameResOrBuilder {
@@ -4866,76 +4975,15 @@ public final class GameSingle {
     }
     private EndGameRes() {
       errorCode_ = 0;
-      totalScore_ = 0L;
     }
 
     @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EndGameRes();
     }
-    private EndGameRes(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-              int rawValue = input.readEnum();
 
-              errorCode_ = rawValue;
-              break;
-            }
-            case 18: {
-              com.nhn.gameanvil.sample.protocol.User.UserData.Builder subBuilder = null;
-              if (userData_ != null) {
-                subBuilder = userData_.toBuilder();
-              }
-              userData_ = input.readMessage(com.nhn.gameanvil.sample.protocol.User.UserData.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(userData_);
-                userData_ = subBuilder.buildPartial();
-              }
-
-              break;
-            }
-            case 24: {
-
-              totalScore_ = input.readInt64();
-              break;
-            }
-            default: {
-              if (!parseUnknownFieldProto3(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.nhn.gameanvil.sample.protocol.GameSingle.internal_static_com_nhn_gameanvil_sample_protocol_EndGameRes_descriptor;
@@ -4949,20 +4997,22 @@ public final class GameSingle {
               com.nhn.gameanvil.sample.protocol.GameSingle.EndGameRes.class, com.nhn.gameanvil.sample.protocol.GameSingle.EndGameRes.Builder.class);
     }
 
+    private int bitField0_;
     public static final int ERRORCODE_FIELD_NUMBER = 1;
-    private int errorCode_;
+    private int errorCode_ = 0;
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The enum numeric value on the wire for errorCode.
      */
-    public int getErrorCodeValue() {
+    @java.lang.Override public int getErrorCodeValue() {
       return errorCode_;
     }
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+     * @return The errorCode.
      */
-    public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode() {
-      @SuppressWarnings("deprecation")
-      com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.valueOf(errorCode_);
+    @java.lang.Override public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode() {
+      com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.forNumber(errorCode_);
       return result == null ? com.nhn.gameanvil.sample.protocol.Result.ErrorCode.UNRECOGNIZED : result;
     }
 
@@ -4970,28 +5020,35 @@ public final class GameSingle {
     private com.nhn.gameanvil.sample.protocol.User.UserData userData_;
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.UserData userData = 2;</code>
+     * @return Whether the userData field is set.
      */
+    @java.lang.Override
     public boolean hasUserData() {
-      return userData_ != null;
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.UserData userData = 2;</code>
+     * @return The userData.
      */
+    @java.lang.Override
     public com.nhn.gameanvil.sample.protocol.User.UserData getUserData() {
       return userData_ == null ? com.nhn.gameanvil.sample.protocol.User.UserData.getDefaultInstance() : userData_;
     }
     /**
      * <code>.com.nhn.gameanvil.sample.protocol.UserData userData = 2;</code>
      */
+    @java.lang.Override
     public com.nhn.gameanvil.sample.protocol.User.UserDataOrBuilder getUserDataOrBuilder() {
-      return getUserData();
+      return userData_ == null ? com.nhn.gameanvil.sample.protocol.User.UserData.getDefaultInstance() : userData_;
     }
 
     public static final int TOTALSCORE_FIELD_NUMBER = 3;
-    private long totalScore_;
+    private long totalScore_ = 0L;
     /**
      * <code>int64 totalScore = 3;</code>
+     * @return The totalScore.
      */
+    @java.lang.Override
     public long getTotalScore() {
       return totalScore_;
     }
@@ -5013,13 +5070,13 @@ public final class GameSingle {
       if (errorCode_ != com.nhn.gameanvil.sample.protocol.Result.ErrorCode.NONE.getNumber()) {
         output.writeEnum(1, errorCode_);
       }
-      if (userData_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(2, getUserData());
       }
       if (totalScore_ != 0L) {
         output.writeInt64(3, totalScore_);
       }
-      unknownFields.writeTo(output);
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -5032,7 +5089,7 @@ public final class GameSingle {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, errorCode_);
       }
-      if (userData_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getUserData());
       }
@@ -5040,7 +5097,7 @@ public final class GameSingle {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(3, totalScore_);
       }
-      size += unknownFields.getSerializedSize();
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -5055,17 +5112,16 @@ public final class GameSingle {
       }
       com.nhn.gameanvil.sample.protocol.GameSingle.EndGameRes other = (com.nhn.gameanvil.sample.protocol.GameSingle.EndGameRes) obj;
 
-      boolean result = true;
-      result = result && errorCode_ == other.errorCode_;
-      result = result && (hasUserData() == other.hasUserData());
+      if (errorCode_ != other.errorCode_) return false;
+      if (hasUserData() != other.hasUserData()) return false;
       if (hasUserData()) {
-        result = result && getUserData()
-            .equals(other.getUserData());
+        if (!getUserData()
+            .equals(other.getUserData())) return false;
       }
-      result = result && (getTotalScore()
-          == other.getTotalScore());
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
+      if (getTotalScore()
+          != other.getTotalScore()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
     }
 
     @java.lang.Override
@@ -5084,7 +5140,7 @@ public final class GameSingle {
       hash = (37 * hash) + TOTALSCORE_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getTotalScore());
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -5133,11 +5189,13 @@ public final class GameSingle {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.EndGameRes parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static com.nhn.gameanvil.sample.protocol.GameSingle.EndGameRes parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5212,21 +5270,20 @@ public final class GameSingle {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getUserDataFieldBuilder();
         }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         errorCode_ = 0;
-
-        if (userDataBuilder_ == null) {
-          userData_ = null;
-        } else {
-          userData_ = null;
+        userData_ = null;
+        if (userDataBuilder_ != null) {
+          userDataBuilder_.dispose();
           userDataBuilder_ = null;
         }
         totalScore_ = 0L;
-
         return this;
       }
 
@@ -5253,48 +5310,60 @@ public final class GameSingle {
       @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.GameSingle.EndGameRes buildPartial() {
         com.nhn.gameanvil.sample.protocol.GameSingle.EndGameRes result = new com.nhn.gameanvil.sample.protocol.GameSingle.EndGameRes(this);
-        result.errorCode_ = errorCode_;
-        if (userDataBuilder_ == null) {
-          result.userData_ = userData_;
-        } else {
-          result.userData_ = userDataBuilder_.build();
-        }
-        result.totalScore_ = totalScore_;
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
       }
 
+      private void buildPartial0(com.nhn.gameanvil.sample.protocol.GameSingle.EndGameRes result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.errorCode_ = errorCode_;
+        }
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.userData_ = userDataBuilder_ == null
+              ? userData_
+              : userDataBuilder_.build();
+          to_bitField0_ |= 0x00000001;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.totalScore_ = totalScore_;
+        }
+        result.bitField0_ |= to_bitField0_;
+      }
+
       @java.lang.Override
       public Builder clone() {
-        return (Builder) super.clone();
+        return super.clone();
       }
       @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.setField(field, value);
+        return super.setField(field, value);
       }
       @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
+        return super.clearField(field);
       }
       @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
+        return super.clearOneof(oneof);
       }
       @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
+        return super.setRepeatedField(field, index, value);
       }
       @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
+        return super.addRepeatedField(field, value);
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -5317,7 +5386,7 @@ public final class GameSingle {
         if (other.getTotalScore() != 0L) {
           setTotalScore(other.getTotalScore());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -5332,76 +5401,117 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.nhn.gameanvil.sample.protocol.GameSingle.EndGameRes parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                errorCode_ = input.readEnum();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                input.readMessage(
+                    getUserDataFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              case 24: {
+                totalScore_ = input.readInt64();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 24
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.nhn.gameanvil.sample.protocol.GameSingle.EndGameRes) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
+      private int bitField0_;
 
       private int errorCode_ = 0;
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @return The enum numeric value on the wire for errorCode.
        */
-      public int getErrorCodeValue() {
+      @java.lang.Override public int getErrorCodeValue() {
         return errorCode_;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @param value The enum numeric value on the wire for errorCode to set.
+       * @return This builder for chaining.
        */
       public Builder setErrorCodeValue(int value) {
         errorCode_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @return The errorCode.
        */
+      @java.lang.Override
       public com.nhn.gameanvil.sample.protocol.Result.ErrorCode getErrorCode() {
-        @SuppressWarnings("deprecation")
-        com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.valueOf(errorCode_);
+        com.nhn.gameanvil.sample.protocol.Result.ErrorCode result = com.nhn.gameanvil.sample.protocol.Result.ErrorCode.forNumber(errorCode_);
         return result == null ? com.nhn.gameanvil.sample.protocol.Result.ErrorCode.UNRECOGNIZED : result;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @param value The errorCode to set.
+       * @return This builder for chaining.
        */
       public Builder setErrorCode(com.nhn.gameanvil.sample.protocol.Result.ErrorCode value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+        bitField0_ |= 0x00000001;
         errorCode_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.ErrorCode errorCode = 1;</code>
+       * @return This builder for chaining.
        */
       public Builder clearErrorCode() {
-        
+        bitField0_ = (bitField0_ & ~0x00000001);
         errorCode_ = 0;
         onChanged();
         return this;
       }
 
-      private com.nhn.gameanvil.sample.protocol.User.UserData userData_ = null;
+      private com.nhn.gameanvil.sample.protocol.User.UserData userData_;
       private com.google.protobuf.SingleFieldBuilderV3<
           com.nhn.gameanvil.sample.protocol.User.UserData, com.nhn.gameanvil.sample.protocol.User.UserData.Builder, com.nhn.gameanvil.sample.protocol.User.UserDataOrBuilder> userDataBuilder_;
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.UserData userData = 2;</code>
+       * @return Whether the userData field is set.
        */
       public boolean hasUserData() {
-        return userDataBuilder_ != null || userData_ != null;
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.UserData userData = 2;</code>
+       * @return The userData.
        */
       public com.nhn.gameanvil.sample.protocol.User.UserData getUserData() {
         if (userDataBuilder_ == null) {
@@ -5419,11 +5529,11 @@ public final class GameSingle {
             throw new NullPointerException();
           }
           userData_ = value;
-          onChanged();
         } else {
           userDataBuilder_.setMessage(value);
         }
-
+        bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
@@ -5433,11 +5543,11 @@ public final class GameSingle {
           com.nhn.gameanvil.sample.protocol.User.UserData.Builder builderForValue) {
         if (userDataBuilder_ == null) {
           userData_ = builderForValue.build();
-          onChanged();
         } else {
           userDataBuilder_.setMessage(builderForValue.build());
         }
-
+        bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
@@ -5445,38 +5555,40 @@ public final class GameSingle {
        */
       public Builder mergeUserData(com.nhn.gameanvil.sample.protocol.User.UserData value) {
         if (userDataBuilder_ == null) {
-          if (userData_ != null) {
-            userData_ =
-              com.nhn.gameanvil.sample.protocol.User.UserData.newBuilder(userData_).mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000002) != 0) &&
+            userData_ != null &&
+            userData_ != com.nhn.gameanvil.sample.protocol.User.UserData.getDefaultInstance()) {
+            getUserDataBuilder().mergeFrom(value);
           } else {
             userData_ = value;
           }
-          onChanged();
         } else {
           userDataBuilder_.mergeFrom(value);
         }
-
+        if (userData_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.UserData userData = 2;</code>
        */
       public Builder clearUserData() {
-        if (userDataBuilder_ == null) {
-          userData_ = null;
-          onChanged();
-        } else {
-          userData_ = null;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        userData_ = null;
+        if (userDataBuilder_ != null) {
+          userDataBuilder_.dispose();
           userDataBuilder_ = null;
         }
-
+        onChanged();
         return this;
       }
       /**
        * <code>.com.nhn.gameanvil.sample.protocol.UserData userData = 2;</code>
        */
       public com.nhn.gameanvil.sample.protocol.User.UserData.Builder getUserDataBuilder() {
-        
+        bitField0_ |= 0x00000002;
         onChanged();
         return getUserDataFieldBuilder().getBuilder();
       }
@@ -5511,24 +5623,30 @@ public final class GameSingle {
       private long totalScore_ ;
       /**
        * <code>int64 totalScore = 3;</code>
+       * @return The totalScore.
        */
+      @java.lang.Override
       public long getTotalScore() {
         return totalScore_;
       }
       /**
        * <code>int64 totalScore = 3;</code>
+       * @param value The totalScore to set.
+       * @return This builder for chaining.
        */
       public Builder setTotalScore(long value) {
-        
+
         totalScore_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
       /**
        * <code>int64 totalScore = 3;</code>
+       * @return This builder for chaining.
        */
       public Builder clearTotalScore() {
-        
+        bitField0_ = (bitField0_ & ~0x00000004);
         totalScore_ = 0L;
         onChanged();
         return this;
@@ -5536,7 +5654,7 @@ public final class GameSingle {
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFieldsProto3(unknownFields);
+        return super.setUnknownFields(unknownFields);
       }
 
       @java.lang.Override
@@ -5566,7 +5684,18 @@ public final class GameSingle {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new EndGameRes(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -5662,20 +5791,12 @@ public final class GameSingle {
       "CULTY_NORMAL\020\000\022\025\n\021DIFFICULTY_MEDIUM\020\001\022\023\n" +
       "\017DIFFICULTY_HARD\020\002b\006proto3"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.nhn.gameanvil.sample.protocol.Result.getDescriptor(),
           com.nhn.gameanvil.sample.protocol.User.getDescriptor(),
-        }, assigner);
+        });
     internal_static_com_nhn_gameanvil_sample_protocol_StartGameReq_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_com_nhn_gameanvil_sample_protocol_StartGameReq_fieldAccessorTable = new

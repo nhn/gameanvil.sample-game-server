@@ -3,13 +3,16 @@ package com.nhn.gameanvil.sample.support._handler.rest;
 import co.paralleluniverse.fibers.SuspendExecution;
 import com.google.gson.JsonObject;
 import com.nhn.gameanvil.GameAnvilUtil;
-import com.nhn.gameanvil.packet.RestPacketHandler;
+import com.nhn.gameanvil.packet.message.RestMessageHandler;
 import com.nhn.gameanvil.rest.RestObject;
-import java.util.List;
-import java.util.Map;
+import com.nhn.gameanvil.sample.support.LaunchingSupport;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Map;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * 클라이언트가 정보를 전달 받고, 서버의 접속 정보 응답 처리
@@ -17,11 +20,11 @@ import org.slf4j.LoggerFactory;
  * 정보를 제대로 전달 하지않으면 400 으로 응답처리
  */
 
-public class _Launching implements RestPacketHandler {
-    private Logger logger = LoggerFactory.getLogger(getClass());
+public class _Launching implements RestMessageHandler<LaunchingSupport> {
+    private static final Logger logger = getLogger(_Launching.class);
 
     @Override
-    public void execute(Object target, RestObject restObject) throws SuspendExecution {
+    public void execute(LaunchingSupport target, RestObject restObject) throws SuspendExecution {
         Map<String, List<String>> queryMap = restObject.getRequestParameters();
 
         logger.info("execute restObject url {}, parameter {} ", restObject.getOriginUrl(), restObject.getRequestParameters());

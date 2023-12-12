@@ -1,30 +1,31 @@
 package com.nhn.gameanvil.sample.game.user._handler;
 
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.nhn.gameanvil.packet.Packet;
-import com.nhn.gameanvil.packet.PacketHandler;
+import com.nhn.gameanvil.packet.message.MessageHandler;
 import com.nhn.gameanvil.sample.common.GameConstants;
 import com.nhn.gameanvil.sample.db.mybatis.UserDbHelperService;
 import com.nhn.gameanvil.sample.game.GameNode;
 import com.nhn.gameanvil.sample.game.user.GameUser;
 import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
 import com.nhn.gameanvil.sample.protocol.User;
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.TimeoutException;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * 유저가 닉네임 변경
  * <p>
  * 서버인스턴스 닉네임 변경, DB저장, request 형식으로 전달되어 서버에서 처리후 reply 처리
  */
-public class _ChangeNicknameReq implements PacketHandler<GameUser> {
+public class _ChangeNicknameReq implements MessageHandler<GameUser, User.ChangeNicknameReq> {
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger logger = getLogger(_ChangeNicknameReq.class);
 
     @Override
-    public void execute(GameUser gameUser, Packet packet) throws SuspendExecution {
+    public void execute(GameUser gameUser, User.ChangeNicknameReq changeNicknameReq) throws SuspendExecution {
         ErrorCode resultCode = ErrorCode.UNKNOWN;
         User.ChangeNicknameRes.Builder changeNicknameRes = User.ChangeNicknameRes.newBuilder();
         try {
@@ -32,7 +33,6 @@ public class _ChangeNicknameReq implements PacketHandler<GameUser> {
             String checkNickname = null;
 
             // 닉네임 변경 요청 처리
-            User.ChangeNicknameReq changeNicknameReq = User.ChangeNicknameReq.parseFrom(packet.getStream());
             if (changeNicknameReq == null || changeNicknameReq.getNickname() == null || changeNicknameReq.getNickname().isEmpty()) {
                 resultCode = ErrorCode.PARAMETER_IS_EMPTY;
                 logger.error("_ChangeNicknameReq::execute() shuffleDeckReq is null or empty!!");
@@ -64,13 +64,13 @@ public class _ChangeNicknameReq implements PacketHandler<GameUser> {
                 }
             }
 
-        } catch (IOException | TimeoutException e) {
+        } catch (TimeoutException e) {
             logger.error("_ChangeNicknameReq::execute()", e);
             resultCode = ErrorCode.UNKNOWN;
         }
 
         changeNicknameRes.setResultCode(resultCode);
         logger.info("changeNicknameRes - {}", changeNicknameRes);
-        gameUser.reply(new Packet(changeNicknameRes.build()));
+        gameUser.reply(changeNicknameRes);
     }
 }

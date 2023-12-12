@@ -4,7 +4,7 @@ import co.paralleluniverse.fibers.SuspendExecution;
 import com.nhn.gameanvil.annotation.RoomType;
 import com.nhn.gameanvil.annotation.ServiceName;
 import com.nhn.gameanvil.node.game.BaseRoom;
-import com.nhn.gameanvil.node.game.RoomPacketDispatcher;
+import com.nhn.gameanvil.node.game.RoomMessageDispatcher;
 import com.nhn.gameanvil.packet.Packet;
 import com.nhn.gameanvil.packet.Payload;
 import com.nhn.gameanvil.sample.common.GameConstants;
@@ -17,13 +17,12 @@ import com.nhn.gameanvil.sample.protocol.User.RoomGameType;
 import com.nhn.gameanvil.serializer.TransferPack;
 import com.nhn.gameanvil.timer.Timer;
 import com.nhn.gameanvil.timer.TimerHandler;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.*;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * 멀티 룸매치 룸 - 4인 게임 설정, 혼자서도 할수 있고 4명까지도 할수 있다, 유저가 한명이라도 있으면 계속 게임을 하는 방
@@ -31,20 +30,25 @@ import org.slf4j.LoggerFactory;
 @ServiceName(GameConstants.GAME_NAME)
 @RoomType(GameConstants.GAME_ROOM_TYPE_MULTI_ROOM_MATCH)
 public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler {
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger logger = getLogger(UnlimitedTapRoom.class);
 
-    private static RoomPacketDispatcher dispatcher = new RoomPacketDispatcher();
+    private static final RoomMessageDispatcher<UnlimitedTapRoom, GameUser> dispatcher = new RoomMessageDispatcher<>();
 
     private UnlimitedTapRoomMatchInfo unlimitedTapRoomMatchInfo;
 
     static {
-        dispatcher.registerMsg(GameMulti.ScoreUpMsg.getDescriptor(), _ScoreUpMsg.class);
+        dispatcher.registerMsg(GameMulti.ScoreUpMsg.class, _ScoreUpMsg.class);
     }
 
     // 방에 등어온 유저 관리
     private Map<Integer, GameUser> gameUserMap;
     // 방안에 있는 점수
     private Map<String, Integer> gameUserScoreMap;
+
+    @Override
+    public RoomMessageDispatcher<UnlimitedTapRoom, GameUser> getMessageDispatcher() {
+        return dispatcher;
+    }
 
     @Override
     public void onInit() throws SuspendExecution {
@@ -61,14 +65,6 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
         logger.info("onDestroy - RoomId : {}", getId());
     }
 
-    @Override
-    public void onDispatch(GameUser gameUser, Packet packet) throws SuspendExecution {
-        logger.info("onDispatch : RoomId : {}, UserId : {}, {}",
-            getId(),
-            gameUser.getUserId(),
-            packet.getMsgName());
-        dispatcher.dispatch(this, gameUser, packet);
-    }
 
     /**
      * 방생성 및 입장
@@ -91,7 +87,7 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
             unlimitedTapRoomMatchInfo.setCreateTime(System.currentTimeMillis());
             registerRoomMatch(unlimitedTapRoomMatchInfo, "UNLIMITED_TAP", gameUser.getUserId());
 
-            outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_TAP)));
+            outPayload.add(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_TAP));
             return true;
         } catch (Exception e) {
             logger.error("UnlimitedTapRoom::onCreateRoom()", e);
@@ -128,7 +124,7 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
                 }
 
                 isSuccess = true;
-                outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_TAP)));
+                outPayload.add(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_TAP));
             }
         } catch (Exception e) {
             gameUserMap.remove(gameUser.getUserId());
@@ -181,7 +177,7 @@ public class UnlimitedTapRoom extends BaseRoom<GameUser> implements TimerHandler
     public void onRejoinRoom(GameUser gameUser, Payload outPayload) throws SuspendExecution {
         logger.info("onRejoinRoom - RoomId : {}, UserId : {}", getId(),
             gameUser.getUserId());
-        outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_TAP)));
+        outPayload.add(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_TAP));
     }
 
     @Override

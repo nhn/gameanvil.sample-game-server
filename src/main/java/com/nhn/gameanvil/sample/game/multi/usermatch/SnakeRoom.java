@@ -5,8 +5,7 @@ import com.nhn.gameanvil.annotation.RoomType;
 import com.nhn.gameanvil.annotation.ServiceName;
 import com.nhn.gameanvil.exceptions.GameAnvilException;
 import com.nhn.gameanvil.node.game.BaseRoom;
-import com.nhn.gameanvil.node.game.RoomPacketDispatcher;
-import com.nhn.gameanvil.packet.Packet;
+import com.nhn.gameanvil.node.game.RoomMessageDispatcher;
 import com.nhn.gameanvil.packet.Payload;
 import com.nhn.gameanvil.sample.common.GameConstants;
 import com.nhn.gameanvil.sample.game.multi.usermatch._handler._SnakeRemoveFoodMsg;
@@ -20,15 +19,14 @@ import com.nhn.gameanvil.sample.protocol.GameMulti.SnakePositionData;
 import com.nhn.gameanvil.sample.protocol.GameMulti.SnakeUserData;
 import com.nhn.gameanvil.sample.protocol.User.RoomGameType;
 import com.nhn.gameanvil.serializer.TransferPack;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import com.nhn.gameanvil.timer.TimerHandler;
+import org.slf4j.Logger;
+
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * 유저 매치 snake 게임, 2인 플레이
@@ -38,9 +36,9 @@ import org.slf4j.LoggerFactory;
 public class SnakeRoom extends BaseRoom<GameUser> {
     private static final int FOOD_MAX_COUNT = 200;
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+    private static final Logger logger = getLogger(SnakeRoom.class);
 
-    private static RoomPacketDispatcher dispatcher = new RoomPacketDispatcher();
+    private static final RoomMessageDispatcher<SnakeRoom, GameUser> dispatcher = new RoomMessageDispatcher<>();
 
     // 서버에서 생성되는 food 리스트
     private List<SnakePositionInfo> foodList;
@@ -59,8 +57,13 @@ public class SnakeRoom extends BaseRoom<GameUser> {
     private int foodIndex = 0;
 
     static {
-        dispatcher.registerMsg(GameMulti.SnakeUserMsg.getDescriptor(), _SnakeUserMsg.class);  // 유저 위치 정보
-        dispatcher.registerMsg(GameMulti.SnakeFoodMsg.getDescriptor(), _SnakeRemoveFoodMsg.class);  // food 삭제 정보처리
+        dispatcher.registerMsg(GameMulti.SnakeUserMsg.class, _SnakeUserMsg.class);  // 유저 위치 정보
+        dispatcher.registerMsg(GameMulti.SnakeFoodMsg.class, _SnakeRemoveFoodMsg.class);  // food 삭제 정보처리
+    }
+
+    @Override
+    public RoomMessageDispatcher<SnakeRoom, GameUser> getMessageDispatcher() {
+        return dispatcher;
     }
 
     @Override
@@ -77,15 +80,6 @@ public class SnakeRoom extends BaseRoom<GameUser> {
     @Override
     public void onDestroy() throws SuspendExecution {
         logger.info("onDestroy - RoomId : {}", getId());
-    }
-
-    @Override
-    public void onDispatch(GameUser gameUser, Packet packet) throws SuspendExecution {
-        logger.info("onDispatch : RoomId : {}, UserId : {}, {}",
-            getId(),
-            gameUser.getUserId(),
-            packet.getMsgName());
-        dispatcher.dispatch(this, gameUser, packet);
     }
 
     /**
@@ -109,13 +103,52 @@ public class SnakeRoom extends BaseRoom<GameUser> {
 
             gameUserMap.put(gameUser.getUserId(), gameUser);
             gameUserScoreMap.put(gameUser.getGameUserInfo().getUuid(), 0);
-            outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_SNAKE)));
+            outPayload.add(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_SNAKE));
             return true;
         } catch (Exception e) {
             logger.error("SnakeRoom::onCreateRoom()", e);
             return false;
         }
     }
+
+    private final TimerHandler timerHandler  = (timerObject, object) -> {
+        if (foodList.size() < FOOD_MAX_COUNT) {
+            SnakePositionInfo newFood = null;
+            boolean isDuplicate = false;
+            do {
+                // 중복되지않게 서버에서 food 생성
+                isDuplicate = false;
+                newFood = new SnakePositionInfo(foodIndex + 1, ThreadLocalRandom.current().nextInt(boarderLeft, boarderRight + 1), ThreadLocalRandom.current().nextInt(boarderBottom, boarderTop + 1));
+                for (SnakePositionInfo food : foodList) {
+                    if (food.getX() == newFood.getX() && food.getY() == newFood.getY()) {
+                        isDuplicate = true;
+                        logger.info("onTimer - new Food is isDuplicate : {}, foodIndex {}, newFood {}", getId(), foodIndex + 1, newFood);
+                        break;
+                    }
+                }
+
+                if (isDuplicate == false) {
+                    newFood.setIdx(foodIndex++);
+                    foodList.add(newFood);
+                }
+            }
+            while (isDuplicate);
+
+            SnakeFoodMsg.Builder snakeNewFoodMsg = SnakeFoodMsg.newBuilder();
+            SnakePositionData.Builder snakePositionData = SnakePositionData.newBuilder();
+            snakePositionData.setIdx(newFood.getIdx());
+            snakePositionData.setX(newFood.getX());
+            snakePositionData.setY(newFood.getY());
+            snakeNewFoodMsg.setFoodData(snakePositionData);
+
+            // 유저에게 food 리스트 싱크
+            for (GameUser gameUser : getGameUserMap().values()) {
+                gameUser.send(snakeNewFoodMsg);
+            }
+
+            logger.info("onTimer - RoomId : {}, foodIndex {}, newFood {}", getId(), foodIndex, newFood);
+        }
+    };
 
     /**
      * 유저 입장, 두번째 유저
@@ -142,14 +175,14 @@ public class SnakeRoom extends BaseRoom<GameUser> {
                 if (gameUserMap.size() == 2) {  // 두명이들어왔을때 게임 시작
                     for (GameUser user : gameUserMap.values()) {
                         logger.info("onJoinRoom - UserId : {}, SnakeGamInfo : {}", gameUser.getUserId(), getSnakeGameInfoMsgByProto());
-                        user.send(new Packet(getSnakeGameInfoMsgByProto()));    // 두병 모두 들어왔을때 두유저에게 게임 정보 전송
+                        user.send(getSnakeGameInfoMsgByProto());    // 두병 모두 들어왔을때 두유저에게 게임 정보 전송
                     }
 
                     // 1초에 한번씩 food 생성
-                    addTimer(1, TimeUnit.SECONDS, 0, "SnakeGameTimerHandler", false);
+                    addTimer(1, TimeUnit.SECONDS, 0, "SnakeGameTimerHandler", timerHandler, false);
                 }
                 isSuccess = true;
-                outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_SNAKE)));
+                outPayload.add(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_SNAKE));
             }
         } catch (Exception e) {
             gameUserMap.remove(gameUser.getUserId());
@@ -202,7 +235,7 @@ public class SnakeRoom extends BaseRoom<GameUser> {
     public void onRejoinRoom(GameUser gameUser, Payload outPayload) throws SuspendExecution {
         logger.info("onRejoinRoom - RoomId : {}, UserId : {}", getId(),
             gameUser.getUserId());
-        outPayload.add(new Packet(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_SNAKE)));
+        outPayload.add(gameUser.getRoomInfoMsgByProto(RoomGameType.ROOM_SNAKE));
     }
 
     @Override
@@ -239,48 +272,6 @@ public class SnakeRoom extends BaseRoom<GameUser> {
         boarderTop = snakeRoomTransferInfo.getBoarderTop();
         boarderBottom = snakeRoomTransferInfo.getBoarderBottom();
         foodIndex = snakeRoomTransferInfo.getFoodIndex();
-    }
-
-    @Override
-    public void onRegisterTimerHandler() {
-        registerTimerHandler("SnakeGameTimerHandler", (timerObject, object) -> {
-            if (foodList.size() < FOOD_MAX_COUNT) {
-                SnakePositionInfo newFood = null;
-                boolean isDuplicate = false;
-                do {
-                    // 중복되지않게 서버에서 food 생성
-                    isDuplicate = false;
-                    newFood = new SnakePositionInfo(foodIndex + 1, ThreadLocalRandom.current().nextInt(boarderLeft, boarderRight + 1), ThreadLocalRandom.current().nextInt(boarderBottom, boarderTop + 1));
-                    for (SnakePositionInfo food : foodList) {
-                        if (food.getX() == newFood.getX() && food.getY() == newFood.getY()) {
-                            isDuplicate = true;
-                            logger.info("onTimer - new Food is isDuplicate : {}, foodIndex {}, newFood {}", getId(), foodIndex + 1, newFood);
-                            break;
-                        }
-                    }
-
-                    if (isDuplicate == false) {
-                        newFood.setIdx(foodIndex++);
-                        foodList.add(newFood);
-                    }
-                }
-                while (isDuplicate);
-
-                SnakeFoodMsg.Builder snakeNewFoodMsg = SnakeFoodMsg.newBuilder();
-                SnakePositionData.Builder snakePositionData = SnakePositionData.newBuilder();
-                snakePositionData.setIdx(newFood.getIdx());
-                snakePositionData.setX(newFood.getX());
-                snakePositionData.setY(newFood.getY());
-                snakeNewFoodMsg.setFoodData(snakePositionData);
-
-                // 유저에게 food 리스트 싱크
-                for (GameUser gameUser : getGameUserMap().values()) {
-                    gameUser.send(new Packet(snakeNewFoodMsg));
-                }
-
-                logger.info("onTimer - RoomId : {}, foodIndex {}, newFood {}", getId(), foodIndex, newFood);
-            }
-        });
     }
 
     public Map<Integer, GameUser> getGameUserMap() {
