@@ -1,25 +1,16 @@
 package com.nhn.gameanvil.sample.gateway;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 import co.paralleluniverse.fibers.SuspendExecution;
-import com.google.gson.JsonArray;
-import com.nhn.gameanvil.GameAnvilUtil;
 import com.nhn.gameanvil.annotation.Connection;
-import com.nhn.gameanvil.async.http.HttpRequest;
-import com.nhn.gameanvil.async.http.HttpResponse;
 import com.nhn.gameanvil.node.gateway.BaseConnection;
 import com.nhn.gameanvil.packet.Payload;
 import com.nhn.gameanvil.packet.message.MessageDispatcher;
-import com.nhn.gameanvil.sample.common.GameConstants;
-import com.nhn.gameanvil.sample.gamebase.rest.AuthenticationResponse;
 import com.nhn.gameanvil.sample.protocol.Authentication;
 import com.nhn.gameanvil.sample.protocol.Result;
 import com.nhn.gameanvil.sample.protocol.Result.ErrorCode;
 import org.slf4j.Logger;
-
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-
-import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * 게임 커넥션
@@ -41,10 +32,11 @@ public class GameConnection extends BaseConnection<GameSession> {
 
     /**
      * 인증 처리 요청
-     * @param accountId 계정 아이디
-     * @param password 패스워드
-     * @param deviceId 디바이스 아이디
-     * @param payload 인증 요청시 전달된 정보
+     *
+     * @param accountId  계정 아이디
+     * @param password   패스워드
+     * @param deviceId   디바이스 아이디
+     * @param payload    인증 요청시 전달된 정보
      * @param outPayload 인증 요청 응답시 전달 할 정보
      * @return 인증 성공여부 반환
      * @throws SuspendExecution 이 메서드는 파이버를 suspend할 수 있음을 의미
@@ -69,54 +61,19 @@ public class GameConnection extends BaseConnection<GameSession> {
                 resultCode = ErrorCode.PARAMETER_IS_EMPTY;
                 logger.error("GameConnection::onAuthenticate() fail!! authenticatePacket is null!!");
             } else {
-                try {
-                    // 인증 검증할 토큰을 가지고 검증처리
-                    if (authenticationReq.getAccessToken() == null) {
-                        resultCode = ErrorCode.TOKEN_IS_EMPTY;
-                        logger.error("GameConnection::onAuthenticate() fail!! authenticationReq.getAccessToken() is empty!!");
+                // 인증 검증할 토큰을 가지고 검증처리
+                if (authenticationReq.getAccessToken() == null) {
+                    resultCode = ErrorCode.TOKEN_IS_EMPTY;
+                    logger.error("GameConnection::onAuthenticate() fail!! authenticationReq.getAccessToken() is empty!!");
+                } else {
+                    logger.info("onAuthenticate Success. token:{}", authenticationReq.getAccessToken());
+
+                    if (authenticationReq.getAccessToken().startsWith("TapTap_AccessToken")) {
+                        // 플랫폼 테스트용 토큰 - 검증없이 정상 처리
+                        resultCode = ErrorCode.NONE;
                     } else {
-                        logger.info("onAuthenticate Success. token:{}", authenticationReq.getAccessToken());
-
-                        if (authenticationReq.getAccessToken().startsWith("TapTap_AccessToken")) {
-                            // 플랫폼 테스트용 토큰 - 검증없이 정상 처리
-                            resultCode = ErrorCode.NONE;
-                        } else {
-                            // Gamebse 인증
-                            //----------------------------------- 토큰 유효한지에 대한 검증 Gamebase
-                            String gamebaseUrl = String.format(GameConstants.GAMEBASE_DEFAULT_URL + "/tcgb-gateway/v1.2/apps/X2bqX5du/members/%s/tokens/%s", accountId, authenticationReq.getAccessToken());
-                            HttpRequest httpRequest = new HttpRequest(gamebaseUrl);
-                            httpRequest.getBuilder().addHeader("Content-Type", "application/json");
-                            httpRequest.getBuilder().addHeader("X-Secret-Key", GameConstants.GAMEBASE_SECRET_KEY);
-                            logger.info("httpRequest url [{}]", gamebaseUrl);
-                            HttpResponse response = httpRequest.GET();
-                            logger.info("httpRequest response:[{}]", response.toString());
-
-                            // Gamebase 응답 json 데이터 객체 파싱
-                            AuthenticationResponse gamebaseResponse = response.getContents(AuthenticationResponse.class);
-                            if (gamebaseResponse.getHeader().isSuccessful()) {
-                                resultCode = ErrorCode.NONE;
-                            } else {
-                                resultCode = ErrorCode.TOKEN_NOT_VALIDATED;
-                            }
-
-                            String testurl = String.format(GameConstants.GAMEBASE_DEFAULT_URL + "/tcgb-member/v1.2/apps/X2bqX5du/members");
-                            HttpRequest httpRequestPost = new HttpRequest(testurl);
-                            httpRequestPost.getBuilder().addHeader("Content-Type", "application/json");
-                            httpRequestPost.getBuilder().addHeader("X-Secret-Key", GameConstants.GAMEBASE_SECRET_KEY);
-
-                            JsonArray userIds = new JsonArray();
-                            userIds.add(accountId);
-
-                            httpRequestPost.getBuilder().setBody(GameAnvilUtil.Gson().toJson(userIds));
-                            HttpResponse responsePost = httpRequestPost.POST();
-                            logger.info("httpRequestPost:[{}] , getResponseBody[{}]", responsePost.toString(), responsePost.getResponse().getResponseBody());
-
-                            logger.info("gamebaseResponse response:[{}]", gamebaseResponse.getHeader().getResultCode());
-                            //------------------------------------
-                        }
+                        logger.error("GameConnection::onAuthenticate() fail!! AccessToken Error!! {}", authenticationReq.getAccessToken());
                     }
-                } catch (IOException | TimeoutException e) {
-                    logger.error("GameConnection::onAuthenticate() fail!! AuthenticationReq.parseFrom ERROR", e);
                 }
             }
         } else {
