@@ -8,7 +8,7 @@ plugins {
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 group = 'com.nhn.gameanvil'
-version = '1.4.0'
+version = '1.4.1'
 java.sourceCompatibility = JavaVersion.VERSION_11
 java.targetCompatibility = JavaVersion.VERSION_11
 
@@ -69,5 +69,5 @@ dependencies {
     api files(Paths.get(project.projectDir.absolutePath, './src/main/resources/META-INF/quasar-core-0.8.0-jdk11.jar').toString())
     api 'org.mybatis:mybatis:3.5.3'
     api 'mysql:mysql-connector-java:8.0.23'
-    api 'com.nhn.gameanvil:gameanvil:1.4.0-jdk11'
+    api 'com.nhn.gameanvil:gameanvil:1.4.1-jdk11'
 }
